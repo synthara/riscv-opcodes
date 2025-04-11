@@ -1,0 +1,8 @@
+{
+    "name": "uvmc_riscv_opcodes",
+    "parent": "null",
+    "main_class": "uvm_component",
+    "instr_width": "31",
+    "nome_path": "file_path"
+}
+  

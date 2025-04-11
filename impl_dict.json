@@ -1,0 +1,8 @@
+{
+    "add": {
+      "impl": "add = rs1 + rs2"
+    },
+    "addi": {
+      "impl": "add = add + imm12"
+    }
+}
