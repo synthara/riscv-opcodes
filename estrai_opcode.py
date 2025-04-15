@@ -62,6 +62,7 @@ def get_if_else_statement_fmt(length: int, always_comb: bool = True, implicit_fi
 ##################################################################################################################
 config_json = 'config.json' 
 instr_dict_json = 'instr_dict.json'
+impl_dict_json = 'impl_dict.json'
 input_file = 'inst.sverilog'
 output_file = 'opcode_case_class.sv'
 
@@ -71,6 +72,7 @@ opcode_dict = dict()           #Dictionary which will contain key = instruction'
 instruction_formats = dict()   #Dictionary which will contain key = instruction's name and val = instruction's type (R, I, S, ecc.)
 bitfield_mapping = dict()      #Dictionary which will contain key = instruction's name and val = dictionary with the bitfield mapping for each variable fields
 casez_dict = dict()            #Dictionary which will contain key = instruction's name and val = all the stuff to be put in the each case statement
+implementations_dict = dict()  #Dictionary which will contain key = instruction's name and val = the implementation of the instruction
 
 
 # Define field dictionaries for different instruction types (7 dictionaries, 6 formats but FENCE sucks)
@@ -146,7 +148,10 @@ field_specs = {
     "succ":     "[3:0]",
     "imms":     "[11:0]",
     "immsb":    "[12:0]",
-    "immuj":    "[20:0]"
+    "immuj":    "[20:0]",
+    "pc":       "[31:0]",
+    "reg_mul":  "[63:0]",
+    "reg_file[31:0]": "[31:0]"
 }
 
 #Opening json to extract parameters to format the template
@@ -157,6 +162,9 @@ with open(config_json) as f:
 with open(instr_dict_json) as f1:         
     instr_dict = json.load(f1)
 
+#Opening json to extract the implementation of each instruction
+with open(impl_dict_json) as f2:
+    impl_dict = json.load(f2)
 
 #Global variables to make an indentation when needed
 INDENT_ONE = "    "                     
@@ -217,6 +225,10 @@ for instruction, dati in instr_dict.items():
         if chiave == "variable_fields":
             only_variable_fields[instruction] = valore
 
+#Extracting the implementation of each instruction from the impl_dict.json
+for instruction, impls in impl_dict.items():
+    for i, (chiave, valore) in enumerate(impls.items()):
+            implementations_dict[instruction] = valore
 
 
 # Here I use function set to convert the field list in a set, so I can compare the dictionary created before
@@ -253,7 +265,9 @@ for instr, fields in only_variable_fields.items():
     }
 
 
-#Here I fill the casez_dict which will contain all ste stuff to be put in the case
+
+
+#Here I fill the casez_dict which will contain all the stuff to be put in the case
 for i, (key, val) in enumerate(opcode_dict.items()):
     casez_dict[f"condition{i}"] = f"{key}"
     casez_dict[f"assign{i}"]    = f'`uvm_info("{key}", \"Instruction {key} detected successfully\", UVM_LOW)\n'
@@ -268,6 +282,8 @@ for i, (key, val) in enumerate(opcode_dict.items()):
                 casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}immsb = {{bimm12hi[6], bimm12lo[0], bimm12hi[5:0], bimm12lo[4:1], 1'b0}};\n"
             if(fmt_name == "UJ"):
                 casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}immuj = {{jimm20[19], jimm20[7:0], jimm20[8], jimm20[18:9], 1'b0}};\n"
+            if(instr) in implementations_dict.keys():
+                casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}{implementations_dict[instr]};\n"
 
 
 #Class template to be formatted

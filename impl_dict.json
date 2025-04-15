@@ -1,8 +1,137 @@
 {
-    "add": {
-      "impl": "add = rs1 + rs2"
-    },
-    "addi": {
-      "impl": "add = add + imm12"
-    }
+  "add": {
+      "impl": "reg_file[rd] = reg_file[rs1] + reg_file[rs2]"
+  },
+  "addi": {
+      "impl": "reg_file[rd] = reg_file[rs1] + imm12"
+  },
+  "and": {
+      "impl": "reg_file[rd] = reg_file[rs1] & reg_file[rs2]"
+  },
+  "andi": {
+      "impl": "reg_file[rd] = reg_file[rs1] & imm12"
+  },
+  "auipc": {
+      "impl": "pc = pc + (imm20 << 12)"
+  },
+  "beq": {
+      "impl": "if (reg_file[rs1] == reg_file[rs2])\n\t\t\t\t\tpc = pc + immsb"
+  },
+  "bge": {
+      "impl": "if ($signed(reg_file[rs1]) >= $signed(reg_file[rs2]))\n\t\t\t\t\tpc = pc + immsb"
+  },
+  "bgeu": {
+      "impl": "if (reg_file[rs1] >= reg_file[rs2])\n\t\t\t\t\tpc = pc + immsb"
+  },
+  "blt": {
+      "impl": "if ($signed(reg_file[rs1]) < $signed(reg_file[rs2]))\n\t\t\t\t\tpc = pc + immsb"
+  },
+  "bltu": {
+      "impl": "if (reg_file[rs1] < reg_file[rs2])\n\t\t\t\t\tpc = pc + immsb"
+  },
+  "bne": {
+      "impl": "if (reg_file[rs1] != reg_file[rs2])\n\t\t\t\t\tpc = pc + immsb"
+  },
+  "div": {
+      "impl": "reg_file[rd] = $signed(reg_file[rs1]) / $signed(reg_file[rs2])"
+  },
+  "divu": {
+      "impl": "reg_file[rd] = reg_file[rs1] / reg_file[rs2]"
+  },
+  "ebreak": {
+      "impl": "// ebreak"
+  },
+  "ecall": {
+      "impl": "// ecall"
+  },
+  "fence": {
+      "impl": "// fence"
+  },
+  "jal": {
+      "impl": "reg_file[rd] = pc + 4;\n\t\t\t\tpc = pc + immuj"
+  },
+  "jalr": {
+      "impl": "reg_file[rd] = pc + 4;\n\t\t\t\tpc = (reg_file[rs1] + imm12) & ~1"
+  },
+  "lb": {
+      "impl": "reg_file[rd] = {{24{mem[reg_file[rs1] + imm12][7]}}, mem[reg_file[rs1] + imm12][7:0]};"
+  },
+  "lbu": {
+      "impl": "reg_file[rd] = {24'b0, mem[reg_file[rs1] + imm12][7:0]}"
+  },
+  "lh": {
+      "impl": "reg_file[rd] = {{16{mem[reg_file[rs1] + imm12][15]}}, mem[reg_file[rs1] + imm12][15:0]};"
+  },
+  "lhu": {
+      "impl": "reg_file[rd] = {16'b0, mem[reg_file[rs1] + imm12][15:0]}"
+  },
+  "lui": {
+      "impl": "reg_file[rd] = imm20 << 12"
+  },
+  "lw": {
+      "impl": "reg_file[rd] = mem[reg_file[rs1] + imm12]"
+  },
+  "mul": {
+      "impl": "reg_mul = $signed(reg_file[rs1]) * $signed(reg_file[rs2]);\n\t\t\t\treg_file[rd] = reg_mul[31:0]"
+  },
+  "mulh": {
+      "impl": "reg_mul = $signed(reg_file[rs1]) * $signed(reg_file[rs2]);\n\t\t\t\treg_file[rd] = reg_mul[63:32]"
+  },
+  "mulhsu": {
+      "impl": "reg_mul = $signed(reg_file[rs1]) * reg_file[rs2];\n\t\t\t\treg_file[rd] = reg_mul[63:32]"
+  },
+  "mulhu": {
+      "impl": "reg_mul = reg_file[rs1] * reg_file[rs2];\n\t\t\t\treg_file[rd] = reg_mul[63:32]"
+  },
+  "or": {
+      "impl": "reg_file[rd] = reg_file[rs1] | reg_file[rs2]"
+  },
+  "ori": {
+      "impl": "reg_file[rd] = reg_file[rs1] | imm12"
+  },
+  "rem": {
+      "impl": "reg_file[rd] = $signed(reg_file[rs1]) % $signed(reg_file[rs2])"
+  },
+  "remu": {
+      "impl": "reg_file[rd] = reg_file[rs1] % reg_file[rs2]"
+  },
+  "sb": {
+      "impl": "mem[reg_file[rs1] + imms][7:0] = reg_file[rs2]"
+  },
+  "sh": {
+      "impl": "mem[reg_file[rs1] + imms][15:0] = reg_file[rs2]"
+  },
+  "sll": {
+      "impl": "reg_file[rd] = reg_file[rs1] << reg_file[rs2]"
+  },
+ "slt": {
+      "impl": "if ($signed(reg_file[rs1]) < $signed(reg_file[rs2]))\n\t\t\t\t\treg_file[rd] = 1;\n\t\t\t\telse\n\t\t\t\t\treg_file[rd] = 0;"
+  },
+  "slti": {
+      "impl": "if ($signed(reg_file[rs1]) < $signed(imm12))\n\t\t\t\t\treg_file[rd] = 1;\n\t\t\t\telse\n\t\t\t\t\treg_file[rd] = 0;"
+  },
+  "sltiu": {
+      "impl": "if (reg_file[rs1] < imm12)\n\t\t\t\t\treg_file[rd] = 1;\n\t\t\t\telse\n\t\t\t\t\treg_file[rd] = 0;"
+  },
+  "sltu": {
+      "impl": "if (reg_file[rs1] < reg_file[rs2])\n\t\t\t\t\treg_file[rd] = 1;\n\t\t\t\telse\n\t\t\t\t\treg_file[rd] = 0;"
+  },
+  "sra": {
+      "impl": "reg_file[rd] = reg_file[rs1] >>> reg_file[rs2]"
+  },
+  "srl": {
+      "impl": "reg_file[rd] = reg_file[rs1] >> reg_file[rs2]"
+  },
+  "sub": {
+      "impl": "reg_file[rd] = reg_file[rs1] - reg_file[rs2]"
+  },
+  "sw": {
+      "impl": "mem[reg_file[rs1] + imms] = reg_file[rs2]"
+  },
+  "xor": {
+      "impl": "reg_file[rd] = reg_file[rs1] ^ reg_file[rs2]"
+  },
+  "xori": {
+      "impl": "reg_file[rd] = reg_file[rs1] ^ imm12"
+  }
 }
