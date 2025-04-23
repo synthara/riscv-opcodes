@@ -95,6 +95,21 @@ custom_fields_fence = {
     'rs1':  "19:15",  
     'rd':   "11:7"    
 }
+custom_fields_rv32_i = {
+    'rd':   "11:7",
+    'rs1':  "19:15",
+    'shamtw': "24:20"
+}
+custom_field_rv32csr = {
+    'rd':   "11:7",
+    'rs1':  "19:15",
+    'csr': "31:20",
+}
+custom_field_rv32csr_i = {
+    'rd':   "11:7",
+    'csr':  "31:20",
+    'zimm5': "19:15",
+}
 riscv_s_fields = {
     "imm12hi": "31:25",
     "rs1": "19:15",
@@ -119,6 +134,7 @@ riscv_uj_fields = {
     "jimm20": "31:12"
 }
 
+unknown_fields = {"UNKNOWN": "still empty"}
 
 #Dictionary with all the formats
 format_dicts = {
@@ -128,7 +144,11 @@ format_dicts = {
     'SB': riscv_sb_fields,
     'U': riscv_u_fields,
     'UJ': riscv_uj_fields,
-    'FENCE': custom_fields_fence
+    'FENCE': custom_fields_fence,
+    'RV32_I': custom_fields_rv32_i,
+    'RV32CSR': custom_field_rv32csr,
+    'RV32CSR_I': custom_field_rv32csr_i,
+    'UNKNOWN': unknown_fields
 }
 
 #Dictionary with length of the fields
@@ -148,9 +168,12 @@ field_specs = {
     "succ":     "[3:0]",
     "imms":     "[11:0]",
     "immsb":    "[12:0]",
-    "immuj":    "[20:0]",
+    "immuj":    "[31:0]",
     "pc":       "[31:0]",
     "reg_mul":  "[63:0]",
+    "shamtw":   "[4:0]",
+    "csr":      "[11:0]",
+    "zimm5":    "[4:0]",
     "reg_file[31:0]": "[31:0]"
 }
 
@@ -248,6 +271,12 @@ for instr, fields in only_variable_fields.items():
         instruction_formats[instr] = 'UJ'
     elif fset <= set(custom_fields_fence.keys()):
         instruction_formats[instr] = 'FENCE'
+    elif fset <= set(custom_fields_rv32_i.keys()):
+        instruction_formats[instr] = 'RV32_I'
+    elif fset <= set(custom_field_rv32csr.keys()):
+        instruction_formats[instr] = 'RV32CSR'
+    elif fset <= set(custom_field_rv32csr_i.keys()):
+        instruction_formats[instr] = 'RV32CSR_I'
     else:
         instruction_formats[instr] = 'UNKNOWN'
 
@@ -281,7 +310,7 @@ for i, (key, val) in enumerate(opcode_dict.items()):
             if(fmt_name == "SB"):
                 casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}immsb = {{bimm12hi[6], bimm12lo[0], bimm12hi[5:0], bimm12lo[4:1], 1'b0}};\n"
             if(fmt_name == "UJ"):
-                casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}immuj = {{jimm20[19], jimm20[7:0], jimm20[8], jimm20[18:9], 1'b0}};\n"
+                casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}immuj = {{{{11{{jimm20[19]}}}},jimm20[19], jimm20[7:0], jimm20[8], jimm20[18:9], 1'b0}};\n{INDENT_THREE}{INDENT_ONE}incr = 0;\n"
             if(instr) in implementations_dict.keys():
                 casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}{implementations_dict[instr]};\n"
 
@@ -297,6 +326,7 @@ class {class_name} extends {main_class};
 
     string {nome_path} = "";
     int mem[int];
+    int incr;
 
     {fields_variables}
 
@@ -317,17 +347,26 @@ class {class_name} extends {main_class};
 
         $readmemh({nome_path}, mem);
 
-        foreach (mem[i]) begin
-            decode_opcode(mem[i]);
+        for (int pc = 2147483648; pc < 2147552788; pc += incr) begin
+            logic [31:0] instruction;
+            instruction = {{mem[pc+3][7:0], mem[pc+2][7:0], mem[pc+1][7:0], mem[pc][7:0]}};
+            $display("Instruction: %h", instruction);
+            $display("Il valore del program counter di questa istruzione è: %h", pc);
+
+            pc = decode_opcode(instruction, pc);
         end
 
     endfunction : new
 
 
 
-    function void decode_opcode(bit[{instr_width}:0] instr);
+    function bit [{instr_width}:0] decode_opcode(bit[{instr_width}:0] instr, bit[31:0] pc);
+
+        incr = 4;
 
     {casez_string}
+
+        return pc;
 
     endfunction : decode_opcode
 
@@ -347,7 +386,7 @@ casez_fmt = get_if_else_statement_fmt(length=len(opcode_dict)-1, case_format=Tru
 casez_string = casez_fmt.format(
     indent="        ",
     val="instr",
-    default_assign= "`uvm_error(\"UNKNOWN\", \"Unknown instruction detected\")",
+    default_assign= f"begin\n{INDENT_THREE}{INDENT_ONE}`uvm_error(\"UNKNOWN\", \"Unknown instruction detected\")\n{INDENT_THREE}{INDENT_TWO}incr = 2;\n{INDENT_THREE}{INDENT_ONE}end\n",
     **casez_dict,
 )
 

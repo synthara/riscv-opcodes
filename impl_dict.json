@@ -12,7 +12,7 @@
       "impl": "reg_file[rd] = reg_file[rs1] & imm12"
   },
   "auipc": {
-      "impl": "pc = pc + (imm20 << 12)"
+      "impl": "reg_file[rd] = pc + (imm20 << 12)"
   },
   "beq": {
       "impl": "if (reg_file[rs1] == reg_file[rs2])\n\t\t\t\t\tpc = pc + immsb"
@@ -31,6 +31,24 @@
   },
   "bne": {
       "impl": "if (reg_file[rs1] != reg_file[rs2])\n\t\t\t\t\tpc = pc + immsb"
+  },
+  "csrrw": {
+      "impl": "//csrrw"
+  },
+  "csrrs": {
+      "impl": "//csrrs"
+  },
+  "csrrc": {
+      "impl": "//csrrc"
+  },
+  "csrrwi": {
+      "impl": "//csrrwi"
+  },
+  "csrrsi": {
+      "impl": "//csrrsi"
+  },
+  "csrrci": {
+      "impl": "//csrrci"
   },
   "div": {
       "impl": "reg_file[rd] = $signed(reg_file[rs1]) / $signed(reg_file[rs2])"
@@ -104,6 +122,9 @@
   "sll": {
       "impl": "reg_file[rd] = reg_file[rs1] << reg_file[rs2]"
   },
+  "slli": {
+      "impl": "reg_file[rd] = reg_file[rs1] << shamtw"
+  },
  "slt": {
       "impl": "if ($signed(reg_file[rs1]) < $signed(reg_file[rs2]))\n\t\t\t\t\treg_file[rd] = 1;\n\t\t\t\telse\n\t\t\t\t\treg_file[rd] = 0;"
   },
@@ -119,8 +140,14 @@
   "sra": {
       "impl": "reg_file[rd] = reg_file[rs1] >>> reg_file[rs2]"
   },
+  "srai": {
+      "impl": "reg_file[rd] = reg_file[rs1] >>> shamtw"
+  },
   "srl": {
       "impl": "reg_file[rd] = reg_file[rs1] >> reg_file[rs2]"
+  },
+  "srli": {
+      "impl": "reg_file[rd] = reg_file[rs1] >> shamtw"
   },
   "sub": {
       "impl": "reg_file[rd] = reg_file[rs1] - reg_file[rs2]"
