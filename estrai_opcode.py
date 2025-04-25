@@ -1,6 +1,7 @@
 import os
 import re
 import json
+import csv
 
 
 #Valerio's if/else/case format function
@@ -65,6 +66,7 @@ instr_dict_json = 'instr_dict.json'
 impl_dict_json = 'impl_dict.json'
 input_file = 'inst.sverilog'
 output_file = 'opcode_case_class.sv'
+arg_lut_file = 'arg_lut.csv'
 
 
 only_variable_fields = dict()  #Dictionary which will contain key = instruction's name and val = variable fields
@@ -152,30 +154,30 @@ format_dicts = {
 }
 
 #Dictionary with length of the fields
-field_specs = {
-    "rd":       "[4:0]",
-    "rs1":      "[4:0]",
-    "rs2":      "[4:0]",
-    "imm12":    "[11:0]",
-    "imm12hi":  "[6:0]",
-    "imm12lo":  "[4:0]",
-    "bimm12hi": "[6:0]",
-    "bimm12lo": "[4:0]",
-    "jimm20":   "[19:0]",
-    "imm20":    "[19:0]",
-    "fm":       "[3:0]",
-    "pred":     "[3:0]",
-    "succ":     "[3:0]",
-    "imms":     "[11:0]",
-    "immsb":    "[12:0]",
-    "immuj":    "[31:0]",
-    "pc":       "[31:0]",
-    "reg_mul":  "[63:0]",
-    "shamtw":   "[4:0]",
-    "csr":      "[11:0]",
-    "zimm5":    "[4:0]",
-    "reg_file[31:0]": "[31:0]"
-}
+# field_specs = {
+#     "rd":       "[4:0]",
+#     "rs1":      "[4:0]",
+#     "rs2":      "[4:0]",
+#     "imm12":    "[11:0]",
+#     "imm12hi":  "[6:0]",
+#     "imm12lo":  "[4:0]",
+#     "bimm12hi": "[6:0]",
+#     "bimm12lo": "[4:0]",
+#     "jimm20":   "[19:0]",
+#     "imm20":    "[19:0]",
+#     "fm":       "[3:0]",
+#     "pred":     "[3:0]",
+#     "succ":     "[3:0]",
+#     "imms":     "[11:0]",
+#     "immsb":    "[12:0]",
+#     "immuj":    "[31:0]",
+#     "pc":       "[31:0]",
+#     "reg_mul":  "[63:0]",
+#     "shamtw":   "[4:0]",
+#     "csr":      "[11:0]",
+#     "zimm5":    "[4:0]",
+#     "reg_file[31:0]": "[31:0]"
+# }
 
 #Opening json to extract parameters to format the template
 with open(config_json) as f:            
@@ -188,6 +190,12 @@ with open(instr_dict_json) as f1:
 #Opening json to extract the implementation of each instruction
 with open(impl_dict_json) as f2:
     impl_dict = json.load(f2)
+
+with open(arg_lut_file) as f3:
+    arg_lut = {row[0].strip('" '): (int(row[1]), int(row[2])) for row in csv.reader(f3)}
+
+
+
 
 #Global variables to make an indentation when needed
 INDENT_ONE = "    "                     
@@ -219,7 +227,10 @@ values = {
 
 
 #Extracting the field names and sizes from the field_specs dictionary
-field_block = "".join(f"bit {size} {name};\n{INDENT_ONE}" for name, size in field_specs.items())
+field_block = "".join(
+    f"{f'bit [{start-end}:0]' if start != end else f'bit'} {field};\n{INDENT_ONE}"
+    for field, (start, end) in arg_lut.items()
+)
 
 #Using regex to extract the instructions' names and bit encoding from the input file
 if os.path.exists(input_file):
@@ -285,13 +296,13 @@ for instr, fields in only_variable_fields.items():
 
 
 
-#Here I create a dictionary with the bitfield mapping for each variable field
-for instr, fields in only_variable_fields.items():
-    fmt_name = instruction_formats[instr] #this should be only the instruction's format
-    fmt_dict = format_dicts[fmt_name] #This is extracting the variable fields from the dictionary
-    bitfield_mapping[instr] = {
-        field: fmt_dict[field] for field in fields 
-    }
+# #Here I create a dictionary with the bitfield mapping for each variable field
+# for instr, fields in only_variable_fields.items():
+#     fmt_name = instruction_formats[instr] #this should be only the instruction's format
+#     fmt_dict = format_dicts[fmt_name] #This is extracting the variable fields from the dictionary
+#     bitfield_mapping[instr] = {
+#         field: fmt_dict[field] for field in fields 
+#     }
 
 
 
@@ -303,8 +314,10 @@ for i, (key, val) in enumerate(opcode_dict.items()):
     for j, (instr, fields) in enumerate(only_variable_fields.items()):
         if(key.lower() == instr):
             fmt_name = instruction_formats[instr]
-            for instruct, start_end in bitfield_mapping[instr].items():
-                casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}{instruct} = instr[{start_end}];\n"
+            for var_field, (start, end) in arg_lut.items():
+                for single_filed in fields:
+                    if single_filed == var_field:
+                        casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}{var_field} = instr[{start}:{end}];\n"
             if(fmt_name == "S"):
                 casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}imms = {{imm12hi, imm12lo}};\n"
             if(fmt_name == "SB"):
@@ -312,7 +325,7 @@ for i, (key, val) in enumerate(opcode_dict.items()):
             if(fmt_name == "UJ"):
                 casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}immuj = {{{{11{{jimm20[19]}}}},jimm20[19], jimm20[7:0], jimm20[8], jimm20[18:9], 1'b0}};\n{INDENT_THREE}{INDENT_ONE}incr = 0;\n"
             if(instr) in implementations_dict.keys():
-                casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}{implementations_dict[instr]};\n"
+                casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}{implementations_dict[instr]}\n"
 
 
 #Class template to be formatted
@@ -327,8 +340,16 @@ class {class_name} extends {main_class};
     string {nome_path} = "";
     int mem[int];
     int incr;
-
+ 
     {fields_variables}
+    //Added by hand (not present in arg_lut.csv)
+    bit [31:0] reg_file[31:0];
+    bit [31:0] csr_reg_file[4095:0];
+    bit [11:0] imms;
+    bit [12:0] immsb; 
+    bit [31:0] immuj; 
+    bit [31:0] pc; 
+    bit [63:0] reg_mul;
 
     `uvm_component_utils_begin({class_name})
     `uvm_component_utils_end
@@ -348,7 +369,7 @@ class {class_name} extends {main_class};
         $readmemh({nome_path}, mem);
 
         for (int pc = 2147483648; pc < 2147552788; pc += incr) begin
-            logic [31:0] instruction;
+            bit [31:0] instruction;
             instruction = {{mem[pc+3][7:0], mem[pc+2][7:0], mem[pc+1][7:0], mem[pc][7:0]}};
             $display("Instruction: %h", instruction);
             $display("Il valore del program counter di questa istruzione è: %h", pc);
