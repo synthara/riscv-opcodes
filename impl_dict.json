@@ -3,34 +3,34 @@
       "impl": "reg_file[rd] = reg_file[rs1] + reg_file[rs2];"
   },
   "addi": {
-      "impl": "reg_file[rd] = reg_file[rs1] + imm12;"
+      "impl": "imm12_ext = {{20{imm12[11]}}, imm12};\n\t\t\t\treg_file[rd] = reg_file[rs1] + imm12_ext;"
   },
   "and": {
       "impl": "reg_file[rd] = reg_file[rs1] & reg_file[rs2];"
   },
   "andi": {
-      "impl": "reg_file[rd] = reg_file[rs1] & imm12;"
+      "impl": "imm12_ext = {{20{imm12[11]}}, imm12};\n\t\t\t\treg_file[rd] = reg_file[rs1] & imm12_ext;"
   },
   "auipc": {
       "impl": "reg_file[rd] = pc + (imm20 << 12);"
   },
   "beq": {
-      "impl": "if (reg_file[rs1] == reg_file[rs2]) begin\n\t\t\t\t\tpc = pc + immsb;\n\t\t\t\t\tincr = 0;\n\t\t\t\tend"
+      "impl": "immsb_ext = {{19{immsb[12]}}, immsb};\n\t\t\t\tif (reg_file[rs1] == reg_file[rs2]) begin\n\t\t\t\t\tpc = pc + immsb_ext;\n\t\t\t\t\tincr = 0;\n\t\t\t\tend"
   },
   "bge": {
-      "impl": "if ($signed(reg_file[rs1]) >= $signed(reg_file[rs2])) begin\n\t\t\t\t\tpc = pc + immsb;\n\t\t\t\t\tincr = 0;\n\t\t\t\tend"
+      "impl": "immsb_ext = {{19{immsb[12]}}, immsb};\n\t\t\t\tif ($signed(reg_file[rs1]) >= $signed(reg_file[rs2])) begin\n\t\t\t\t\tpc = pc + immsb_ext;\n\t\t\t\t\tincr = 0;\n\t\t\t\tend"
   },
   "bgeu": {
-      "impl": "if (reg_file[rs1] >= reg_file[rs2]) begin\n\t\t\t\t\tpc = pc + immsb;\n\t\t\t\t\tincr = 0;\n\t\t\t\tend"
+      "impl": "immsb_ext = {{19{immsb[12]}}, immsb};\n\t\t\t\tif (reg_file[rs1] >= reg_file[rs2]) begin\n\t\t\t\t\tpc = pc + immsb_ext;\n\t\t\t\t\tincr = 0;\n\t\t\t\tend"
   },
   "blt": {
-      "impl": "if ($signed(reg_file[rs1]) < $signed(reg_file[rs2])) begin\n\t\t\t\t\tpc = pc + immsb;\n\t\t\t\t\tincr = 0;\n\t\t\t\tend"
+      "impl": "immsb_ext = {{19{immsb[12]}}, immsb};\n\t\t\t\tif ($signed(reg_file[rs1]) < $signed(reg_file[rs2])) begin\n\t\t\t\t\tpc = pc + immsb_ext;\n\t\t\t\t\tincr = 0;\n\t\t\t\tend"
   },
   "bltu": {
-      "impl": "if (reg_file[rs1] < reg_file[rs2]) begin\n\t\t\t\t\tpc = pc + immsb;\n\t\t\t\t\tincr = 0;\n\t\t\t\tend"
+      "impl": "immsb_ext = {{19{immsb[12]}}, immsb};\n\t\t\t\tif (reg_file[rs1] < reg_file[rs2]) begin\n\t\t\t\t\tpc = pc + immsb_ext;\n\t\t\t\t\tincr = 0;\n\t\t\t\tend"
   },
   "bne": {
-      "impl": "if (reg_file[rs1] != reg_file[rs2]) begin\n\t\t\t\t\tpc = pc + immsb;\n\t\t\t\t\tincr = 0;\n\t\t\t\tend"
+      "impl": "immsb_ext = {{19{immsb[12]}}, immsb};\n\t\t\t\tif (reg_file[rs1] != reg_file[rs2]) begin\n\t\t\t\t\tpc = pc + immsb_ext;\n\t\t\t\t\tincr = 0;\n\t\t\t\tend"
   },
   "csrrw": {
       "impl": "reg_file[rd] = csr_reg_file[csr];\n\t\t\t\tcsr_reg_file[csr] = reg_file[rs1];"
@@ -66,28 +66,28 @@
       "impl": "// fence"
   },
   "jal": {
-      "impl": "reg_file[rd] = pc + 4;\n\t\t\t\tpc = pc + immuj;"
+      "impl": "reg_file[rd] = pc + 4;\n\t\t\t\tpc = pc + immuj;\n\t\t\t\tincr = 0;"
   },
   "jalr": {
       "impl": "reg_file[rd] = pc + 4;\n\t\t\t\tpc = (reg_file[rs1] + imm12) & ~1;\n\t\t\t\tincr = 0;"
   },
   "lb": {
-      "impl": "reg_file[rd] = {{24{mem[reg_file[rs1] + imm12][7]}}, mem[reg_file[rs1] + imm12][7:0]};"
+      "impl": "imm12_ext = {{20{imm12[11]}}, imm12};\n\t\t\t\treg_file[rd] = {{24{mem[reg_file[rs1] + imm12_ext][7]}}, mem[reg_file[rs1] + imm12_ext][7:0]};"
   },
   "lbu": {
-      "impl": "reg_file[rd] = {24'b0, mem[reg_file[rs1] + imm12][7:0]};"
+      "impl": "imm12_ext = {{20{imm12[11]}}, imm12};\n\t\t\t\treg_file[rd] = {24'b0, mem[reg_file[rs1] + imm12_ext][7:0]};"
   },
   "lh": {
-      "impl": "reg_file[rd] = {{16{mem[reg_file[rs1] + imm12][15]}}, mem[reg_file[rs1] + imm12][15:0]};"
+      "impl": "imm12_ext = {{20{imm12[11]}}, imm12};\n\t\t\t\treg_file[rd] = {{16{mem[reg_file[rs1] + imm12_ext + 1][7]}}, mem[reg_file[rs1] + imm12_ext + 1][7:0], mem[reg_file[rs1] + imm12_ext][7:0]};"
   },
   "lhu": {
-      "impl": "reg_file[rd] = {16'b0, mem[reg_file[rs1] + imm12][15:0]};"
+      "impl": "imm12_ext = {{20{imm12[11]}}, imm12};\n\t\t\t\treg_file[rd] = {16'b0, mem[reg_file[rs1] + imm12_ext + 1][7:0], mem[reg_file[rs1] + imm12_ext][7:0]};"
   },
   "lui": {
       "impl": "reg_file[rd] = imm20 << 12;"
   },
   "lw": {
-      "impl": "reg_file[rd] = mem[reg_file[rs1] + imm12];"
+      "impl": "imm12_ext = {{20{imm12[11]}}, imm12};\n\t\t\t\treg_file[rd] = {mem[reg_file[rs1] + imm12_ext + 3][7:0], mem[reg_file[rs1] + imm12_ext + 2][7:0], mem[reg_file[rs1] + imm12_ext + 1][7:0], mem[reg_file[rs1] + imm12_ext][7:0]};"
   },
   "mul": {
       "impl": "reg_mul = $signed(reg_file[rs1]) * $signed(reg_file[rs2]);\n\t\t\t\treg_file[rd] = reg_mul[31:0];"
@@ -105,7 +105,7 @@
       "impl": "reg_file[rd] = reg_file[rs1] | reg_file[rs2];"
   },
   "ori": {
-      "impl": "reg_file[rd] = reg_file[rs1] | imm12;"
+      "impl": "imm12_ext = {{20{imm12[11]}}, imm12};\n\t\t\t\treg_file[rd] = reg_file[rs1] | imm12_ext;"
   },
   "rem": {
       "impl": "reg_file[rd] = $signed(reg_file[rs1]) % $signed(reg_file[rs2]);"
@@ -114,10 +114,10 @@
       "impl": "reg_file[rd] = reg_file[rs1] % reg_file[rs2];"
   },
   "sb": {
-      "impl": "mem[reg_file[rs1] + imms][7:0] = reg_file[rs2];"
+      "impl": "imms_ext = {{20{imms[11]}}, imms};\n\t\t\t\tmem[reg_file[rs1] + imms_ext][7:0] = reg_file[rs2][7:0];"
   },
   "sh": {
-      "impl": "mem[reg_file[rs1] + imms][15:0] = reg_file[rs2];"
+      "impl": "imms_ext = {{20{imms[11]}}, imms};\n\t\t\t\tmem[reg_file[rs1] + imms_ext][15:0] = reg_file[rs2][7:0];\n\t\t\t\tmem[reg_file[rs1] + imms_ext + 1] = reg_file[rs2][15:8];"
   },
   "sll": {
       "impl": "reg_file[rd] = reg_file[rs1] << reg_file[rs2];"
@@ -153,12 +153,12 @@
       "impl": "reg_file[rd] = reg_file[rs1] - reg_file[rs2];"
   },
   "sw": {
-      "impl": "mem[reg_file[rs1] + imms] = reg_file[rs2];"
+      "impl": "imms_ext = {{20{imms[11]}}, imms};\n\t\t\t\tmem[reg_file[rs1] + imms_ext] = reg_file[rs2][7:0];\n\t\t\t\tmem[reg_file[rs1] + imms_ext + 1] = reg_file[rs2][15:8];\n\t\t\t\tmem[reg_file[rs1] + imms_ext + 2] = reg_file[rs2][23:16];\n\t\t\t\tmem[reg_file[rs1] + imms_ext + 3] = reg_file[rs2][31:24];"
   },
   "xor": {
       "impl": "reg_file[rd] = reg_file[rs1] ^ reg_file[rs2];"
   },
   "xori": {
-      "impl": "reg_file[rd] = reg_file[rs1] ^ imm12;"
+      "impl": "imm12_ext = {{20{imm12[11]}}, imm12};\n\t\t\t\treg_file[rd] = reg_file[rs1] ^ imm12_ext;"
   }
 }

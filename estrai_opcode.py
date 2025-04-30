@@ -323,7 +323,7 @@ for i, (key, val) in enumerate(opcode_dict.items()):
             if(fmt_name == "SB"):
                 casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}immsb = {{bimm12hi[6], bimm12lo[0], bimm12hi[5:0], bimm12lo[4:1], 1'b0}};\n"
             if(fmt_name == "UJ"):
-                casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}immuj = {{{{11{{jimm20[19]}}}},jimm20[19], jimm20[7:0], jimm20[8], jimm20[18:9], 1'b0}};\n{INDENT_THREE}{INDENT_ONE}incr = 0;\n"
+                casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}immuj = {{{{11{{jimm20[19]}}}},jimm20[19], jimm20[7:0], jimm20[8], jimm20[18:9], 1'b0}};\n"
             if(instr) in implementations_dict.keys():
                 casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}{implementations_dict[instr]}\n"
 
@@ -350,6 +350,9 @@ class {class_name} extends {main_class};
     bit [31:0] immuj; 
     bit [31:0] pc; 
     bit [63:0] reg_mul;
+    bit [31:0] imm12_ext;
+    bit [31:0] imms_ext;
+    bit [31:0] immsb_ext;
 
     `uvm_component_utils_begin({class_name})
     `uvm_component_utils_end
@@ -367,6 +370,11 @@ class {class_name} extends {main_class};
     	end
 
         $readmemh({nome_path}, mem);
+
+        csr_reg_file[12'hF11] = 32'h00000602; // mvendorid
+        csr_reg_file[12'h301] = 32'h40101104; // misa (RV32IMCU)
+        csr_reg_file[12'hF12] = 32'h00000023; // marchid
+        csr_reg_file[12'hF13] = 32'h00000000; // mimpid
 
         for (int pc = 2147483648; pc < 2147552788; pc += incr) begin
             bit [31:0] instruction;
@@ -386,6 +394,8 @@ class {class_name} extends {main_class};
         incr = 4;
 
     {casez_string}
+
+        reg_file[0] = 32'b0;
 
         return pc;
 
@@ -407,7 +417,7 @@ casez_fmt = get_if_else_statement_fmt(length=len(opcode_dict)-1, case_format=Tru
 casez_string = casez_fmt.format(
     indent="        ",
     val="instr",
-    default_assign= f"begin\n{INDENT_THREE}{INDENT_ONE}`uvm_error(\"UNKNOWN\", \"Unknown instruction detected\")\n{INDENT_THREE}{INDENT_TWO}incr = 2;\n{INDENT_THREE}{INDENT_ONE}end\n",
+    default_assign= f"begin\n{INDENT_THREE}{INDENT_ONE}`uvm_error(\"UNKNOWN\", \"Unknown instruction detected\")\n{INDENT_THREE}{INDENT_ONE}incr = 2;\n{INDENT_THREE}end\n",
     **casez_dict,
 )
 
