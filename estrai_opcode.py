@@ -2,7 +2,14 @@ import os
 import re
 import json
 import csv
+import argparse
 
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--set_clock", action = "store_true", help="Set the clock to the model")
+args = parser.parse_args()
+
+set_clock_bit = 1 if args.set_clock else 0
 
 #Valerio's if/else/case format function
 def get_if_else_statement_fmt(length: int, always_comb: bool = True, implicit_final_condition: bool = True, case_format: bool = False, unique: bool = False, default_assign: bool = True) -> str:
@@ -222,7 +229,8 @@ values = {
     "parent": config["parent"],
     "main_class": config["main_class"],
     "instr_width": config["instr_width"],
-    "nome_path": config["nome_path"]
+    "nome_path": config["nome_path"],
+    "set_clock": set_clock_bit
 }
 
 
@@ -328,6 +336,46 @@ for i, (key, val) in enumerate(opcode_dict.items()):
                 casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}{implementations_dict[instr]}\n"
 
 
+
+#this block manages the cases in which there is the clock or not
+if set_clock_bit:
+    clock_code = """
+    task run_phase(uvm_phase phase);
+
+        super.run_phase(phase);
+
+        if (!uvm_config_db#(virtual uvma_clknrst_if)::get(null, "*.env.clknrst_agent", "vif", clknrst_vif)) begin
+            `uvm_fatal("NOCLOCK", "Cannot get clknrst_vif from config_db")
+        end
+
+        fork
+            begin : fetch_decode
+                forever begin
+                    @(posedge clknrst_vif.clk);
+
+                    if (!clknrst_vif.reset_n) begin
+                        pc = 0;
+                    end else begin
+                        instruction = {mem[pc+3][7:0], mem[pc+2][7:0], mem[pc+1][7:0], mem[pc][7:0]};
+                        pc = decode_opcode(instruction, pc);
+                    end
+                end
+            end
+        join_none
+    endtask
+"""
+    no_clock_code = ""  # Void: I'm not writing anything inside the constructor
+else:
+    clock_code = ""    # Void: I'm not writing anything inside the run_phase
+    no_clock_code = """
+        while (pc != 32'h80000288) begin
+            instruction = {mem[pc+3][7:0], mem[pc+2][7:0], mem[pc+1][7:0], mem[pc][7:0]};
+            pc = decode_opcode(instruction, pc);
+        end
+"""
+
+
+
 #Class template to be formatted
 template_content = """
 `ifndef __{class_name}_SV__
@@ -340,19 +388,24 @@ class {class_name} extends {main_class};
     string {nome_path} = "";
     int mem[int];
     int incr;
+
+    virtual uvma_clknrst_if clknrst_vif;
  
     {fields_variables}
     //Added by hand (not present in arg_lut.csv)
+    bit [31:0] instruction;
     bit [31:0] reg_file[31:0];
     bit [31:0] csr_reg_file[4095:0];
     bit [11:0] imms;
     bit [12:0] immsb; 
     bit [31:0] immuj; 
-    bit [31:0] pc; 
+    bit [31:0] pc = 32'h80000000; 
     bit [63:0] reg_mul;
     bit [31:0] imm12_ext;
     bit [31:0] imms_ext;
     bit [31:0] immsb_ext;
+
+    bit SENSE_CLK = 1'b{set_clock};
 
     `uvm_component_utils_begin({class_name})
     `uvm_component_utils_end
@@ -376,26 +429,21 @@ class {class_name} extends {main_class};
         csr_reg_file[12'hF12] = 32'h00000023; // marchid
         csr_reg_file[12'hF13] = 32'h00000000; // mimpid
 
-        for (int pc = 2147483648; pc < 2147552788; pc += incr) begin
-            bit [31:0] instruction;
-            instruction = {{mem[pc+3][7:0], mem[pc+2][7:0], mem[pc+1][7:0], mem[pc][7:0]}};
-            $display("Instruction: %h", instruction);
-            $display("Il valore del program counter di questa istruzione è: %h", pc);
-
-            pc = decode_opcode(instruction, pc);
-        end
+        {constructor_code}
 
     endfunction : new
 
+    {run_phase_code}
 
-
-    function bit [{instr_width}:0] decode_opcode(bit[{instr_width}:0] instr, bit[31:0] pc);
+    function bit [{instr_width}:0] decode_opcode(bit[{instr_width}:0] instr, bit[{instr_width}:0] pc);
 
         incr = 4;
 
     {casez_string}
 
         reg_file[0] = 32'b0;
+
+        pc += incr;
 
         return pc;
 
@@ -421,7 +469,7 @@ casez_string = casez_fmt.format(
     **casez_dict,
 )
 
-file_content = template_content.format(casez_string=casez_string,**values, fields_variables=field_block,)
+file_content = template_content.format(casez_string=casez_string,**values, fields_variables=field_block, constructor_code=no_clock_code, run_phase_code=clock_code)
 
 
 
