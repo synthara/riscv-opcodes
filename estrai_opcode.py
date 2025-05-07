@@ -374,6 +374,19 @@ else:
         end
 """
 
+#This block is used to fill the rvfi_instr_seq_item with the values extracted from the instruction
+rvfi_block = f"""
+{INDENT_TWO}rvfi_instr_seq_item.order     = order++;
+{INDENT_TWO}rvfi_instr_seq_item.insn      = instruction;
+{INDENT_TWO}rvfi_instr_seq_item.rs1_addr  = rs1;
+{INDENT_TWO}rvfi_instr_seq_item.rs1_rdata = reg_file[rs1];
+{INDENT_TWO}rvfi_instr_seq_item.rs2_addr  = rs2;
+{INDENT_TWO}rvfi_instr_seq_item.rs2_rdata = reg_file[rs2];
+{INDENT_TWO}rvfi_instr_seq_item.rd1_addr  = rd;
+{INDENT_TWO}rvfi_instr_seq_item.rd1_wdata = reg_file[rd];
+{INDENT_TWO}rvfi_instr_seq_item.pc_rdata  = pc_before;
+{INDENT_TWO}rvfi_instr_seq_item.pc_wdata  = pc;
+"""
 
 
 #Class template to be formatted
@@ -382,15 +395,18 @@ template_content = """
 `define __{class_name}_SV__
 
 import riscv_instr::*;
+import uvma_rvfi_pkg::*;
 
 class {class_name} extends {main_class};
 
     string {nome_path} = "";
     int mem[int];
     int incr;
+    int order = 0;
 
     virtual uvma_clknrst_if clknrst_vif;
- 
+    uvma_rvfi_mode mode = 3;
+
     {fields_variables}
     //Added by hand (not present in arg_lut.csv)
     bit [31:0] instruction;
@@ -404,8 +420,12 @@ class {class_name} extends {main_class};
     bit [31:0] imm12_ext;
     bit [31:0] imms_ext;
     bit [31:0] immsb_ext;
+    bit [31:0] pc_before;
 
     bit SENSE_CLK = 1'b{set_clock};
+
+    uvma_rvfi_instr_seq_item_c#(32, 32) rvfi_instr_seq_item;
+    uvm_analysis_port#(uvma_rvfi_instr_seq_item_c#(32, 32)) rvfi_ap;
 
     `uvm_component_utils_begin({class_name})
     `uvm_component_utils_end
@@ -428,6 +448,7 @@ class {class_name} extends {main_class};
         csr_reg_file[12'h301] = 32'h40101104; // misa (RV32IMCU)
         csr_reg_file[12'hF12] = 32'h00000023; // marchid
         csr_reg_file[12'hF13] = 32'h00000000; // mimpid
+        rvfi_ap = new("rvfi_ap", this);
 
         {constructor_code}
 
@@ -437,13 +458,27 @@ class {class_name} extends {main_class};
 
     function bit [{instr_width}:0] decode_opcode(bit[{instr_width}:0] instr, bit[{instr_width}:0] pc);
 
+        rvfi_instr_seq_item = uvma_rvfi_instr_seq_item_c#(32,32)::type_id::create("rvfi_instr_seq_item", this);
+
+        rvfi_instr_seq_item.mode = mode;
+
         incr = 4;
+
+        pc_before = pc;
+
+        rs1 = 5'b0;
+        rs2 = 5'b0;
+        rd  = 5'b0;
 
     {casez_string}
 
         reg_file[0] = 32'b0;
 
         pc += incr;
+
+        {rvfi_block}
+
+        rvfi_ap.write(rvfi_instr_seq_item);
 
         return pc;
 
@@ -469,7 +504,7 @@ casez_string = casez_fmt.format(
     **casez_dict,
 )
 
-file_content = template_content.format(casez_string=casez_string,**values, fields_variables=field_block, constructor_code=no_clock_code, run_phase_code=clock_code)
+file_content = template_content.format(casez_string=casez_string,**values, fields_variables=field_block, constructor_code=no_clock_code, run_phase_code=clock_code, rvfi_block=rvfi_block)
 
 
 
