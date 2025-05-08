@@ -7,9 +7,15 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--set_clock", action = "store_true", help="Set the clock to the model")
+parser.add_argument("--set_while", action="store_true", help="Set the while loop in the model")
 args = parser.parse_args()
 
-set_clock_bit = 1 if args.set_clock else 0
+if args.set_clock:
+    mode = "clock"
+elif args.set_while:
+    mode = "while"
+else:
+    mode = "step"
 
 #Valerio's if/else/case format function
 def get_if_else_statement_fmt(length: int, always_comb: bool = True, implicit_final_condition: bool = True, case_format: bool = False, unique: bool = False, default_assign: bool = True) -> str:
@@ -230,7 +236,6 @@ values = {
     "main_class": config["main_class"],
     "instr_width": config["instr_width"],
     "nome_path": config["nome_path"],
-    "set_clock": set_clock_bit
 }
 
 
@@ -338,7 +343,7 @@ for i, (key, val) in enumerate(opcode_dict.items()):
 
 
 #this block manages the cases in which there is the clock or not
-if set_clock_bit:
+if mode == "clock":
     clock_code = """
     task run_phase(uvm_phase phase);
 
@@ -358,20 +363,64 @@ if set_clock_bit:
                     end else begin
                         instruction = {mem[pc+3][7:0], mem[pc+2][7:0], mem[pc+1][7:0], mem[pc][7:0]};
                         pc = decode_opcode(instruction, pc);
+                        m_analysis_port.write(rvfi_instr_seq_item);
                     end
                 end
             end
         join_none
     endtask
 """
-    no_clock_code = ""  # Void: I'm not writing anything inside the constructor
-else:
+    while_code = ""  # Void: I'm not writing anything inside the constructor
+    step_code = """
+    function uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) step (int i, uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t);
+        //instruction = {mem[pc+3][7:0], mem[pc+2][7:0], mem[pc+1][7:0], mem[pc][7:0]};
+        //pc = decode_opcode(instruction, pc);
+        //`uvm_info(get_type_name(), "Dummy step function called", UVM_DEBUG)
+    endfunction 
+
+    function void write_rvfi_instr(uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t);
+        //uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t_reference_model = step(1, t);
+        //m_analysis_port.write(t);
+        //`uvm_info(get_type_name(), "Dummy write_rvfi_instr function called", UVM_DEBUG)
+    endfunction : write_rvfi_instr
+"""
+elif mode == "while":
     clock_code = ""    # Void: I'm not writing anything inside the run_phase
-    no_clock_code = """
+    while_code = """
         while (pc != 32'h80000288) begin
             instruction = {mem[pc+3][7:0], mem[pc+2][7:0], mem[pc+1][7:0], mem[pc][7:0]};
             pc = decode_opcode(instruction, pc);
+            m_analysis_port.write(rvfi_instr_seq_item);
         end
+"""
+    step_code = """
+    function uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) step (int i, uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t);
+        //instruction = {mem[pc+3][7:0], mem[pc+2][7:0], mem[pc+1][7:0], mem[pc][7:0]};
+        //pc = decode_opcode(instruction, pc);
+        //`uvm_info(get_type_name(), "Dummy step function called", UVM_DEBUG)
+    endfunction 
+
+    function void write_rvfi_instr(uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t);
+        //uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t_reference_model = step(1, t);
+        //m_analysis_port.write(t);
+        //`uvm_info(get_type_name(), "Dummy write_rvfi_instr function called", UVM_DEBUG)
+    endfunction : write_rvfi_instr
+"""
+else:
+    clock_code = ""    # Void: I'm not writing anything inside the run_phase
+    while_code = ""    # Void: I'm not writing anything inside the run_phase
+    step_code = """
+    function uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) step (int i, uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t);
+        instruction = {mem[pc+3][7:0], mem[pc+2][7:0], mem[pc+1][7:0], mem[pc][7:0]};
+        pc = decode_opcode(instruction, pc);
+        `uvm_info(get_type_name(), "Dummy step function called", UVM_DEBUG)
+    endfunction 
+
+    function void write_rvfi_instr(uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t);
+        uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t_reference_model = step(1, t);
+        m_analysis_port.write(t);
+        `uvm_info(get_type_name(), "Dummy write_rvfi_instr function called", UVM_DEBUG)
+    endfunction : write_rvfi_instr
 """
 
 #This block is used to fill the rvfi_instr_seq_item with the values extracted from the instruction
@@ -415,22 +464,18 @@ class {class_name} extends {main_class};
     bit [11:0] imms;
     bit [12:0] immsb; 
     bit [31:0] immuj; 
-    bit [31:0] pc = 32'h80000000; 
+    bit [31:0] pc; 
     bit [63:0] reg_mul;
     bit [31:0] imm12_ext;
     bit [31:0] imms_ext;
     bit [31:0] immsb_ext;
     bit [31:0] pc_before;
 
-    bit SENSE_CLK = 1'b{set_clock};
-
     uvma_rvfi_instr_seq_item_c#(32, 32) rvfi_instr_seq_item;
-    uvm_analysis_port#(uvma_rvfi_instr_seq_item_c#(32, 32)) rvfi_ap;
-
     `uvm_component_utils_begin({class_name})
     `uvm_component_utils_end
 
-    function new(string name="{class_name}", {main_class} parent={parent});
+    function new(string name="{class_name}", uvm_component parent={parent});
 
         super.new(name, parent);
 
@@ -448,12 +493,26 @@ class {class_name} extends {main_class};
         csr_reg_file[12'h301] = 32'h40101104; // misa (RV32IMCU)
         csr_reg_file[12'hF12] = 32'h00000023; // marchid
         csr_reg_file[12'hF13] = 32'h00000000; // mimpid
-        rvfi_ap = new("rvfi_ap", this);
-
-        {constructor_code}
 
     endfunction : new
 
+    function void build_phase(uvm_phase phase);
+       st_core_cntrl_cfg st;
+
+       super.build_phase(phase);
+
+       st = cfg.to_struct();
+
+        if (st.boot_addr_valid) begin
+            pc = st.boot_addr;
+            `uvm_info("Boot_addr: %h", st.boot_addr, UVM_LOW)
+        end else begin
+            `uvm_fatal("Boot_addr not valid, using default value", UVM_LOW)
+        end
+        {constructor_code}
+    endfunction : build_phase
+
+    {step_code}
     {run_phase_code}
 
     function bit [{instr_width}:0] decode_opcode(bit[{instr_width}:0] instr, bit[{instr_width}:0] pc);
@@ -477,8 +536,6 @@ class {class_name} extends {main_class};
         pc += incr;
 
         {rvfi_block}
-
-        rvfi_ap.write(rvfi_instr_seq_item);
 
         return pc;
 
@@ -504,7 +561,7 @@ casez_string = casez_fmt.format(
     **casez_dict,
 )
 
-file_content = template_content.format(casez_string=casez_string,**values, fields_variables=field_block, constructor_code=no_clock_code, run_phase_code=clock_code, rvfi_block=rvfi_block)
+file_content = template_content.format(casez_string=casez_string,**values, fields_variables=field_block, constructor_code=while_code, run_phase_code=clock_code, step_code=step_code, rvfi_block=rvfi_block)
 
 
 
