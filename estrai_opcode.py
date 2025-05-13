@@ -69,6 +69,28 @@ def get_if_else_statement_fmt(length: int, always_comb: bool = True, implicit_fi
 
 
 
+def reorder_casez_dict(casez_dict: dict, priority_path: str) -> dict:
+
+    priority_map = {name: i for i, name in enumerate(priority_list)}
+
+    num_entries = len(casez_dict) // 2
+    pair_list = []
+    for i in range(num_entries):
+        cond = casez_dict[f"condition{i}"]
+        assign = casez_dict[f"assign{i}"]
+        pair_list.append((cond, assign))
+
+    sorted_pairs = sorted(pair_list, key=lambda x: priority_map.get(x[0], 1000))
+
+    new_casez_dict = {}
+    for i, (cond, assign) in enumerate(sorted_pairs):
+        new_casez_dict[f"condition{i}"] = cond
+        new_casez_dict[f"assign{i}"] = assign
+
+    return new_casez_dict
+
+
+
 ##################################################################################################################
 #                                                                                                                #
 #                                                   MAIN                                                         #
@@ -80,6 +102,7 @@ impl_dict_json = 'impl_dict.json'
 input_file = 'inst.sverilog'
 output_file = 'opcode_case_class.sv'
 arg_lut_file = 'arg_lut.csv'
+opcode_priority = "opcode_priority.json"
 
 
 only_variable_fields = dict()  #Dictionary which will contain key = instruction's name and val = variable fields
@@ -204,9 +227,13 @@ with open(instr_dict_json) as f1:
 with open(impl_dict_json) as f2:
     impl_dict = json.load(f2)
 
+#Opening csv to extract the opcode's bit encoding
 with open(arg_lut_file) as f3:
     arg_lut = {row[0].strip('" '): (int(row[1]), int(row[2])) for row in csv.reader(f3)}
 
+#Opening json to extract the opcode's priority
+with open(opcode_priority) as f4:
+    priority_list = json.load(f4)
 
 
 
@@ -320,7 +347,7 @@ for instr, fields in only_variable_fields.items():
 
 
 
-#Here I fill the casez_dict which will contain all the stuff to be put in the case
+# Here I fill the casez_dict which will contain all the stuff to be put in the case
 for i, (key, val) in enumerate(opcode_dict.items()):
     casez_dict[f"condition{i}"] = f"{key}"
     casez_dict[f"assign{i}"]    = f'`uvm_info("{key}", \"Instruction {key} detected successfully\", UVM_LOW)\n'
@@ -330,7 +357,10 @@ for i, (key, val) in enumerate(opcode_dict.items()):
             for var_field, (start, end) in arg_lut.items():
                 for single_filed in fields:
                     if single_filed == var_field:
-                        casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}{var_field} = instr[{start}:{end}];\n"
+                        if start == end:
+                            casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}{var_field} = instr[{start}];\n"
+                        else:
+                            casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}{var_field} = instr[{start}:{end}];\n"
             if(fmt_name == "S"):
                 casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}imms = {{imm12hi, imm12lo}};\n"
             if(fmt_name == "SB"):
@@ -339,6 +369,9 @@ for i, (key, val) in enumerate(opcode_dict.items()):
                 casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}immuj = {{{{11{{jimm20[19]}}}},jimm20[19], jimm20[7:0], jimm20[8], jimm20[18:9], 1'b0}};\n"
             if(instr) in implementations_dict.keys():
                 casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}{implementations_dict[instr]}\n"
+
+
+casez_dict = reorder_casez_dict(casez_dict, priority_list)
 
 
 
@@ -428,9 +461,17 @@ rvfi_block = f"""
 {INDENT_TWO}rvfi_instr_seq_item.order     = order++;
 {INDENT_TWO}rvfi_instr_seq_item.insn      = instruction;
 {INDENT_TWO}rvfi_instr_seq_item.rs1_addr  = rs1;
-{INDENT_TWO}rvfi_instr_seq_item.rs1_rdata = reg_file[rs1];
+{INDENT_TWO}if(rs1 != rd) begin
+{INDENT_THREE}rvfi_instr_seq_item.rs1_rdata = reg_file[rs1];
+{INDENT_TWO}end else begin
+{INDENT_THREE}rvfi_instr_seq_item.rs1_rdata = reg_rs1_prec;
+{INDENT_TWO}end
 {INDENT_TWO}rvfi_instr_seq_item.rs2_addr  = rs2;
-{INDENT_TWO}rvfi_instr_seq_item.rs2_rdata = reg_file[rs2];
+{INDENT_TWO}if(rs2 != rd) begin
+{INDENT_THREE}rvfi_instr_seq_item.rs2_rdata = reg_file[rs2];
+{INDENT_TWO}end else begin
+{INDENT_THREE}rvfi_instr_seq_item.rs2_rdata = reg_rs2_prec;
+{INDENT_TWO}end
 {INDENT_TWO}rvfi_instr_seq_item.rd1_addr  = rd;
 {INDENT_TWO}rvfi_instr_seq_item.rd1_wdata = reg_file[rd];
 {INDENT_TWO}rvfi_instr_seq_item.pc_rdata  = pc_before;
@@ -470,6 +511,11 @@ class {class_name} extends {main_class};
     bit [31:0] imms_ext;
     bit [31:0] immsb_ext;
     bit [31:0] pc_before;
+    bit [31:0] c_imm_ext;
+    bit [31:0] addr;
+    bit [31:0] reg_rs1_prec;
+    bit [31:0] reg_rs2_prec;
+
 
     uvma_rvfi_instr_seq_item_c#(32, 32) rvfi_instr_seq_item;
     `uvm_component_utils_begin({class_name})
@@ -557,7 +603,7 @@ casez_fmt = get_if_else_statement_fmt(length=len(opcode_dict)-1, case_format=Tru
 casez_string = casez_fmt.format(
     indent="        ",
     val="instr",
-    default_assign= f"begin\n{INDENT_THREE}{INDENT_ONE}`uvm_error(\"UNKNOWN\", \"Unknown instruction detected\")\n{INDENT_THREE}{INDENT_ONE}incr = 2;\n{INDENT_THREE}end\n",
+    default_assign= f"begin\n{INDENT_THREE}{INDENT_ONE}`uvm_error(\"UNKNOWN\", \"Unknown instruction detected\")\n{INDENT_THREE}{INDENT_ONE}incr = 4;\n{INDENT_THREE}end\n",
     **casez_dict,
 )
 
