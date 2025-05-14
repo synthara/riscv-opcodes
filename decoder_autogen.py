@@ -17,7 +17,7 @@ elif args.set_while:
 else:
     mode = "step"
 
-#Valerio's if/else/case format function
+#If/else/case format function
 def get_if_else_statement_fmt(length: int, always_comb: bool = True, implicit_final_condition: bool = True, case_format: bool = False, unique: bool = False, default_assign: bool = True) -> str:
     """
     Generates a formatted string for an if-else or case statement in SystemVerilog.
@@ -68,7 +68,7 @@ def get_if_else_statement_fmt(length: int, always_comb: bool = True, implicit_fi
     return out_fmt
 
 
-
+#Function to reorder the casez_dict based on the priority list
 def reorder_casez_dict(casez_dict: dict, priority_path: str) -> dict:
 
     priority_map = {name: i for i, name in enumerate(priority_list)}
@@ -112,82 +112,87 @@ bitfield_mapping = dict()      #Dictionary which will contain key = instruction'
 casez_dict = dict()            #Dictionary which will contain key = instruction's name and val = all the stuff to be put in the each case statement
 implementations_dict = dict()  #Dictionary which will contain key = instruction's name and val = the implementation of the instruction
 
+#Global variables to make an indentation when needed
+INDENT_ONE = "    "                     
+INDENT_TWO = "        "
+INDENT_THREE = "            "
 
-# Define field dictionaries for different instruction types (7 dictionaries, 6 formats but FENCE sucks)
-riscv_r_fields = {
-    "rd": "11:7",
-    "rs1": "19:15",
-    "rs2": "24:20"
-}
 
-riscv_i_fields = {
-    "rd": "11:7",
-    "rs1": "19:15",
-    "imm12": "31:20"
-}
+# Define field dictionaries for different instruction types (7 dictionaries, 6 formats plus fence)
+# riscv_r_fields = {
+#     "rd": "11:7",
+#     "rs1": "19:15",
+#     "rs2": "24:20"
+# }
 
-custom_fields_fence = {
-    'fm':   "31:28",
-    'pred': "27:24",
-    'succ': "23:20",
-    'rs1':  "19:15",  
-    'rd':   "11:7"    
-}
-custom_fields_rv32_i = {
-    'rd':   "11:7",
-    'rs1':  "19:15",
-    'shamtw': "24:20"
-}
-custom_field_rv32csr = {
-    'rd':   "11:7",
-    'rs1':  "19:15",
-    'csr': "31:20",
-}
-custom_field_rv32csr_i = {
-    'rd':   "11:7",
-    'csr':  "31:20",
-    'zimm5': "19:15",
-}
-riscv_s_fields = {
-    "imm12hi": "31:25",
-    "rs1": "19:15",
-    "rs2": "24:20",
-    "imm12lo": "11:7"
-}
+# riscv_i_fields = {
+#     "rd": "11:7",
+#     "rs1": "19:15",
+#     "imm12": "31:20"
+# }
 
-riscv_sb_fields = {
-    "bimm12hi": "31:25",
-    "rs1": "19:15",
-    "rs2": "24:20",
-    "bimm12lo": "11:7"
-}
+# custom_fields_fence = {
+#     'fm':   "31:28",
+#     'pred': "27:24",
+#     'succ': "23:20",
+#     'rs1':  "19:15",  
+#     'rd':   "11:7"    
+# }
+# custom_fields_rv32_i = {
+#     'rd':   "11:7",
+#     'rs1':  "19:15",
+#     'shamtw': "24:20"
+# }
+# custom_field_rv32csr = {
+#     'rd':   "11:7",
+#     'rs1':  "19:15",
+#     'csr': "31:20",
+# }
+# custom_field_rv32csr_i = {
+#     'rd':   "11:7",
+#     'csr':  "31:20",
+#     'zimm5': "19:15",
+# }
+# riscv_s_fields = {
+#     "imm12hi": "31:25",
+#     "rs1": "19:15",
+#     "rs2": "24:20",
+#     "imm12lo": "11:7"
+# }
 
-riscv_u_fields = {
-    "rd": "11:7",
-    "imm20": "31:12"
-}
+# riscv_sb_fields = {
+#     "bimm12hi": "31:25",
+#     "rs1": "19:15",
+#     "rs2": "24:20",
+#     "bimm12lo": "11:7"
+# }
 
-riscv_uj_fields = {
-    "rd": "11:7",
-    "jimm20": "31:12"
-}
+# riscv_u_fields = {
+#     "rd": "11:7",
+#     "imm20": "31:12"
+# }
 
-unknown_fields = {"UNKNOWN": "still empty"}
+# riscv_uj_fields = {
+#     "rd": "11:7",
+#     "jimm20": "31:12"
+# }
+
+# unknown_fields = {"UNKNOWN": "still empty"}
 
 #Dictionary with all the formats
-format_dicts = {
-    'R': riscv_r_fields,
-    'I': riscv_i_fields,
-    'S': riscv_s_fields,
-    'SB': riscv_sb_fields,
-    'U': riscv_u_fields,
-    'UJ': riscv_uj_fields,
-    'FENCE': custom_fields_fence,
-    'RV32_I': custom_fields_rv32_i,
-    'RV32CSR': custom_field_rv32csr,
-    'RV32CSR_I': custom_field_rv32csr_i,
-    'UNKNOWN': unknown_fields
-}
+# format_dicts = {
+    # 'R': riscv_r_fields,
+    # 'I': riscv_i_fields,
+    # 'S': riscv_s_fields,
+    # 'SB': riscv_sb_fields,
+    # 'U': riscv_u_fields,
+    # 'UJ': riscv_uj_fields,
+    # 'FENCE': custom_fields_fence,
+    # 'RV32_I': custom_fields_rv32_i,
+    # 'RV32CSR': custom_field_rv32csr,
+    # 'RV32CSR_I': custom_field_rv32csr_i,
+#     'UNKNOWN': unknown_fields
+# }
 
 #Dictionary with length of the fields
 # field_specs = {
@@ -236,12 +241,6 @@ with open(opcode_priority) as f4:
     priority_list = json.load(f4)
 
 
-
-#Global variables to make an indentation when needed
-INDENT_ONE = "    "                     
-INDENT_TWO = "        "
-INDENT_THREE = "            "
-
 # def concat_indent(base_indent: str, times: int) -> str:
 #     """
 #     Concatenates the base indentation string a specified number of times.
@@ -262,7 +261,7 @@ values = {
     "parent": config["parent"],
     "main_class": config["main_class"],
     "instr_width": config["instr_width"],
-    "nome_path": config["nome_path"],
+    "path_name": config["path_name"],
 }
 
 
@@ -278,58 +277,53 @@ if os.path.exists(input_file):
     with open(input_file, 'r') as file:
         lines = file.readlines()
 
-    opcode_estratto = re.compile(r'^\s*localparam\s+\[31:0\]\s+(\w+)\s*=\s*(\S+);')
+    extract_opcode = re.compile(r'^\s*localparam\s+\[31:0\]\s+(\w+)\s*=\s*(\S+);')
 
     for line in lines:
-        match = opcode_estratto.match(line)
+        match = extract_opcode.match(line)
         if match:
-            nome_opcode = match.group(1)      
-            valore_opcode = match.group(2)    
-            opcode_dict[nome_opcode] = valore_opcode  
+            opcode_name = match.group(1)      
+            bit_encoding = match.group(2)    
+            opcode_dict[opcode_name] = bit_encoding  
 
 
+#Extracting the variable fields for each instruction from the instr_dict.json
+for instruction, data in instr_dict.items():                
+    for i, (key, value) in enumerate(data.items()):
+        if key == "variable_fields":
+            only_variable_fields[instruction] = value
 
-
-
-
-
-#Extracting only variable fields for each instruction from the instr_dict.json
-for instruction, dati in instr_dict.items():                
-    for i, (chiave, valore) in enumerate(dati.items()):
-        if chiave == "variable_fields":
-            only_variable_fields[instruction] = valore
-
-#Extracting the implementation of each instruction from the impl_dict.json
+#Extracting the implementation for each instruction from the impl_dict.json
 for instruction, impls in impl_dict.items():
-    for i, (chiave, valore) in enumerate(impls.items()):
-            implementations_dict[instruction] = valore
+    for i, (key, value) in enumerate(impls.items()):
+            implementations_dict[instruction] = value
 
 
 # Here I use function set to convert the field list in a set, so I can compare the dictionary created before
-for instr, fields in only_variable_fields.items():
-    fset = set(fields)
-    if fset <= set(riscv_r_fields.keys()):
-        instruction_formats[instr] = 'R'
-    elif fset <= set(riscv_i_fields.keys()) :
-        instruction_formats[instr] = 'I'
-    elif fset <= set(riscv_s_fields.keys()):
-        instruction_formats[instr] = 'S'
-    elif fset <= set(riscv_sb_fields.keys()):
-        instruction_formats[instr] = 'SB'
-    elif fset <= set(riscv_u_fields.keys()):
-        instruction_formats[instr] = 'U'
-    elif fset <= set(riscv_uj_fields.keys()):
-        instruction_formats[instr] = 'UJ'
-    elif fset <= set(custom_fields_fence.keys()):
-        instruction_formats[instr] = 'FENCE'
-    elif fset <= set(custom_fields_rv32_i.keys()):
-        instruction_formats[instr] = 'RV32_I'
-    elif fset <= set(custom_field_rv32csr.keys()):
-        instruction_formats[instr] = 'RV32CSR'
-    elif fset <= set(custom_field_rv32csr_i.keys()):
-        instruction_formats[instr] = 'RV32CSR_I'
-    else:
-        instruction_formats[instr] = 'UNKNOWN'
+# for instr, fields in only_variable_fields.items():
+#     fset = set(fields)
+    # if fset <= set(riscv_r_fields.keys()):
+    #     instruction_formats[instr] = 'R'
+    # elif fset <= set(riscv_i_fields.keys()) :
+    #     instruction_formats[instr] = 'I'
+    # if fset <= set(riscv_s_fields.keys()):
+    #     instruction_formats[instr] = 'S'
+    # elif fset <= set(riscv_sb_fields.keys()):
+    #     instruction_formats[instr] = 'SB'
+    # elif fset <= set(riscv_u_fields.keys()):
+    #     instruction_formats[instr] = 'U'
+    # elif fset <= set(riscv_uj_fields.keys()):
+    #     instruction_formats[instr] = 'UJ'
+    # elif fset <= set(custom_fields_fence.keys()):
+    #     instruction_formats[instr] = 'FENCE'
+    # elif fset <= set(custom_fields_rv32_i.keys()):
+    #     instruction_formats[instr] = 'RV32_I'
+    # elif fset <= set(custom_field_rv32csr.keys()):
+    #     instruction_formats[instr] = 'RV32CSR'
+    # elif fset <= set(custom_field_rv32csr_i.keys()):
+    #     instruction_formats[instr] = 'RV32CSR_I'
+    # else:
+    #     instruction_formats[instr] = 'UNKNOWN'
 
 
 
@@ -347,30 +341,30 @@ for instr, fields in only_variable_fields.items():
 
 
 
-# Here I fill the casez_dict which will contain all the stuff to be put in the case
+# Filling the casez_dict which will contain all the datas to be put in the case
 for i, (key, val) in enumerate(opcode_dict.items()):
     casez_dict[f"condition{i}"] = f"{key}"
     casez_dict[f"assign{i}"]    = f'`uvm_info("{key}", \"Instruction {key} detected successfully\", UVM_LOW)\n'
     for j, (instr, fields) in enumerate(only_variable_fields.items()):
         if(key.lower() == instr):
-            fmt_name = instruction_formats[instr]
+            #fmt_name = instruction_formats[instr]
             for var_field, (start, end) in arg_lut.items():
-                for single_filed in fields:
-                    if single_filed == var_field:
+                for single_field in fields:
+                    if single_field == var_field:
                         if start == end:
                             casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}{var_field} = instr[{start}];\n"
                         else:
                             casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}{var_field} = instr[{start}:{end}];\n"
-            if(fmt_name == "S"):
-                casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}imms = {{imm12hi, imm12lo}};\n"
-            if(fmt_name == "SB"):
-                casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}immsb = {{bimm12hi[6], bimm12lo[0], bimm12hi[5:0], bimm12lo[4:1], 1'b0}};\n"
-            if(fmt_name == "UJ"):
-                casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}immuj = {{{{11{{jimm20[19]}}}},jimm20[19], jimm20[7:0], jimm20[8], jimm20[18:9], 1'b0}};\n"
-            if(instr) in implementations_dict.keys():
+            # if(fmt_name == "S"):
+            #     casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}imms = {{imm12hi, imm12lo}};\n"
+            # if(fmt_name == "SB"):
+            #     casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}immsb = {{bimm12hi[6], bimm12lo[0], bimm12hi[5:0], bimm12lo[4:1], 1'b0}};\n"
+            # if(fmt_name == "UJ"):
+            #     casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}immuj = {{{{11{{jimm20[19]}}}},jimm20[19], jimm20[7:0], jimm20[8], jimm20[18:9], 1'b0}};\n"
+            if instr in implementations_dict.keys():
                 casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}{implementations_dict[instr]}\n"
 
-
+#Reordering the casez_dict based on the priority list
 casez_dict = reorder_casez_dict(casez_dict, priority_list)
 
 
@@ -464,13 +458,13 @@ rvfi_block = f"""
 {INDENT_TWO}if(rs1 != rd) begin
 {INDENT_THREE}rvfi_instr_seq_item.rs1_rdata = reg_file[rs1];
 {INDENT_TWO}end else begin
-{INDENT_THREE}rvfi_instr_seq_item.rs1_rdata = reg_rs1_prec;
+{INDENT_THREE}rvfi_instr_seq_item.rs1_rdata = reg_rs1_prev;
 {INDENT_TWO}end
 {INDENT_TWO}rvfi_instr_seq_item.rs2_addr  = rs2;
 {INDENT_TWO}if(rs2 != rd) begin
 {INDENT_THREE}rvfi_instr_seq_item.rs2_rdata = reg_file[rs2];
 {INDENT_TWO}end else begin
-{INDENT_THREE}rvfi_instr_seq_item.rs2_rdata = reg_rs2_prec;
+{INDENT_THREE}rvfi_instr_seq_item.rs2_rdata = reg_rs2_prev;
 {INDENT_TWO}end
 {INDENT_TWO}rvfi_instr_seq_item.rd1_addr  = rd;
 {INDENT_TWO}rvfi_instr_seq_item.rd1_wdata = reg_file[rd];
@@ -489,7 +483,7 @@ import uvma_rvfi_pkg::*;
 
 class {class_name} extends {main_class};
 
-    string {nome_path} = "";
+    string {path_name} = "";
     int mem[int];
     int incr;
     int order = 0;
@@ -513,8 +507,8 @@ class {class_name} extends {main_class};
     bit [31:0] pc_before;
     bit [31:0] c_imm_ext;
     bit [31:0] addr;
-    bit [31:0] reg_rs1_prec;
-    bit [31:0] reg_rs2_prec;
+    bit [31:0] reg_rs1_prev;
+    bit [31:0] reg_rs2_prev;
 
 
     uvma_rvfi_instr_seq_item_c#(32, 32) rvfi_instr_seq_item;
@@ -527,13 +521,13 @@ class {class_name} extends {main_class};
 
         $display("[%0t]Creating {class_name} instance: %s", $time, name);
 
-	    if ($value$plusargs("firmware=%s", {nome_path})) begin
-            $display("Firmware file: %s", {nome_path});
-    	end else begin
+	    if ($value$plusargs("firmware=%s", {path_name})) begin
+            $display("Firmware file: %s", {path_name});
+        end else begin
             $fatal("No +firmware argument provided!");
     	end
 
-        $readmemh({nome_path}, mem);
+        $readmemh({path_name}, mem);
 
         csr_reg_file[12'hF11] = 32'h00000602; // mvendorid
         csr_reg_file[12'h301] = 32'h40101104; // misa (RV32IMCU)
@@ -543,11 +537,11 @@ class {class_name} extends {main_class};
     endfunction : new
 
     function void build_phase(uvm_phase phase);
-       st_core_cntrl_cfg st;
+        st_core_cntrl_cfg st;
 
-       super.build_phase(phase);
+        super.build_phase(phase);
 
-       st = cfg.to_struct();
+        st = cfg.to_struct();
 
         if (st.boot_addr_valid) begin
             pc = st.boot_addr;
@@ -603,7 +597,7 @@ casez_fmt = get_if_else_statement_fmt(length=len(opcode_dict)-1, case_format=Tru
 casez_string = casez_fmt.format(
     indent="        ",
     val="instr",
-    default_assign= f"begin\n{INDENT_THREE}{INDENT_ONE}`uvm_error(\"UNKNOWN\", \"Unknown instruction detected\")\n{INDENT_THREE}{INDENT_ONE}incr = 4;\n{INDENT_THREE}end\n",
+    default_assign= f"begin\n\n{INDENT_THREE}{INDENT_ONE}`uvm_error(\"UNKNOWN\", \"Unknown instruction detected\")\n{INDENT_THREE}{INDENT_ONE}incr = 4;\n\n{INDENT_THREE}end\n",
     **casez_dict,
 )
 
