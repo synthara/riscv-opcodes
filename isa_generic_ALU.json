@@ -1,0 +1,166 @@
+{
+    "instructions": {
+        "0b0101011": {
+            "funct3": {
+                "0b011": {
+                    "funct7": {
+                        "0b0101000": {
+                            "mnemonic": "cv.abs.w",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1"
+                            },
+                            "description": "Absolute Value",
+                            "operation": "$signed(rs1) < 0 ? -rs1 : rs1",
+                            "example": "cv.abs.w rd, rs1",
+                            "readregflags": "3'b001"
+                        },
+                        "0b0101001": {
+                            "mnemonic": "cv.sle",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Set Less Than or Equal",
+                            "operation": "$signed(rs1) <= $signed(rs2) ? 1 : 0",
+                            "example": "cv.sle rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0101010": {
+                            "mnemonic": "cv.sleu",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Set Less Than or Equal Unsigned",
+                            "operation": "$unsigned(rs1) <= $unsigned(rs2) ? 1 : 0",
+                            "example": "cv.sleu rd, rs1, rs2",
+                            "note": "Comparison is unsigned.",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0101011": {
+                            "mnemonic": "cv.min.w",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Minimum",
+                            "operation": "$signed(rs1) < $signed(rs2) ? rs1 : rs2",
+                            "example": "cv.min.w rd, rs1, rs2",
+                            "note": "Comparison is signed.",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0101100": {
+                            "mnemonic": "cv.minu.w",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Minimum Unsigned",
+                            "operation": "$unsigned(rs1) < $unsigned(rs2) ? rs1 : rs2",
+                            "example": "cv.minu.w rd, rs1, rs2",
+                            "note": "Comparison is unsigned.",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0101101": {
+                            "mnemonic": "cv.max.w",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Maximum",
+                            "operation": "$signed(rs1) < $signed(rs2) ? rs2 : rs1",
+                            "example": "cv.max.w rd, rs1, rs2",
+                            "note": "Comparison is signed.",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0101110": {
+                            "mnemonic": "cv.maxu.w",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Maximum Unsigned",
+                            "operation": "$unsigned(rs1) < $unsigned(rs2) ? rs2 : rs1",
+                            "example": "cv.maxu.w rd, rs1, rs2",
+                            "note": "Comparison is unsigned.",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0110000": {
+                            "mnemonic": "cv.exths",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1"
+                            },
+                            "description": "Extend Halfword Signed",
+                            "operation": "32'($signed(rs1[15:0]))",
+                            "example": "cv.exths rd, rs1",
+                            "readregflags": "3'b001"
+                        },
+                        "0b0110001": {
+                            "mnemonic": "cv.exthz",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1"
+                            },
+                            "description": "Extend Halfword Zero",
+                            "operation": "32'($unsigned(rs1[15:0]))",
+                            "example": "cv.exthz rd, rs1",
+                            "readregflags": "3'b001"
+                        },
+                        "0b0110010": {
+                            "mnemonic": "cv.extbs",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1"
+                            },
+                            "description": "Extend Byte Signed",
+                            "operation": "32'($signed(rs1[7:0]))",
+                            "example": "cv.extbs rd, rs1",
+                            "readregflags": "3'b001"
+                        },
+                        "0b0110011": {
+                            "mnemonic": "cv.extbz",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1"
+                            },
+                            "description": "Extend Byte Zero",
+                            "operation": "32'($unsigned(rs1[7:0]))",
+                            "example": "cv.extbz rd, rs1",
+                            "readregflags": "3'b001"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

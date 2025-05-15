@@ -1,0 +1,72 @@
+{
+    "instructions": {
+        "0b0101011": {
+            "funct3": {
+                "0b011": {
+                    "funct7": {
+                        "0b0111000": {
+                            "mnemonic": "cv.clip",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "ls2": "source2"
+                            },
+                            "description": "Clip",
+                            "operation": "$signed(rs1) <= $signed(-(2**(instruction[24:20]-1))) ? $signed(-(2**(instruction[24:20]-1))) : ($signed(rs1) >= $signed(2**(instruction[24:20]-1)-1)) ? $signed(2**(instruction[24:20]-1)-1) : $signed(rs1)",
+                            "example": "cv.clip rd, rs1, ls2",
+                            "note": "If ls2 is equal to 0, -2**(ls2-1) is equivalent to -1 while 2**(ls2-1)-1 is equivalent to 0.",
+                            "readregflags": "3'b001"
+                        },
+                        "0b0111001": {
+                            "mnemonic": "cv.clipu",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "ls2": "source2"
+                            },
+                            "description": "Clip Upper",
+                            "operation": "($signed(rs1) <= 0) ? 0 : ($signed(rs1) >= $signed(2**(instruction[24:20]-1)-1)) ? $signed(2**(instruction[24:20]-1)-1) : $signed(rs1)",
+                            "example": "cv.clipu rd, rs1, ls2",
+                            "note": "If ls2 is equal to 0, (2**(ls2-1)-1) is equivalent to 0.",
+                            "readregflags": "3'b001"
+                        },
+                        "0b0111010": {
+                            "mnemonic": "cv.clipr",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Clip Register",
+                            "operation": "($signed(rs1) <= -($signed(rs2 & 32'h7FFFFFFF) + 1)) ? -($signed(rs2 & 'h7FFFFFFF) + 1) : ($signed(rs1) >= $signed(rs2 & 32'h7FFFFFFF)) ? $signed(rs2 & 32'h7FFFFFFF) : $signed(rs1)",
+                            "example": "cv.clipr rd, rs1, rs2",
+                            "note": "rs2 is signed.",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0111011": {
+                            "mnemonic": "cv.clipur",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Clip Upper Register",
+                            "operation": "($signed(rs1) <= 0) ? 0 : ($signed(rs1) >= $signed(rs2 & 32'h7FFFFFFF)) ? $signed(rs2 & 32'h7FFFFFFF) : $signed(rs1)",
+                            "example": "cv.clipur rd, rs1, rs2",
+                            "note": "rs2 is signed.",
+                            "readregflags": "3'b011"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

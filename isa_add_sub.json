@@ -1,0 +1,132 @@
+{
+    "instructions": {
+        "0b0101011": {
+            "funct3": {
+                "0b011": {
+                    "funct7": {
+                        "0b1000000": {
+                            "mnemonic": "cv.addNr",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Add and Arithmetic Shift Right",
+                            "operation": "($signed(rd) + $signed(rs1)) >>> rs2[4:0]",
+                            "note": "Arithmetic shift right.",
+                            "example": "cv.addNr rd, rs1, rs2",
+                            "readregflags": "3'b111"
+                        },
+                        "0b1000001": {
+                            "mnemonic": "cv.adduNr",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Add and Logical Shift Right",
+                            "operation": "($unsigned(rd) + $unsigned(rs1)) >> rs2[4:0]",
+                            "note": "Logical shift right.",
+                            "example": "cv.adduNr rd, rs1, rs2",
+                            "readregflags": "3'b111"
+                        },
+                        "0b1000010": {
+                            "mnemonic": "cv.addRNr",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Add with Rounding and Arithmetic Shift Right",
+                            "operation": "($signed(rd) + $signed(rs1) + $signed(2**(rs2[4:0]-1))) >>> rs2[4:0]",
+                            "note": "Arithmetic shift right. If rs2[4:0] is equal to 0, 2**(rs2[4:0]-1) is equivalent to 0.",
+                            "example": "cv.addRNr rd, rs1, rs2",
+                            "readregflags": "3'b111"
+                        },
+                        "0b1000011": {
+                            "mnemonic": "cv.adduRNr",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Add with Rounding and Logical Shift Right",
+                            "operation": "($unsigned(rd) + $unsigned(rs1) + $unsigned(2**(rs2[4:0]-1))) >> rs2[4:0]",
+                            "note": "Logical shift right. If rs2[4:0] is equal to 0, 2**(rs2[4:0]-1) is equivalent to 0.",
+                            "example": "cv.adduRNr rd, rs1, rs2",
+                            "readregflags": "3'b111"
+                        },
+                        "0b1000100": {
+                            "mnemonic": "cv.subNr",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Subtract and Arithmetic Shift Right",
+                            "operation": "($signed(rd) - $signed(rs1)) >>> rs2[4:0]",
+                            "note": "Arithmetic shift right.",
+                            "example": "cv.subNr rd, rs1, rs2",
+                            "readregflags": "3'b111"
+                        },
+                        "0b1000101": {
+                            "mnemonic": "cv.subuNr",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Subtract and Logical Shift Right",
+                            "operation": "($unsigned(rd) - $unsigned(rs1)) >> rs2[4:0]",
+                            "note": "Logical shift right.",
+                            "example": "cv.subuNr rd, rs1, rs2",
+                            "readregflags": "3'b111"
+                        },
+                        "0b1000110": {
+                            "mnemonic": "cv.subRNr",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Subtract with Rounding and Arithmetic Shift Right",
+                            "operation": "($signed(rd) - $signed(rs1) + $signed(2**(rs2[4:0]-1))) >>> rs2[4:0]",
+                            "note": "Arithmetic shift right. If rs2[4:0] is equal to 0, 2**(rs2[4:0]-1) is equivalent to 0.",
+                            "example": "cv.subRNr rd, rs1, rs2",
+                            "readregflags": "3'b111"
+                        },
+                        "0b1000111": {
+                            "mnemonic": "cv.subuRNr",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Subtract with Rounding and Logical Shift Right",
+                            "operation": "($unsigned(rd) - $unsigned(rs1) + $unsigned(2**(rs2[4:0]-1))) >> rs2[4:0]",
+                            "note": "Logical shift right. If rs2[4:0] is equal to 0, 2**(rs2[4:0]-1) is equivalent to 0.",
+                            "example": "cv.subuRNr rd, rs1, rs2",
+                            "readregflags": "3'b111"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

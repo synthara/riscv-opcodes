@@ -1,0 +1,152 @@
+{
+    "instructions": {
+        "0b1011011": {
+            "funct3": {
+                "0b101": {
+                    "funct7": {
+                        "0b00xxxxx": {
+                            "mnemonic": "cv.muluN",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "ls3": "source3",
+                                "data_type": "string"
+                            },
+                            "description": "Unsigned Multiplication",
+                            "operation": " (data_type == \"h\") ? $unsigned(32'($unsigned(rs1[15:0]) * $unsigned(rs2[15:0])) >> ls3) : {$unsigned(16'($unsigned(rs1[15:8]) * $unsigned(rs2[15:8])) >> ls3), $unsigned(16'($unsigned(rs1[7:0]) * $unsigned(rs2[7:0])) >> ls3)}",
+                            "note": "Logical shift right.",
+                            "example": "cv.muluN{.h,.b} rd, rs1, rs2, ls3",
+                            "readregflags": "3'b011"
+                        },
+                        "0b01xxxxx": {
+                            "mnemonic": "cv.mulhhuN",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "ls3": "source3",
+                                "data_type": "string"
+                            },
+                            "description": "High Unsigned Multiplication",
+                            "operation": " (data_type == \"h\") ? $unsigned(32'($unsigned(rs1[31:16]) * $unsigned(rs2[31:16])) >> ls3) : {$unsigned(16'($unsigned(rs1[31:24]) * $unsigned(rs2[31:24])) >> ls3), $unsigned(16'($unsigned(rs1[23:16]) * $unsigned(rs2[23:16])) >> ls3)}",
+                            "note": "Logical shift right.",
+                            "example": "cv.mulhhuN{.h,.b} rd, rs1, rs2, ls3",
+                            "readregflags": "3'b011"
+                        },
+                        "0b10xxxxx": {
+                            "mnemonic": "cv.muluRN",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "ls3": "source3",
+                                "data_type": "string"
+                            },
+                            "description": "Rounded Unsigned Multiplication",
+                            "operation": " (data_type == \"h\") ? $unsigned(32'($unsigned(rs1[15:0]) * $unsigned(rs2[15:0]) + $unsigned(2**(ls3-1))) >> ls3) : {$unsigned(16'($unsigned(rs1[15:8]) * $unsigned(rs2[15:8]) + $unsigned(2**(ls3-1))) >> ls3), $unsigned(16'($unsigned(rs1[7:0]) * $unsigned(rs2[7:0]) + $unsigned(2**(ls3-1))) >> ls3)}",
+                            "note": "Logical shift right. If ls3 is equal to 0, 2**(ls3-1) is equivalent to 0.",
+                            "example": "cv.muluRN{.h,.b} rd, rs1, rs2, ls3",
+                            "readregflags": "3'b011"
+                        },
+                        "0b11xxxxx": {
+                            "mnemonic": "cv.mulhhuRN",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "ls3": "source3",
+                                "data_type": "string"
+                            },
+                            "description": "Rounded High Unsigned Multiplication",
+                            "operation": " (data_type == \"h\") ? $unsigned(32'($unsigned(rs1[31:16]) * $unsigned(rs2[31:16]) + $unsigned(2**(ls3-1))) >> ls3) : {$unsigned(16'($unsigned(rs1[31:24]) * $unsigned(rs2[31:24]) + $unsigned(2**(ls3-1))) >> ls3), $unsigned(16'($unsigned(rs1[23:16]) * $unsigned(rs2[23:16]) + $unsigned(2**(ls3-1))) >> ls3)}",
+                            "note": "Logical shift right. If ls3 is equal to 0, 2**(ls3-1) is equivalent to 0.",
+                            "example": "cv.mulhhuRN{.h,.b} rd, rs1, rs2, ls3",
+                            "readregflags": "3'b011"
+                        }
+                    }
+                },
+                "0b100": {
+                    "funct7": {
+                        "0b00xxxxx": {
+                            "mnemonic": "cv.mulsN",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "ls3": "source3",
+                                "data_type": "string"
+                            },
+                            "description": "Signed Multiplication",
+                            "operation": "(data_type == \"h\") ? $signed(32'($signed(rs1[15:0]) * $signed(rs2[15:0])) >>> ls3) : {$signed(16'($signed(rs1[15:8]) * $signed(rs2[15:8])) >>> ls3), $signed(16'($signed(rs1[7:0]) * $signed(rs2[7:0])) >>> ls3)}",
+                            "note": "Arithmetic shift right.",
+                            "example": "cv.mulsN{.h,.b} rd, rs1, rs2, ls3",
+                            "readregflags": "3'b011"
+                        },
+                        "0b01xxxxx": {
+                            "mnemonic": "cv.mulhhsN",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "ls3": "source3",
+                                "data_type": "string"
+                            },
+                            "description": "High Signed Multiplication",
+                            "operation": "(data_type == \"h\") ? $signed(32'($signed(rs1[31:16]) * $signed(rs2[31:16])) >>> ls3) : {$signed(16'($signed(rs1[31:24]) * $signed(rs2[31:24])) >>> ls3), $signed(16'($signed(rs1[23:16]) * $signed(rs2[23:16])) >>> ls3)}",
+                            "note": "Arithmetic shift right.",
+                            "example": "cv.mulhhsN{.h,.b} rd, rs1, rs2, ls3",
+                            "readregflags": "3'b011"
+                        },                               
+                        "0b10xxxxx": {
+                            "mnemonic": "cv.mulsRN",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "ls3": "source3",
+                                "data_type": "string"
+                            },
+                            "description": "Rounded Signed Multiplication",
+                            "operation": "(data_type == \"h\") ? $signed(32'($signed(rs1[15:0]) * $signed(rs2[15:0]) + $signed(2**(ls3-1))) >>> ls3) : {$signed(16'($signed(rs1[15:8]) * $signed(rs2[15:8]) + $signed(2**(ls3-1))) >>> ls3), $signed(16'($signed(rs1[7:0]) * $signed(rs2[7:0]) + $signed(2**(ls3-1))) >>> ls3)}",
+                            "note": "Arithmetic shift right. If ls3 is equal to 0, 2**(ls3-1) is equivalent to 0.",
+                            "example": "cv.mulsRN{.h,.b} rd, rs1, rs2, ls3",
+                            "readregflags": "3'b011"
+                        },
+                        "0b11xxxxx": {
+                            "mnemonic": "cv.mulhhsRN",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "ls3": "source3",
+                                "data_type": "string"
+                            },
+                            "description": "Rounded High Signed Multiplication",
+                            "operation": "(data_type == \"h\") ? $signed(32'($signed(rs1[31:16]) * $signed(rs2[31:16]) + $signed(2**(ls3-1))) >>> ls3) : {$signed(16'($signed(rs1[31:24]) * $signed(rs2[31:24]) + $signed(2**(ls3-1))) >>> ls3), $signed(16'($signed(rs1[23:16]) * $signed(rs2[23:16]) + $signed(2**(ls3-1))) >>> ls3)}",
+                            "note": "Arithmetic shift right. If ls3 is equal to 0, 2**(ls3-1) is equivalent to 0.",
+                            "example": "cv.mulhhsRN{.h,.b} rd, rs1, rs2, ls3",
+                            "readregflags": "3'b011"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

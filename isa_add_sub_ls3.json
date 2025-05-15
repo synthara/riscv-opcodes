@@ -1,0 +1,144 @@
+{
+    "instructions": {
+        "0b1011011": {
+            "funct3": {
+                "0b010": {
+                    "funct7": {
+                        "0b00xxxxx": {
+                            "mnemonic": "cv.addN",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "ls3": "source3"
+                            },
+                            "description": "Add and Arithmetic Shift Right",
+                            "operation": "($signed(rs1) + $signed(rs2)) >>> ls3",
+                            "note": "Arithmetic shift right. Setting ls3 to 1 replaces former cv.avg.",
+                            "example": "cv.addN rd, rs1, rs2, ls3",
+                            "readregflags": "3'b011"
+                        },
+                        "0b01xxxxx": {
+                            "mnemonic": "cv.adduN",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "ls3": "source3"
+                            },
+                            "description": "Add and Logical Shift Right",
+                            "operation": "($unsigned(rs1) + $unsigned(rs2)) >> ls3",
+                            "note": "Logical shift right. Setting ls3 to 1 replaces former cv.avgu.",
+                            "example": "cv.adduN rd, rs1, rs2, ls3",
+                            "readregflags": "3'b011"
+                        },
+                        "0b10xxxxx": {
+                            "mnemonic": "cv.addRN",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "ls3": "source3"
+                            },
+                            "description": "Add with Rounding and Arithmetic Shift Right",
+                            "operation": "($signed(rs1) + $signed(rs2) + $signed(2**(ls3-1))) >>> ls3",
+                            "note": "Arithmetic shift right. If ls3 is equal to 0, 2**(ls3-1) is equivalent to 0.",
+                            "example": "cv.addRN rd, rs1, rs2, ls3",
+                            "readregflags": "3'b011"
+                        },
+                        "0b11xxxxx": {
+                            "mnemonic": "cv.adduRN",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "ls3": "source3"
+                            },
+                            "description": "Add with Rounding and Logical Shift Right",
+                            "operation": "($unsigned(rs1) + $unsigned(rs2) + $unsigned(2**(ls3-1))) >> ls3",
+                            "note": "Logical shift right. If ls3 is equal to 0, 2**(ls3-1) is equivalent to 0.",
+                            "example": "cv.adduRN rd, rs1, rs2, ls3",
+                            "readregflags": "3'b011"
+                        }
+                    }
+                },
+                "0b011": {
+                    "funct7": {
+                        "0b00xxxxx": {
+                            "mnemonic": "cv.subN",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "ls3": "source3"
+                            },
+                            "description": "Subtract and Arithmetic Shift Right",
+                            "operation": "($signed(rs1) - $signed(rs2)) >>> ls3",
+                            "note": "Arithmetic shift right.",
+                            "example": "cv.subN rd, rs1, rs2, ls3",
+                            "readregflags": "3'b011"
+                        },
+                        "0b01xxxxx": {
+                            "mnemonic": "cv.subuN",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "ls3": "source3"
+                            },
+                            "description": "Subtract and Logical Shift Right",
+                            "operation": "($unsigned(rs1) - $unsigned(rs2)) >> ls3",
+                            "note": "Logical shift right.",
+                            "example": "cv.subuN rd, rs1, rs2, ls3",
+                            "readregflags": "3'b011"
+                        },
+                        "0b10xxxxx": {
+                            "mnemonic": "cv.subRN",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "ls3": "source3"
+                            },
+                            "description": "Subtract with Rounding and Arithmetic Shift Right",
+                            "operation": "($signed(rs1) - $signed(rs2) + $signed(2**(ls3-1))) >>> ls3",
+                            "note": "Arithmetic shift right. If ls3 is equal to 0, 2**(ls3-1) is equivalent to 0.",
+                            "example": "cv.subRN rd, rs1, rs2, ls3",
+                            "readregflags": "3'b011"
+                        },
+                        "0b11xxxxx": {
+                            "mnemonic": "cv.subuRN",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "ls3": "source3"
+                            },
+                            "description": "Subtract with Rounding and Logical Shift Right",
+                            "operation": "($unsigned(rs1) - $unsigned(rs2) + $unsigned(2**(ls3-1))) >> ls3",
+                            "note": "Logical shift right. If ls3 is equal to 0, 2**(ls3-1) is equivalent to 0.",
+                            "example": "cv.subuRN rd, rs1, rs2, ls3",
+                            "readregflags": "3'b011"
+                        }   
+                    }
+                }
+            }
+        }
+    }
+}

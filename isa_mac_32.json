@@ -1,0 +1,40 @@
+{
+    "instructions": {
+        "0b0101011": {
+            "funct3": {
+                "0b011": {
+                    "funct7": {
+                        "0b1001000": {
+                            "mnemonic": "cv.mac",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Multiply-Accumulate",
+                            "operation": "$signed(rd) + $signed(rs1) * $signed(rs2)",
+                            "example": "cv.mac rd, rs1, rs2",
+                            "readregflags": "3'b111"
+                        },
+                        "0b1001001": {
+                            "mnemonic": "cv.msu",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Multiply-Subtract",
+                            "operation": "$signed(rd) - $signed(rs1) * $signed(rs2)",
+                            "example": "cv.msu rd, rs1, rs2",
+                            "readregflags": "3'b111"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

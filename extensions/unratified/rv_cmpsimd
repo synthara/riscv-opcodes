@@ -1,0 +1,35 @@
+# rv_cmp_SIMD
+
+cv.cmpeq     rd rs1 rs2 31..25=0x02 14..12=0 6..2=0x3D 1..0=3
+cv.cmpne     rd rs1 rs2 31..25=0x06 14..12=0 6..2=0x3D 1..0=3
+cv.cmpgt     rd rs1 rs2 31..25=0x0A 14..12=0 6..2=0x3D 1..0=3
+cv.cmpge     rd rs1 rs2 31..25=0x0E 14..12=0 6..2=0x3D 1..0=3
+cv.cmplt     rd rs1 rs2 31..25=0x12 14..12=0 6..2=0x3D 1..0=3
+cv.cmple     rd rs1 rs2 31..25=0x16 14..12=0 6..2=0x3D 1..0=3
+cv.cmpgtu    rd rs1 rs2 31..25=0x1A 14..12=0 6..2=0x3D 1..0=3
+cv.cmpgeu    rd rs1 rs2 31..25=0x1E 14..12=0 6..2=0x3D 1..0=3
+cv.cmpltu    rd rs1 rs2 31..25=0x22 14..12=0 6..2=0x3D 1..0=3
+cv.cmpleu    rd rs1 rs2 31..25=0x26 14..12=0 6..2=0x3D 1..0=3
+
+# rv_cmp_SIMD_sc_sci
+
+cv.cmpeq.sc     rd rs1 rs2      31..25=0x02 14..12=0x4 6..2=0x3D 1..0=3
+cv.cmpne.sc     rd rs1 rs2      31..25=0x06 14..12=0x4 6..2=0x3D 1..0=3
+cv.cmpgt.sc     rd rs1 rs2      31..25=0x0A 14..12=0x4 6..2=0x3D 1..0=3
+cv.cmpge.sc     rd rs1 rs2      31..25=0x0E 14..12=0x4 6..2=0x3D 1..0=3
+cv.cmplt.sc     rd rs1 rs2      31..25=0x12 14..12=0x4 6..2=0x3D 1..0=3
+cv.cmple.sc     rd rs1 rs2      31..25=0x16 14..12=0x4 6..2=0x3D 1..0=3
+cv.cmpgtu.sc    rd rs1 rs2      31..25=0x1A 14..12=0x4 6..2=0x3D 1..0=3
+cv.cmpgeu.sc    rd rs1 rs2      31..25=0x1E 14..12=0x4 6..2=0x3D 1..0=3
+cv.cmpltu.sc    rd rs1 rs2      31..25=0x22 14..12=0x4 6..2=0x3D 1..0=3
+cv.cmpleu.sc    rd rs1 rs2      31..25=0x26 14..12=0x4 6..2=0x3D 1..0=3
+cv.cmpeq.sci    rd rs1 imm6     31..25=0x02 14..12=0x6 6..2=0x3D 1..0=3
+cv.cmpne.sci    rd rs1 imm6     31..25=0x06 14..12=0x6 6..2=0x3D 1..0=3
+cv.cmpgt.sci    rd rs1 imm6     31..25=0x0A 14..12=0x6 6..2=0x3D 1..0=3
+cv.cmpge.sci    rd rs1 imm6     31..25=0x0E 14..12=0x6 6..2=0x3D 1..0=3
+cv.cmplt.sci    rd rs1 imm6     31..25=0x12 14..12=0x6 6..2=0x3D 1..0=3
+cv.cmple.sci    rd rs1 imm6     31..25=0x16 14..12=0x6 6..2=0x3D 1..0=3
+cv.cmpgtu.sci   rd rs1 imm6     31..25=0x1A 14..12=0x6 6..2=0x3D 1..0=3
+cv.cmpgeu.sci   rd rs1 imm6     31..25=0x1E 14..12=0x6 6..2=0x3D 1..0=3
+cv.cmpltu.sci   rd rs1 imm6     31..25=0x22 14..12=0x6 6..2=0x3D 1..0=3
+cv.cmpleu.sci   rd rs1 imm6     31..25=0x26 14..12=0x6 6..2=0x3D 1..0=3

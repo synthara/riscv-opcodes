@@ -1,0 +1,26 @@
+# rv_generic_ALU_dot
+
+cv.dotup         rd rs1 rs2     31..25=0x40 14..12=0x0 6..2=0x3D 1..0=3
+cv.dotusp        rd rs1 rs2     31..25=0x44 14..12=0x0 6..2=0x3D 1..0=3
+cv.dotsp         rd rs1 rs2     31..25=0x48 14..12=0x0 6..2=0x3D 1..0=3
+cv.sdotup        rd rs1 rs2     31..25=0x4C 14..12=0x0 6..2=0x3D 1..0=3
+cv.sdotusp       rd rs1 rs2     31..25=0x50 14..12=0x0 6..2=0x3D 1..0=3
+cv.sdotsp        rd rs1 rs2     31..25=0x54 14..12=0x0 6..2=0x3D 1..0=3
+
+# rv_generic_ALU_dot_sc
+
+cv.dotup.sc      rd rs1 rs2     31..25=0x40 14..12=0x4 6..2=0x3D 1..0=3
+cv.dotusp.sc     rd rs1 rs2     31..25=0x44 14..12=0x4 6..2=0x3D 1..0=3
+cv.dotsp.sc      rd rs1 rs2     31..25=0x48 14..12=0x4 6..2=0x3D 1..0=3
+cv.sdotup.sc     rd rs1 rs2     31..25=0x4C 14..12=0x4 6..2=0x3D 1..0=3
+cv.sdotusp.sc    rd rs1 rs2     31..25=0x50 14..12=0x4 6..2=0x3D 1..0=3
+cv.sdotsp.sc     rd rs1 rs2     31..25=0x54 14..12=0x4 6..2=0x3D 1..0=3
+
+# rv_generic_ALU_dot_sci
+
+cv.dotup.sci     rd rs1 imm6    31..25=0x40 14..12=0x6 6..2=0x3D 1..0=3
+cv.dotusp.sci    rd rs1 imm6    31..25=0x44 14..12=0x6 6..2=0x3D 1..0=3
+cv.dotsp.sci     rd rs1 imm6    31..25=0x48 14..12=0x6 6..2=0x3D 1..0=3
+cv.sdotup.sci    rd rs1 imm6    31..25=0x4C 14..12=0x6 6..2=0x3D 1..0=3
+cv.sdotusp.sci   rd rs1 imm6    31..25=0x50 14..12=0x6 6..2=0x3D 1..0=3
+cv.sdotsp.sci    rd rs1 imm6    31..25=0x54 14..12=0x6 6..2=0x3D 1..0=3

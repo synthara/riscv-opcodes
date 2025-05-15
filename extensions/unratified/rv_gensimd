@@ -1,0 +1,48 @@
+# rv_generic_ALU_basic
+cv.add         rd rs1 rs2     31..25=0x00 14..12=0x0 6..2=0x3D 1..0=3
+cv.sub         rd rs1 rs2     31..25=0x04 14..12=0x0 6..2=0x3D 1..0=3
+cv.avg         rd rs1 rs2     31..25=0x08 14..12=0x0 6..2=0x3D 1..0=3
+cv.avgu        rd rs1 rs2     31..25=0x0C 14..12=0x0 6..2=0x3D 1..0=3
+cv.min         rd rs1 rs2     31..25=0x10 14..12=0x0 6..2=0x3D 1..0=3
+cv.minu        rd rs1 rs2     31..25=0x14 14..12=0x0 6..2=0x3D 1..0=3
+cv.max         rd rs1 rs2     31..25=0x18 14..12=0x0 6..2=0x3D 1..0=3
+cv.maxu        rd rs1 rs2     31..25=0x1C 14..12=0x0 6..2=0x3D 1..0=3
+cv.srl         rd rs1 rs2     31..25=0x20 14..12=0x0 6..2=0x3D 1..0=3
+cv.sra         rd rs1 rs2     31..25=0x24 14..12=0x0 6..2=0x3D 1..0=3
+cv.sll         rd rs1 rs2     31..25=0x28 14..12=0x0 6..2=0x3D 1..0=3
+cv.or          rd rs1 rs2     31..25=0x2C 14..12=0x0 6..2=0x3D 1..0=3
+cv.xor         rd rs1 rs2     31..25=0x30 14..12=0x0 6..2=0x3D 1..0=3
+cv.and         rd rs1 rs2     31..25=0x34 14..12=0x0 6..2=0x3D 1..0=3
+cv.abs         rd rs1 rs2     31..25=0x38 14..12=0x0 6..2=0x3D 1..0=3
+
+# rv_generic_ALU_sc
+cv.add.sc      rd rs1 rs2     31..25=0x00 14..12=0x4 6..2=0x3D 1..0=3
+cv.sub.sc      rd rs1 rs2     31..25=0x04 14..12=0x4 6..2=0x3D 1..0=3
+cv.avg.sc      rd rs1 rs2     31..25=0x08 14..12=0x4 6..2=0x3D 1..0=3
+cv.avgu.sc     rd rs1 rs2     31..25=0x0C 14..12=0x4 6..2=0x3D 1..0=3
+cv.min.sc      rd rs1 rs2     31..25=0x10 14..12=0x4 6..2=0x3D 1..0=3
+cv.minu.sc     rd rs1 rs2     31..25=0x14 14..12=0x4 6..2=0x3D 1..0=3
+cv.max.sc      rd rs1 rs2     31..25=0x18 14..12=0x4 6..2=0x3D 1..0=3
+cv.maxu.sc     rd rs1 rs2     31..25=0x1C 14..12=0x4 6..2=0x3D 1..0=3
+cv.srl.sc      rd rs1 rs2     31..25=0x20 14..12=0x4 6..2=0x3D 1..0=3
+cv.sra.sc      rd rs1 rs2     31..25=0x24 14..12=0x4 6..2=0x3D 1..0=3
+cv.sll.sc      rd rs1 rs2     31..25=0x28 14..12=0x4 6..2=0x3D 1..0=3
+cv.or.sc       rd rs1 rs2     31..25=0x2C 14..12=0x4 6..2=0x3D 1..0=3
+cv.xor.sc      rd rs1 rs2     31..25=0x30 14..12=0x4 6..2=0x3D 1..0=3
+cv.and.sc      rd rs1 rs2     31..25=0x34 14..12=0x4 6..2=0x3D 1..0=3
+
+# rv_generic_ALU_sci
+cv.add.sci     rd rs1 imm6    31..25=0x00 14..12=0x6 6..2=0x3D 1..0=3
+cv.sub.sci     rd rs1 imm6    31..25=0x04 14..12=0x6 6..2=0x3D 1..0=3
+cv.avg.sci     rd rs1 imm6    31..25=0x08 14..12=0x6 6..2=0x3D 1..0=3
+cv.avgu.sci    rd rs1 imm6    31..25=0x0C 14..12=0x6 6..2=0x3D 1..0=3
+cv.min.sci     rd rs1 imm6    31..25=0x10 14..12=0x6 6..2=0x3D 1..0=3
+cv.minu.sci    rd rs1 imm6    31..25=0x14 14..12=0x6 6..2=0x3D 1..0=3
+cv.max.sci     rd rs1 imm6    31..25=0x18 14..12=0x6 6..2=0x3D 1..0=3
+cv.maxu.sci    rd rs1 imm6    31..25=0x1C 14..12=0x6 6..2=0x3D 1..0=3
+cv.srl.sci     rd rs1 imm6    31..25=0x20 14..12=0x6 6..2=0x3D 1..0=3
+cv.sra.sci     rd rs1 imm6    31..25=0x24 14..12=0x6 6..2=0x3D 1..0=3
+cv.sll.sci     rd rs1 imm6    31..25=0x28 14..12=0x6 6..2=0x3D 1..0=3
+cv.or.sci      rd rs1 imm6    31..25=0x2C 14..12=0x6 6..2=0x3D 1..0=3
+cv.xor.sci     rd rs1 imm6    31..25=0x30 14..12=0x6 6..2=0x3D 1..0=3
+cv.and.sci     rd rs1 imm6    31..25=0x34 14..12=0x6 6..2=0x3D 1..0=3

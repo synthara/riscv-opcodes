@@ -90,6 +90,34 @@ def reorder_casez_dict(casez_dict: dict, priority_path: str) -> dict:
     return new_casez_dict
 
 
+def append_update(dict1, dict2):
+    for key, value in dict2.items():
+        if key in dict1:
+            if isinstance(dict1[key], list):
+                dict1[key].extend(value)
+            else:
+                if isinstance(value, dict):
+                    # If the value is a dict, we need to update the dict1[key] recursively
+                    append_update(dict1[key], value)
+                else:
+                    # For non-dict values, turn them into lists
+                    dict1[key] = [dict1[key], value]
+        else:
+            dict1[key] = value
+
+
+def read_json_files(json_files):
+    instructions = {}
+    for json_file, flag in json_files:
+        # print(json_file, flag)
+        if flag:
+            with open(json_file, 'r') as f:
+                data = json.load(f)
+                append_update(instructions, data["instructions"])
+    # print(instructions)
+    return instructions
+
+
 
 ##################################################################################################################
 #                                                                                                                #
@@ -111,6 +139,39 @@ instruction_formats = dict()   #Dictionary which will contain key = instruction'
 bitfield_mapping = dict()      #Dictionary which will contain key = instruction's name and val = dictionary with the bitfield mapping for each variable fields
 casez_dict = dict()            #Dictionary which will contain key = instruction's name and val = all the stuff to be put in the each case statement
 implementations_dict = dict()  #Dictionary which will contain key = instruction's name and val = the implementation of the instruction
+
+json_files = [
+    ('isa_generic_ALU.json', True),
+    ('isa_clip.json', True),
+    ('isa_add_sub.json', True),
+    ('isa_add_sub_ls3.json', True),
+    ('isa_mac_32.json', True),
+    ('isa_mul_16_8.json', True),
+    ('isa_mac_16_8.json', True),
+    ('isa_generic_SIMD.json', True),
+    ('isa_dotp_SIMD.json', True),
+    ('isa_cmp_SIMD.json', True),
+]
+
+# Read JSON files and collect instructions
+dict_maurizio_instructions = read_json_files(json_files)
+# print(dict_maurizio_instructions)
+
+var_field_nuove_istruzioni = {}
+for opcode in dict_maurizio_instructions:
+    funct3_block = dict_maurizio_instructions[opcode]["funct3"]
+    for funct3 in funct3_block:
+        funct7_block = funct3_block[funct3]["funct7"]
+        for funct7 in funct7_block:
+            instr = funct7_block[funct7]
+            mnemonic = instr["mnemonic"]
+            operands = instr["operands"]
+            fields = list(operands.keys())
+            var_field_nuove_istruzioni[mnemonic] = fields  # Inserisci nel dizionario
+
+print(var_field_nuove_istruzioni)
+print(len(var_field_nuove_istruzioni))
+
 
 #Global variables to make an indentation when needed
 INDENT_ONE = "    "                     

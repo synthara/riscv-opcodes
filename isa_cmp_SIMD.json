@@ -1,0 +1,452 @@
+{
+    "instructions": {
+        "0b1111011": {
+            "funct3": {
+                "0b000": {
+                    "funct7": {
+                        "0b0000010": {
+                            "mnemonic": "cv.cmpeq",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Compare Equal",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = (rs1[31:16] == rs2[31:16]) ? 16'('1) : 16'(1'b0), rd[15:0] = (rs1[15:0] == rs2[15:0]) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = (rs1[31:24] == rs2[31:24]) ? 8'('1) : 8'(1'b0), rd[23:16] = (rs1[23:16] == rs2[23:16]) ? 8'('1) : 8'(1'b0), rd[15:8] = (rs1[15:8] == rs2[15:8]) ? 8'('1) : 8'(1'b0), rd[7:0] = (rs1[7:0] == rs2[7:0]) ? 8'('1) : 8'(1'b0)}",
+                            "example": "cv.cmpeq.{h,b} rD, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0000110": {
+                            "mnemonic": "cv.cmpne",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Compare Not Equal",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = (rs1[31:16] != rs2[31:16]) ? 16'('1) : 16'(1'b0), rd[15:0] = (rs1[15:0] != rs2[15:0]) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = (rs1[31:24] != rs2[31:24]) ? 8'('1) : 8'(1'b0), rd[23:16] = (rs1[23:16] != rs2[23:16]) ? 8'('1) : 8'(1'b0), rd[15:8] = (rs1[15:8] != rs2[15:8]) ? 8'('1) : 8'(1'b0), rd[7:0] = (rs1[7:0] != rs2[7:0]) ? 8'('1) : 8'(1'b0)}",
+                            "example": "cv.cmpne.{h,b} rD, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0001010": {
+                            "mnemonic": "cv.cmpgt",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Compare Greater Than",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($signed(rs1[31:16]) > $signed(rs2[31:16])) ? 16'('1) : 16'(1'b0), rd[15:0] = ($signed(rs1[15:0]) > $signed(rs2[15:0])) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($signed(rs1[31:24]) > $signed(rs2[31:24])) ? 8'('1) : 8'(1'b0), rd[23:16] = ($signed(rs1[23:16]) > $signed(rs2[23:16])) ? 8'('1) : 8'(1'b0), rd[15:8] = ($signed(rs1[15:8]) > $signed(rs2[15:8])) ? 8'('1) : 8'(1'b0), rd[7:0] = ($signed(rs1[7:0]) > $signed(rs2[7:0])) ? 8'('1) : 8'(1'b0)}",
+                            "example": "cv.cmpgt.{h,b} rD, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0001110": {
+                            "mnemonic": "cv.cmpge",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Compare Greater Than or Equal",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($signed(rs1[31:16]) >= $signed(rs2[31:16])) ? 16'('1) : 16'(1'b0), rd[15:0] = ($signed(rs1[15:0]) >= $signed(rs2[15:0])) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($signed(rs1[31:24]) >= $signed(rs2[31:24])) ? 8'('1) : 8'(1'b0), rd[23:16] = ($signed(rs1[23:16]) >= $signed(rs2[23:16])) ? 8'('1) : 8'(1'b0), rd[15:8] = ($signed(rs1[15:8]) >= $signed(rs2[15:8])) ? 8'('1) : 8'(1'b0), rd[7:0] = ($signed(rs1[7:0]) >= $signed(rs2[7:0])) ? 8'('1) : 8'(1'b0)}",
+                            "example": "cv.cmpge.{h,b} rD, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0010010": {
+                            "mnemonic": "cv.cmplt",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Compare Less Than",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($signed(rs1[31:16]) < $signed(rs2[31:16])) ? 16'('1) : 16'(1'b0), rd[15:0] = ($signed(rs1[15:0]) < $signed(rs2[15:0])) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($signed(rs1[31:24]) < $signed(rs2[31:24])) ? 8'('1) : 8'(1'b0), rd[23:16] = ($signed(rs1[23:16]) < $signed(rs2[23:16])) ? 8'('1) : 8'(1'b0), rd[15:8] = ($signed(rs1[15:8]) < $signed(rs2[15:8])) ? 8'('1) : 8'(1'b0), rd[7:0] = ($signed(rs1[7:0]) < $signed(rs2[7:0])) ? 8'('1) : 8'(1'b0)}",
+                            "example": "cv.cmplt.{h,b} rD, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0010110": {
+                            "mnemonic": "cv.cmple",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Compare Less Than or Equal",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($signed(rs1[31:16]) <= $signed(rs2[31:16])) ? 16'('1) : 16'(1'b0), rd[15:0] = ($signed(rs1[15:0]) <= $signed(rs2[15:0])) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($signed(rs1[31:24]) <= $signed(rs2[31:24])) ? 8'('1) : 8'(1'b0), rd[23:16] = ($signed(rs1[23:16]) <= $signed(rs2[23:16])) ? 8'('1) : 8'(1'b0), rd[15:8] = ($signed(rs1[15:8]) <= $signed(rs2[15:8])) ? 8'('1) : 8'(1'b0), rd[7:0] = ($signed(rs1[7:0]) <= $signed(rs2[7:0])) ? 8'('1) : 8'(1'b0)}",
+                            "example": "cv.cmple.{h,b} rD, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0011010": {
+                            "mnemonic": "cv.cmpgtu",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Compare Greater Than Unsigned",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($unsigned(rs1[31:16]) > $unsigned(rs2[31:16])) ? 16'('1) : 16'(1'b0), rd[15:0] = ($unsigned(rs1[15:0]) > $unsigned(rs2[15:0])) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($unsigned(rs1[31:24]) > $unsigned(rs2[31:24])) ? 8'('1) : 8'(1'b0), rd[23:16] = ($unsigned(rs1[23:16]) > $unsigned(rs2[23:16])) ? 8'('1) : 8'(1'b0), rd[15:8] = ($unsigned(rs1[15:8]) > $unsigned(rs2[15:8])) ? 8'('1) : 8'(1'b0), rd[7:0] = ($unsigned(rs1[7:0]) > $unsigned(rs2[7:0])) ? 8'('1) : 8'(1'b0)}",
+                            "note": "Unsigned comparison.",
+                            "example": "cv.cmpgtu.{h,b} rD, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0011110": {
+                            "mnemonic": "cv.cmpgeu",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Compare Greater Than or Equal Unsigned",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($unsigned(rs1[31:16]) >= $unsigned(rs2[31:16])) ? 16'('1) : 16'(1'b0), rd[15:0] = ($unsigned(rs1[15:0]) >= $unsigned(rs2[15:0])) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($unsigned(rs1[31:24]) >= $unsigned(rs2[31:24])) ? 8'('1) : 8'(1'b0), rd[23:16] = ($unsigned(rs1[23:16]) >= $unsigned(rs2[23:16])) ? 8'('1) : 8'(1'b0), rd[15:8] = ($unsigned(rs1[15:8]) >= $unsigned(rs2[15:8])) ? 8'('1) : 8'(1'b0), rd[7:0] = ($unsigned(rs1[7:0]) >= $unsigned(rs2[7:0])) ? 8'('1) : 8'(1'b0)}",
+                            "note": "Unsigned comparison.",
+                            "example": "cv.cmpgeu.{h,b} rD, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0100010": {
+                            "mnemonic": "cv.cmpltu",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Compare Less Than Unsigned",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($unsigned(rs1[31:16]) < $unsigned(rs2[31:16])) ? 16'('1) : 16'(1'b0), rd[15:0] = ($unsigned(rs1[15:0]) < $unsigned(rs2[15:0])) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($unsigned(rs1[31:24]) < $unsigned(rs2[31:24])) ? 8'('1) : 8'(1'b0), rd[23:16] = ($unsigned(rs1[23:16]) < $unsigned(rs2[23:16])) ? 8'('1) : 8'(1'b0), rd[15:8] = ($unsigned(rs1[15:8]) < $unsigned(rs2[15:8])) ? 8'('1) : 8'(1'b0), rd[7:0] = ($unsigned(rs1[7:0]) < $unsigned(rs2[7:0])) ? 8'('1) : 8'(1'b0)}",
+                            "note": "Unsigned comparison.",
+                            "example": "cv.cmpltu.{h,b} rD, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0100110": {
+                            "mnemonic": "cv.cmpleu",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Compare Less Than or Equal Unsigned",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($unsigned(rs1[31:16]) <= $unsigned(rs2[31:16])) ? 16'('1) : 16'(1'b0), rd[15:0] = ($unsigned(rs1[15:0]) <= $unsigned(rs2[15:0])) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($unsigned(rs1[31:24]) <= $unsigned(rs2[31:24])) ? 8'('1) : 8'(1'b0), rd[23:16] = ($unsigned(rs1[23:16]) <= $unsigned(rs2[23:16])) ? 8'('1) : 8'(1'b0), rd[15:8] = ($unsigned(rs1[15:8]) <= $unsigned(rs2[15:8])) ? 8'('1) : 8'(1'b0), rd[7:0] = ($unsigned(rs1[7:0]) <= $unsigned(rs2[7:0])) ? 8'('1) : 8'(1'b0)}",
+                            "note": "Unsigned comparison.",
+                            "example": "cv.cmpleu.{h,b} rD, rs1, rs2",
+                            "readregflags": "3'b011"
+                        }                      
+                    }
+                },
+                "0b100": {
+                    "funct7": {
+                        "0b0000010": {
+                            "mnemonic": "cv.cmpeq.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Compare Equal Scalar",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = (rs1[31:16] == rs2[15:0]) ? 16'('1) : 16'(1'b0), rd[15:0] = (rs1[15:0] == rs2[15:0]) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = (rs1[31:24] == rs2[7:0]) ? 8'('1) : 8'(1'b0), rd[23:16] = (rs1[23:16] == rs2[7:0]) ? 8'('1) : 8'(1'b0), rd[15:8] = (rs1[15:8] == rs2[7:0]) ? 8'('1) : 8'(1'b0), rd[7:0] = (rs1[7:0] == rs2[7:0]) ? 8'('1) : 8'(1'b0)}",
+                            "example": "cv.cmpeq.sc.{h,b} rD, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0000110": {
+                            "mnemonic": "cv.cmpne.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Compare Not Equal Scalar",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = (rs1[31:16] != rs2[15:0]) ? 16'('1) : 16'(1'b0), rd[15:0] = (rs1[15:0] != rs2[15:0]) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = (rs1[31:24] != rs2[7:0]) ? 8'('1) : 8'(1'b0), rd[23:16] = (rs1[23:16] != rs2[7:0]) ? 8'('1) : 8'(1'b0), rd[15:8] = (rs1[15:8] != rs2[7:0]) ? 8'('1) : 8'(1'b0), rd[7:0] = (rs1[7:0] != rs2[7:0]) ? 8'('1) : 8'(1'b0)}",
+                            "example": "cv.cmpne.sc.{h,b} rD, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0001010": {
+                            "mnemonic": "cv.cmpgt.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Compare Greater Than Scalar",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($signed(rs1[31:16]) > $signed(rs2[15:0])) ? 16'('1) : 16'(1'b0), rd[15:0] = ($signed(rs1[15:0]) > $signed(rs2[15:0])) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($signed(rs1[31:24]) > $signed(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[23:16] = ($signed(rs1[23:16]) > $signed(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[15:8] = ($signed(rs1[15:8]) > $signed(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[7:0] = ($signed(rs1[7:0]) > $signed(rs2[7:0])) ? 8'('1) : 8'(1'b0)}",
+                            "example": "cv.cmpgt.sc.{h,b} rD, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0001110": {
+                            "mnemonic": "cv.cmpge.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Compare Greater Than or Equal Scalar",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($signed(rs1[31:16]) >= $signed(rs2[15:0])) ? 16'('1) : 16'(1'b0), rd[15:0] = ($signed(rs1[15:0]) >= $signed(rs2[15:0])) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($signed(rs1[31:24]) >= $signed(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[23:16] = ($signed(rs1[23:16]) >= $signed(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[15:8] = ($signed(rs1[15:8]) >= $signed(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[7:0] = ($signed(rs1[7:0]) >= $signed(rs2[7:0])) ? 8'('1) : 8'(1'b0)}",
+                            "example": "cv.cmpge.sc.{h,b} rD, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0010010": {
+                            "mnemonic": "cv.cmplt.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Compare Less Than Scalar",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($signed(rs1[31:16]) < $signed(rs2[15:0])) ? 16'('1) : 16'(1'b0), rd[15:0] = ($signed(rs1[15:0]) < $signed(rs2[15:0])) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($signed(rs1[31:24]) < $signed(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[23:16] = ($signed(rs1[23:16]) < $signed(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[15:8] = ($signed(rs1[15:8]) < $signed(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[7:0] = ($signed(rs1[7:0]) < $signed(rs2[7:0])) ? 8'('1) : 8'(1'b0)}",
+                            "example": "cv.cmplt.sc.{h,b} rD, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0010110": {
+                            "mnemonic": "cv.cmple.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Compare Less Than or Equal Scalar",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($signed(rs1[31:16]) <= $signed(rs2[15:0])) ? 16'('1) : 16'(1'b0), rd[15:0] = ($signed(rs1[15:0]) <= $signed(rs2[15:0])) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($signed(rs1[31:24]) <= $signed(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[23:16] = ($signed(rs1[23:16]) <= $signed(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[15:8] = ($signed(rs1[15:8]) <= $signed(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[7:0] = ($signed(rs1[7:0]) <= $signed(rs2[7:0])) ? 8'('1) : 8'(1'b0)}",
+                            "example": "cv.cmple.sc.{h,b} rD, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0011010": {
+                            "mnemonic": "cv.cmpgtu.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Compare Greater Than Unsigned Scalar",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($unsigned(rs1[31:16]) > $unsigned(rs2[15:0])) ? 16'('1) : 16'(1'b0), rd[15:0] = ($unsigned(rs1[15:0]) > $unsigned(rs2[15:0])) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($unsigned(rs1[31:24]) > $unsigned(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[23:16] = ($unsigned(rs1[23:16]) > $unsigned(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[15:8] = ($unsigned(rs1[15:8]) > $unsigned(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[7:0] = ($unsigned(rs1[7:0]) > $unsigned(rs2[7:0])) ? 8'('1) : 8'(1'b0)}",
+                            "note": "Unsigned comparison.",
+                            "example": "cv.cmpgtu.sc.{h,b} rD, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0011110": {
+                            "mnemonic": "cv.cmpgeu.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Compare Greater Than or Equal Unsigned Scalar",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($unsigned(rs1[31:16]) >= $unsigned(rs2[15:0])) ? 16'('1) : 16'(1'b0), rd[15:0] = ($unsigned(rs1[15:0]) >= $unsigned(rs2[15:0])) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($unsigned(rs1[31:24]) >= $unsigned(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[23:16] = ($unsigned(rs1[23:16]) >= $unsigned(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[15:8] = ($unsigned(rs1[15:8]) >= $unsigned(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[7:0] = ($unsigned(rs1[7:0]) >= $unsigned(rs2[7:0])) ? 8'('1) : 8'(1'b0)}",
+                            "note": "Unsigned comparison.",
+                            "example": "cv.cmpgeu.sc.{h,b} rD, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0100010": {
+                            "mnemonic": "cv.cmpltu.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Compare Less Than Unsigned Scalar",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($unsigned(rs1[31:16]) < $unsigned(rs2[15:0])) ? 16'('1) : 16'(1'b0), rd[15:0] = ($unsigned(rs1[15:0]) < $unsigned(rs2[15:0])) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($unsigned(rs1[31:24]) < $unsigned(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[23:16] = ($unsigned(rs1[23:16]) < $unsigned(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[15:8] = ($unsigned(rs1[15:8]) < $unsigned(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[7:0] = ($unsigned(rs1[7:0]) < $unsigned(rs2[7:0])) ? 8'('1) : 8'(1'b0)}",
+                            "note": "Unsigned comparison.",
+                            "example": "cv.cmpltu.sc.{h,b} rD, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0100110": {
+                            "mnemonic": "cv.cmpleu.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2"
+                            },
+                            "description": "Compare Less Than or Equal Unsigned Scalar",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($unsigned(rs1[31:16]) <= $unsigned(rs2[15:0])) ? 16'('1) : 16'(1'b0), rd[15:0] = ($unsigned(rs1[15:0]) <= $unsigned(rs2[15:0])) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($unsigned(rs1[31:24]) <= $unsigned(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[23:16] = ($unsigned(rs1[23:16]) <= $unsigned(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[15:8] = ($unsigned(rs1[15:8]) <= $unsigned(rs2[7:0])) ? 8'('1) : 8'(1'b0), rd[7:0] = ($unsigned(rs1[7:0]) <= $unsigned(rs2[7:0])) ? 8'('1) : 8'(1'b0)}",
+                            "note": "Unsigned comparison.",
+                            "example": "cv.cmpleu.sc.{h,b} rD, rs1, rs2",
+                            "readregflags": "3'b011"
+                        }
+                    }
+                },
+                "0b110": {
+                    "funct7": {
+                        "0b000001x": {
+                            "mnemonic": "cv.cmpeq.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate"
+                            },
+                            "description": "Compare Equal Immediate",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($signed(rs1[31:16]) == $signed(imm6)) ? 16'('1) : 16'(1'b0), rd[15:0] = ($signed(rs1[15:0]) == $signed(imm6)) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($signed(rs1[31:24]) == $signed(imm6)) ? 8'('1) : 8'(1'b0), rd[23:16] = ($signed(rs1[23:16]) == $signed(imm6)) ? 8'('1) : 8'(1'b0), rd[15:8] = ($signed(rs1[15:8]) == $signed(imm6)) ? 8'('1) : 8'(1'b0), rd[7:0] = ($signed(rs1[7:0]) == $signed(imm6)) ? 8'('1) : 8'(1'b0)}",
+                            "example": "cv.cmpeq.sci.{h,b} rD, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b000011x": {
+                            "mnemonic": "cv.cmpne.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate"
+                            },
+                            "description": "Compare Not Equal Immediate",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($signed(rs1[31:16]) != $signed(imm6)) ? 16'('1) : 16'(1'b0), rd[15:0] = ($signed(rs1[15:0]) != $signed(imm6)) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($signed(rs1[31:24]) != $signed(imm6)) ? 8'('1) : 8'(1'b0), rd[23:16] = ($signed(rs1[23:16]) != $signed(imm6)) ? 8'('1) : 8'(1'b0), rd[15:8] = ($signed(rs1[15:8]) != $signed(imm6)) ? 8'('1) : 8'(1'b0), rd[7:0] = ($signed(rs1[7:0]) != $signed(imm6)) ? 8'('1) : 8'(1'b0)}",
+                            "example": "cv.cmpne.sci.{h,b} rD, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b000101x": {
+                            "mnemonic": "cv.cmpgt.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate"
+                            },
+                            "description": "Compare Greater Than Immediate",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($signed(rs1[31:16]) > $signed(imm6)) ? 16'('1) : 16'(1'b0), rd[15:0] = ($signed(rs1[15:0]) > $signed(imm6)) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($signed(rs1[31:24]) > $signed(imm6)) ? 8'('1) : 8'(1'b0), rd[23:16] = ($signed(rs1[23:16]) > $signed(imm6)) ? 8'('1) : 8'(1'b0), rd[15:8] = ($signed(rs1[15:8]) > $signed(imm6)) ? 8'('1) : 8'(1'b0), rd[7:0] = ($signed(rs1[7:0]) > $signed(imm6)) ? 8'('1) : 8'(1'b0)}",
+                            "example": "cv.cmpgt.sci.{h,b} rD, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b000111x": {
+                            "mnemonic": "cv.cmpge.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate"
+                            },
+                            "description": "Compare Greater Than or Equal Immediate",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($signed(rs1[31:16]) >= $signed(imm6)) ? 16'('1) : 16'(1'b0), rd[15:0] = ($signed(rs1[15:0]) >= $signed(imm6)) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($signed(rs1[31:24]) >= $signed(imm6)) ? 8'('1) : 8'(1'b0), rd[23:16] = ($signed(rs1[23:16]) >= $signed(imm6)) ? 8'('1) : 8'(1'b0), rd[15:8] = ($signed(rs1[15:8]) >= $signed(imm6)) ? 8'('1) : 8'(1'b0), rd[7:0] = ($signed(rs1[7:0]) >= $signed(imm6)) ? 8'('1) : 8'(1'b0)}",
+                            "example": "cv.cmpge.sci.{h,b} rD, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b001001x": {
+                            "mnemonic": "cv.cmplt.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate"
+                            },
+                            "description": "Compare Less Than Immediate",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($signed(rs1[31:16]) < $signed(imm6)) ? 16'('1) : 16'(1'b0), rd[15:0] = ($signed(rs1[15:0]) < $signed(imm6)) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($signed(rs1[31:24]) < $signed(imm6)) ? 8'('1) : 8'(1'b0), rd[23:16] = ($signed(rs1[23:16]) < $signed(imm6)) ? 8'('1) : 8'(1'b0), rd[15:8] = ($signed(rs1[15:8]) < $signed(imm6)) ? 8'('1) : 8'(1'b0), rd[7:0] = ($signed(rs1[7:0]) < $signed(imm6)) ? 8'('1) : 8'(1'b0)}",
+                            "example": "cv.cmplt.sci.{h,b} rD, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b001011x": {
+                            "mnemonic": "cv.cmple.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate"
+                            },
+                            "description": "Compare Less Than or Equal Immediate",
+                            "operation":  "(data_type == \"h\") ? {rd[31:16] = ($signed(rs1[31:16]) <= $signed(imm6)) ? 16'('1) : 16'(1'b0), rd[15:0] = ($signed(rs1[15:0]) <= $signed(imm6)) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($signed(rs1[31:24]) <= $signed(imm6)) ? 8'('1) : 8'(1'b0), rd[23:16] = ($signed(rs1[23:16]) <= $signed(imm6)) ? 8'('1) : 8'(1'b0), rd[15:8] = ($signed(rs1[15:8]) <= $signed(imm6)) ? 8'('1) : 8'(1'b0), rd[7:0] = ($signed(rs1[7:0]) <= $signed(imm6)) ? 8'('1) : 8'(1'b0)}",
+                            "example": "cv.cmple.sci.{h,b} rD, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b001101x": {
+                            "mnemonic": "cv.cmpgtu.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate"
+                            },
+                            "description": "Compare Greater Than Unsigned Immediate",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($unsigned(rs1[31:16]) > $unsigned(imm6)) ? 16'('1) : 16'(1'b0), rd[15:0] = ($unsigned(rs1[15:0]) > $unsigned(imm6)) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($unsigned(rs1[31:24]) > $unsigned(imm6)) ? 8'('1) : 8'(1'b0), rd[23:16] = ($unsigned(rs1[23:16]) > $unsigned(imm6)) ? 8'('1) : 8'(1'b0), rd[15:8] = ($unsigned(rs1[15:8]) > $unsigned(imm6)) ? 8'('1) : 8'(1'b0), rd[7:0] = ($unsigned(rs1[7:0]) > $unsigned(imm6)) ? 8'('1) : 8'(1'b0)}",
+                            "note": "Unsigned comparison.",
+                            "example": "cv.cmpgtu.sci.{h,b} rD, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b001111x": {
+                            "mnemonic": "cv.cmpgeu.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate"
+                            },
+                            "description": "Compare Greater Than or Equal Unsigned Immediate",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($unsigned(rs1[31:16]) >= $unsigned(imm6)) ? 16'('1) : 16'(1'b0), rd[15:0] = ($unsigned(rs1[15:0]) >= $unsigned(imm6)) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($unsigned(rs1[31:24]) >= $unsigned(imm6)) ? 8'('1) : 8'(1'b0), rd[23:16] = ($unsigned(rs1[23:16]) >= $unsigned(imm6)) ? 8'('1) : 8'(1'b0), rd[15:8] = ($unsigned(rs1[15:8]) >= $unsigned(imm6)) ? 8'('1) : 8'(1'b0), rd[7:0] = ($unsigned(rs1[7:0]) >= $unsigned(imm6)) ? 8'('1) : 8'(1'b0)}",
+                            "note": "Unsigned comparison.",
+                            "example": "cv.cmpgeu.sci.{h,b} rD, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b010001x": {
+                            "mnemonic": "cv.cmpltu.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate"
+                            },
+                            "description": "Compare Less Than Unsigned Immediate",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($unsigned(rs1[31:16]) < $unsigned(imm6)) ? 16'('1) : 16'(1'b0), rd[15:0] = ($unsigned(rs1[15:0]) < $unsigned(imm6)) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($unsigned(rs1[31:24]) < $unsigned(imm6)) ? 8'('1) : 8'(1'b0), rd[23:16] = ($unsigned(rs1[23:16]) < $unsigned(imm6)) ? 8'('1) : 8'(1'b0), rd[15:8] = ($unsigned(rs1[15:8]) < $unsigned(imm6)) ? 8'('1) : 8'(1'b0), rd[7:0] = ($unsigned(rs1[7:0]) < $unsigned(imm6)) ? 8'('1) : 8'(1'b0)}",
+                            "note": "Unsigned comparison.",
+                            "example": "cv.cmpltu.sci.{h,b} rD, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b010011x": {
+                            "mnemonic": "cv.cmpleu.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate"
+                            },
+                            "description": "Compare Less Than or Equal Unsigned Immediate",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($unsigned(rs1[31:16]) <= $unsigned(imm6)) ? 16'('1) : 16'(1'b0), rd[15:0] = ($unsigned(rs1[15:0]) <= $unsigned(imm6)) ? 16'('1) : 16'(1'b0)} : {rd[31:24] = ($unsigned(rs1[31:24]) <= $unsigned(imm6)) ? 8'('1) : 8'(1'b0), rd[23:16] = ($unsigned(rs1[23:16]) <= $unsigned(imm6)) ? 8'('1) : 8'(1'b0), rd[15:8] = ($unsigned(rs1[15:8]) <= $unsigned(imm6)) ? 8'('1) : 8'(1'b0), rd[7:0] = ($unsigned(rs1[7:0]) <= $unsigned(imm6)) ? 8'('1) : 8'(1'b0)}",
+                            "note": "Unsigned comparison.",
+                            "example": "cv.cmpleu.sci.{h,b} rD, rs1, imm6",
+                            "readregflags": "3'b001"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

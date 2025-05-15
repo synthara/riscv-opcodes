@@ -1,0 +1,324 @@
+{
+    "instructions": {
+        "0b1111011": {
+            "funct3": {
+                "0b000": {
+                    "funct7": {
+                        "0b1000000": {
+                            "mnemonic": "cv.dotup",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string",
+                                "iteration": "integer"
+                            },
+                            "description": "Unsigned Dot Product",
+                            "operation": "(data_type == \"h\") ? {rd = 32'(32'(32'($unsigned(rs1[31:16])) * 32'($unsigned(rs2[31:16]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($unsigned(rs2[15:0]))))} : (data_type == \"b\") ? {rd = 32'(32'(32'($unsigned(rs1[31:24])) * 32'($unsigned(rs2[31:24]))) + 32'(32'($unsigned(rs1[23:16])) * 32'($unsigned(rs2[23:16]))) + 32'(32'($unsigned(rs1[15:8])) * 32'($unsigned(rs2[15:8]))) + 32'(32'($unsigned(rs1[7:0])) * 32'($unsigned(rs2[7:0]))))} : (iteration == 0) ? {rd = 32'(32'(32'($unsigned(rs1[31:16])) * 32'($unsigned(rs2[15:8]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($unsigned(rs2[7:0]))))} : {rd = 32'(32'(32'($unsigned(rs1[31:16])) * 32'($unsigned(rs2[31:24]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($unsigned(rs2[23:16]))))}",
+                            "example": "cv.dotup.{h,b,mx} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b1000100": {
+                            "mnemonic": "cv.dotusp",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string",
+                                "iteration": "integer"
+                            },
+                            "description": "Unsigned-Signed Dot Product",
+                            "operation": "(data_type == \"h\") ? {rd = 32'($signed(32'(32'($unsigned(rs1[31:16])) * 32'($signed(rs2[31:16]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($signed(rs2[15:0])))))} : (data_type == \"b\") ? {rd = 32'($signed(32'(32'($unsigned(rs1[31:24])) * 32'($signed(rs2[31:24]))) + 32'(32'($unsigned(rs1[23:16])) * 32'($signed(rs2[23:16]))) + 32'(32'($unsigned(rs1[15:8])) * 32'($signed(rs2[15:8]))) + 32'(32'($unsigned(rs1[7:0])) * 32'($signed(rs2[7:0])))))} : (iteration == 0) ? {rd = 32'($signed(32'(32'($unsigned(rs1[31:16])) * 32'($signed(rs2[15:8]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($signed(rs2[7:0])))))} : {rd = 32'($signed(32'(32'($unsigned(rs1[31:16])) * 32'($signed(rs2[31:24]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($signed(rs2[23:16])))))}",
+                            "note": "rs1 is treated as unsigned, while rs2 is treated as signed.",
+                            "example": "cv.dotusp.{h,b,mx} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },                       
+                        "0b1001000": {
+                            "mnemonic": "cv.dotsp",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string",
+                                "iteration": "integer"
+                            },
+                            "description": "Signed Dot Product",
+                            "operation": "(data_type == \"h\") ? {rd = 32'(32'(32'($signed(rs1[31:16])) * 32'($signed(rs2[31:16]))) + 32'(32'($signed(rs1[15:0])) * 32'($signed(rs2[15:0]))))} : (data_type == \"b\") ? {rd = 32'(32'(32'($signed(rs1[31:24])) * 32'($signed(rs2[31:24]))) + 32'(32'($signed(rs1[23:16])) * 32'($signed(rs2[23:16]))) + 32'(32'($signed(rs1[15:8])) * 32'($signed(rs2[15:8]))) + 32'(32'($signed(rs1[7:0])) * 32'($signed(rs2[7:0]))))} : (iteration == 0) ? {rd = 32'(32'(32'($signed(rs1[31:16])) * 32'($signed(rs2[15:8]))) + 32'(32'($signed(rs1[15:0])) * 32'($signed(rs2[7:0]))))} : {rd = 32'(32'(32'($signed(rs1[31:16])) * 32'($signed(rs2[31:24]))) + 32'(32'($signed(rs1[15:0])) * 32'($signed(rs2[23:16]))))}",
+                            "note": "All operands are signed.",
+                            "example": "cv.dotsp.{h,b,mx} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },                       
+                        "0b1001100": {
+                            "mnemonic": "cv.sdotup",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string",
+                                "iteration": "integer"
+                            },
+                            "description": "Unsigned Dot Product with Accumulate",
+                            "operation": "(data_type == \"h\") ? {rd = 32'($unsigned(rd) + 32'(32'($unsigned(rs1[31:16])) * 32'($unsigned(rs2[31:16]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($unsigned(rs2[15:0]))))} : (data_type == \"b\") ? {rd = 32'($unsigned(rd) + 32'(32'($unsigned(rs1[31:24])) * 32'($unsigned(rs2[31:24]))) + 32'(32'($unsigned(rs1[23:16])) * 32'($unsigned(rs2[23:16]))) + 32'(32'($unsigned(rs1[15:8])) * 32'($unsigned(rs2[15:8]))) + 32'(32'($unsigned(rs1[7:0])) * 32'($unsigned(rs2[7:0]))))} : (iteration == 0) ? {rd = 32'($unsigned(rd) + 32'(32'($unsigned(rs1[31:16])) * 32'($unsigned(rs2[15:8]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($unsigned(rs2[7:0]))))} : {rd = 32'($unsigned(rd) + 32'(32'($unsigned(rs1[31:16])) * 32'($unsigned(rs2[31:24]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($unsigned(rs2[23:16]))))}",
+                            "note": "All operands are unsigned.",
+                            "example": "cv.sdotup.{h,b,mx} rd, rs1, rs2",
+                            "readregflags": "3'b111"
+                        },                        
+                        "0b1010000": {
+                            "mnemonic": "cv.sdotusp",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string",
+                                "iteration": "integer"
+                            },
+                            "description": "Unsigned-Signed Dot Product with Accumulate",
+                            "operation": "(data_type == \"h\") ? {rd = 32'($signed($unsigned(rd) + 32'(32'($unsigned(rs1[31:16])) * 32'($signed(rs2[31:16]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($signed(rs2[15:0])))))} : (data_type == \"b\") ? {rd = 32'($signed($unsigned(rd) + 32'(32'($unsigned(rs1[31:24])) * 32'($signed(rs2[31:24]))) + 32'(32'($unsigned(rs1[23:16])) * 32'($signed(rs2[23:16]))) + 32'(32'($unsigned(rs1[15:8])) * 32'($signed(rs2[15:8]))) + 32'(32'($unsigned(rs1[7:0])) * 32'($signed(rs2[7:0])))))} : (iteration == 0) ? {rd = 32'($signed($unsigned(rd) + 32'(32'($unsigned(rs1[31:16])) * 32'($signed(rs2[15:8]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($signed(rs2[7:0])))))} : {rd = 32'($signed($unsigned(rd) + 32'(32'($unsigned(rs1[31:16])) * 32'($signed(rs2[31:24]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($signed(rs2[23:16])))))}",
+                            "note": "rs1 is treated as unsigned, while rs2 is treated as signed.",
+                            "example": "cv.sdotusp.{h,b,mx} rd, rs1, rs2",
+                            "readregflags": "3'b111"
+                        },                        
+                        "0b1010100": {
+                            "mnemonic": "cv.sdotsp",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string",
+                                "iteration": "integer"
+                            },
+                            "description": "Signed Dot Product with Accumulate",
+                            "operation": "(data_type == \"h\") ? {rd = 32'($signed(rd) + 32'(32'($signed(rs1[31:16])) * 32'($signed(rs2[31:16]))) + 32'(32'($signed(rs1[15:0])) * 32'($signed(rs2[15:0]))))} : (data_type == \"b\") ? {rd = 32'($signed(rd) + 32'(32'($signed(rs1[31:24])) * 32'($signed(rs2[31:24]))) + 32'(32'($signed(rs1[23:16])) * 32'($signed(rs2[23:16]))) + 32'(32'($signed(rs1[15:8])) * 32'($signed(rs2[15:8]))) + 32'(32'($signed(rs1[7:0])) * 32'($signed(rs2[7:0]))))} : (iteration == 0) ? {rd = 32'($signed(rd) + 32'(32'($signed(rs1[31:16])) * 32'($signed(rs2[15:8]))) + 32'(32'($signed(rs1[15:0])) * 32'($signed(rs2[7:0]))))} : {rd = 32'($signed(rd) + 32'(32'($signed(rs1[31:16])) * 32'($signed(rs2[31:24]))) + 32'(32'($signed(rs1[15:0])) * 32'($signed(rs2[23:16]))))}",
+                            "note": "All operands are signed.",
+                            "example": "cv.sdotsp.{h,b,mx} rd, rs1, rs2",
+                            "readregflags": "3'b111"
+                        }  
+                    }
+                },
+                "0b100": {
+                    "funct7": {
+                        "0b1000000": {
+                            "mnemonic": "cv.dotup.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string",
+                                "iteration": "integer"
+                            },
+                            "description": "Unsigned Dot Product with Scalar",
+                            "operation": "(data_type == \"h\") ? {rd = 32'(32'(32'($unsigned(rs1[31:16])) * 32'($unsigned(rs2[15:0]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($unsigned(rs2[15:0]))))} : (data_type == \"b\") ? {rd = 32'(32'(32'($unsigned(rs1[31:24])) * 32'($unsigned(rs2[7:0]))) + 32'(32'($unsigned(rs1[23:16])) * 32'($unsigned(rs2[7:0]))) + 32'(32'($unsigned(rs1[15:8])) * 32'($unsigned(rs2[7:0]))) + 32'(32'($unsigned(rs1[7:0])) * 32'($unsigned(rs2[7:0]))))} : (iteration == 0) ? {rd = 32'(32'(32'($unsigned(rs1[31:16])) * 32'($unsigned(rs2[7:0]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($unsigned(rs2[7:0]))))} : {rd = 32'(32'(32'($unsigned(rs1[31:16])) * 32'($unsigned(rs2[7:0]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($unsigned(rs2[7:0]))))}",
+                            "example": "cv.dotup.sc.{h,b,mx} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b1000100": {
+                            "mnemonic": "cv.dotusp.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string",
+                                "iteration": "integer"
+                            },
+                            "description": "Unsigned-Signed Dot Product with Scalar",
+                            "operation": "(data_type == \"h\") ? {rd = 32'($signed(32'(32'($unsigned(rs1[31:16])) * 32'($signed(rs2[15:0]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($signed(rs2[15:0])))))} : (data_type == \"b\") ? {rd = 32'($signed(32'(32'($unsigned(rs1[31:24])) * 32'($signed(rs2[7:0]))) + 32'(32'($unsigned(rs1[23:16])) * 32'($signed(rs2[7:0]))) + 32'(32'($unsigned(rs1[15:8])) * 32'($signed(rs2[7:0]))) + 32'(32'($unsigned(rs1[7:0])) * 32'($signed(rs2[7:0])))))} : (iteration == 0) ? {rd = 32'($signed(32'(32'($unsigned(rs1[31:16])) * 32'($signed(rs2[7:0]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($signed(rs2[7:0])))))} : {rd = 32'($signed(32'(32'($unsigned(rs1[31:16])) * 32'($signed(rs2[7:0]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($signed(rs2[7:0])))))}",
+                            "note": "rs1 is treated as unsigned, while rs2 is treated as signed.",
+                            "example": "cv.dotusp.sc.{h,b,mx} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b1001000": {
+                            "mnemonic": "cv.dotsp.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string",
+                                "iteration": "integer"
+                            },
+                            "description": "Signed Dot Product with Scalar",
+                            "operation": "(data_type == \"h\") ? {rd = 32'(32'(32'($signed(rs1[31:16])) * 32'($signed(rs2[15:0]))) + 32'(32'($signed(rs1[15:0])) * 32'($signed(rs2[15:0]))))} : (data_type == \"b\") ? {rd = 32'(32'(32'($signed(rs1[31:24])) * 32'($signed(rs2[7:0]))) + 32'(32'($signed(rs1[23:16])) * 32'($signed(rs2[7:0]))) + 32'(32'($signed(rs1[15:8])) * 32'($signed(rs2[7:0]))) + 32'(32'($signed(rs1[7:0])) * 32'($signed(rs2[7:0]))))} : (iteration == 0) ? {rd = 32'(32'(32'($signed(rs1[31:16])) * 32'($signed(rs2[7:0]))) + 32'(32'($signed(rs1[15:0])) * 32'($signed(rs2[7:0]))))} : {rd = 32'(32'(32'($signed(rs1[31:16])) * 32'($signed(rs2[7:0]))) + 32'(32'($signed(rs1[15:0])) * 32'($signed(rs2[7:0]))))}",
+                            "note": "All operands are signed.",
+                            "example": "cv.dotsp.sc.{h,b,mx} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b1001100": {
+                            "mnemonic": "cv.sdotup.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string",
+                                "iteration": "integer"
+                            },
+                            "description": "Unsigned Dot Product with Accumulate and Scalar",
+                            "operation": "(data_type == \"h\") ? {rd = 32'($unsigned(rd) + 32'(32'($unsigned(rs1[31:16])) * 32'($unsigned(rs2[15:0]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($unsigned(rs2[15:0]))))} : (data_type == \"b\") ? {rd = 32'($unsigned(rd) + 32'(32'($unsigned(rs1[31:24])) * 32'($unsigned(rs2[7:0]))) + 32'(32'($unsigned(rs1[23:16])) * 32'($unsigned(rs2[7:0]))) + 32'(32'($unsigned(rs1[15:8])) * 32'($unsigned(rs2[7:0]))) + 32'(32'($unsigned(rs1[7:0])) * 32'($unsigned(rs2[7:0]))))} : (iteration == 0) ? {rd = 32'($unsigned(rd) + 32'(32'($unsigned(rs1[31:16])) * 32'($unsigned(rs2[7:0]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($unsigned(rs2[7:0]))))} : {rd = 32'($unsigned(rd) + 32'(32'($unsigned(rs1[31:16])) * 32'($unsigned(rs2[7:0]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($unsigned(rs2[7:0]))))}",
+                            "note": "All operands are unsigned.",
+                            "example": "cv.sdotup.sc.{h,b,mx} rd, rs1, rs2",
+                            "readregflags": "3'b111"
+                        },
+                        "0b1010000": {
+                            "mnemonic": "cv.sdotusp.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string",
+                                "iteration": "integer"
+                            },
+                            "description": "Unsigned-Signed Dot Product with Accumulate and Scalar",
+                            "operation": "(data_type == \"h\") ? {rd = 32'($signed($unsigned(rd) + 32'(32'($unsigned(rs1[31:16])) * 32'($signed(rs2[15:0]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($signed(rs2[15:0])))))} : (data_type == \"b\") ? {rd = 32'($signed($unsigned(rd) + 32'(32'($unsigned(rs1[31:24])) * 32'($signed(rs2[7:0]))) + 32'(32'($unsigned(rs1[23:16])) * 32'($signed(rs2[7:0]))) + 32'(32'($unsigned(rs1[15:8])) * 32'($signed(rs2[7:0]))) + 32'(32'($unsigned(rs1[7:0])) * 32'($signed(rs2[7:0])))))} : (iteration == 0) ? {rd = 32'($signed($unsigned(rd) + 32'(32'($unsigned(rs1[31:16])) * 32'($signed(rs2[7:0]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($signed(rs2[7:0])))))} : {rd = 32'($signed($unsigned(rd) + 32'(32'($unsigned(rs1[31:16])) * 32'($signed(rs2[7:0]))) + 32'(32'($unsigned(rs1[15:0])) * 32'($signed(rs2[7:0])))))}",
+                            "note": "rs1 is treated as unsigned, while rs2 is treated as signed.",
+                            "example": "cv.sdotusp.sc.{h,b,mx} rd, rs1, rs2",
+                            "readregflags": "3'b111"
+                        },
+                        "0b1010100": {
+                            "mnemonic": "cv.sdotsp.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string",
+                                "iteration": "integer"
+                            },
+                            "description": "Signed Dot Product with Accumulate and Scalar",
+                            "operation": "(data_type == \"h\") ? {rd = 32'($signed(rd) + 32'(32'($signed(rs1[31:16])) * 32'($signed(rs2[15:0]))) + 32'(32'($signed(rs1[15:0])) * 32'($signed(rs2[15:0]))))} : (data_type == \"b\") ? {rd = 32'($signed(rd) + 32'(32'($signed(rs1[31:24])) * 32'($signed(rs2[7:0]))) + 32'(32'($signed(rs1[23:16])) * 32'($signed(rs2[7:0]))) + 32'(32'($signed(rs1[15:8])) * 32'($signed(rs2[7:0]))) + 32'(32'($signed(rs1[7:0])) * 32'($signed(rs2[7:0]))))} : (iteration == 0) ? {rd = 32'($signed(rd) + 32'(32'($signed(rs1[31:16])) * 32'($signed(rs2[7:0]))) + 32'(32'($signed(rs1[15:0])) * 32'($signed(rs2[7:0]))))} : {rd = 32'($signed(rd) + 32'(32'($signed(rs1[31:16])) * 32'($signed(rs2[7:0]))) + 32'(32'($signed(rs1[15:0])) * 32'($signed(rs2[7:0]))))}",
+                            "note": "All operands are signed.",
+                            "example": "cv.sdotsp.sc.{h,b,mx} rd, rs1, rs2",
+                            "readregflags": "3'b111"
+                        }
+                    }
+                },
+                "0b110": {
+                    "funct7": {
+                        "0b100000x": {
+                            "mnemonic": "cv.dotup.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate",
+                                "data_type": "string",
+                                "iteration": "integer"
+                            },
+                            "description": "Unsigned Dot Product with Immediate Scalar",
+                            "operation": "(data_type == \"h\") ? {rd = 32'(32'(32'($unsigned(rs1[31:16])) * 32'($unsigned(imm6))) + 32'(32'($unsigned(rs1[15:0])) * 32'($unsigned(imm6))))} : (data_type == \"b\") ? {rd = 32'(32'(32'($unsigned(rs1[31:24])) * 32'($unsigned(imm6))) + 32'(32'($unsigned(rs1[23:16])) * 32'($unsigned(imm6))) + 32'(32'($unsigned(rs1[15:8])) * 32'($unsigned(imm6))) + 32'(32'($unsigned(rs1[7:0])) * 32'($unsigned(imm6))))} : (iteration == 0) ? {rd = 32'(32'(32'($unsigned(rs1[31:16])) * 32'($unsigned(imm6))) + 32'(32'($unsigned(rs1[15:0])) * 32'($unsigned(imm6))))} : {rd = 32'(32'(32'($unsigned(rs1[31:16])) * 32'($unsigned(imm6))) + 32'(32'($unsigned(rs1[15:0])) * 32'($unsigned(imm6))))}",
+                            "note": "Immediate is zero-extended.",
+                            "example": "cv.dotup.sci.{h,b,mx} rd, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b100010x": {
+                            "mnemonic": "cv.dotusp.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate",
+                                "data_type": "string",
+                                "iteration": "integer"
+                            },
+                            "description": "Unsigned-Signed Dot Product with Immediate Scalar",
+                            "operation": "(data_type == \"h\") ? {rd = 32'($signed(32'(32'($unsigned(rs1[31:16])) * 32'($signed(imm6))) + 32'(32'($unsigned(rs1[15:0])) * 32'($signed(imm6)))))} : (data_type == \"b\") ? {rd = 32'($signed(32'(32'($unsigned(rs1[31:24])) * 32'($signed(imm6))) + 32'(32'($unsigned(rs1[23:16])) * 32'($signed(imm6))) + 32'(32'($unsigned(rs1[15:8])) * 32'($signed(imm6))) + 32'(32'($unsigned(rs1[7:0])) * 32'($signed(imm6)))))} : (iteration == 0) ? {rd = 32'($signed(32'(32'($unsigned(rs1[31:16])) * 32'($signed(imm6))) + 32'(32'($unsigned(rs1[15:0])) * 32'($signed(imm6)))))} : {rd = 32'($signed(32'(32'($unsigned(rs1[31:16])) * 32'($signed(imm6))) + 32'(32'($unsigned(rs1[15:0])) * 32'($signed(imm6)))))}",
+                            "note": "rs1 is treated as unsigned, while imm6 is treated as signed.",
+                            "example": "cv.dotusp.sci.{h,b,mx} rd, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b100100x": {
+                            "mnemonic": "cv.dotsp.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate",
+                                "data_type": "string",
+                                "iteration": "integer"
+                            },
+                            "description": "Signed Dot Product with Immediate Scalar",
+                            "operation": "(data_type == \"h\") ? {rd = 32'(32'(32'($signed(rs1[31:16])) * 32'($signed(imm6))) + 32'(32'($signed(rs1[15:0])) * 32'($signed(imm6))))} : (data_type == \"b\") ? {rd = 32'(32'(32'($signed(rs1[31:24])) * 32'($signed(imm6))) + 32'(32'($signed(rs1[23:16])) * 32'($signed(imm6))) + 32'(32'($signed(rs1[15:8])) * 32'($signed(imm6))) + 32'(32'($signed(rs1[7:0])) * 32'($signed(imm6))))} : (iteration == 0) ? {rd = 32'(32'(32'($signed(rs1[31:16])) * 32'($signed(imm6))) + 32'(32'($signed(rs1[15:0])) * 32'($signed(imm6))))} : {rd = 32'(32'(32'($signed(rs1[31:16])) * 32'($signed(imm6))) + 32'(32'($signed(rs1[15:0])) * 32'($signed(imm6))))}",
+                            "note": "Immediate is sign-extended.",
+                            "example": "cv.dotsp.sci.{h,b,mx} rd, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b100110x": {
+                            "mnemonic": "cv.sdotup.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate",
+                                "data_type": "string",
+                                "iteration": "integer"
+                            },
+                            "description": "Unsigned Dot Product with Accumulate and Immediate Scalar",
+                            "operation": "(data_type == \"h\") ? {rd = 32'($unsigned(rd) + 32'(32'($unsigned(rs1[31:16])) * 32'($unsigned(imm6))) + 32'(32'($unsigned(rs1[15:0])) * 32'($unsigned(imm6))))} : (data_type == \"b\") ? {rd = 32'($unsigned(rd) + 32'(32'($unsigned(rs1[31:24])) * 32'($unsigned(imm6))) + 32'(32'($unsigned(rs1[23:16])) * 32'($unsigned(imm6))) + 32'(32'($unsigned(rs1[15:8])) * 32'($unsigned(imm6))) + 32'(32'($unsigned(rs1[7:0])) * 32'($unsigned(imm6))))} : (iteration == 0) ? {rd = 32'($unsigned(rd) + 32'(32'($unsigned(rs1[31:16])) * 32'($unsigned(imm6))) + 32'(32'($unsigned(rs1[15:0])) * 32'($unsigned(imm6))))} : {rd = 32'($unsigned(rd) + 32'(32'($unsigned(rs1[31:16])) * 32'($unsigned(imm6))) + 32'(32'($unsigned(rs1[15:0])) * 32'($unsigned(imm6))))}",
+                            "note": "Immediate is zero-extended.",
+                            "example": "cv.sdotup.sci.{h,b,mx} rd, rs1, imm6",
+                            "readregflags": "3'b101"
+                        },
+                        "0b101000x": {
+                            "mnemonic": "cv.sdotusp.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate",
+                                "data_type": "string",
+                                "iteration": "integer"
+                            },
+                            "description": "Unsigned-Signed Dot Product with Accumulate and Immediate Scalar",
+                            "operation": "(data_type == \"h\") ? {rd = 32'($signed($unsigned(rd) + 32'(32'($unsigned(rs1[31:16])) * 32'($signed(imm6))) + 32'(32'($unsigned(rs1[15:0])) * 32'($signed(imm6)))))} : (data_type == \"b\") ? {rd = 32'($signed($unsigned(rd) + 32'(32'($unsigned(rs1[31:24])) * 32'($signed(imm6))) + 32'(32'($unsigned(rs1[23:16])) * 32'($signed(imm6))) + 32'(32'($unsigned(rs1[15:8])) * 32'($signed(imm6))) + 32'(32'($unsigned(rs1[7:0])) * 32'($signed(imm6)))))} : (iteration == 0) ? {rd = 32'($signed($unsigned(rd) + 32'(32'($unsigned(rs1[31:16])) * 32'($signed(imm6))) + 32'(32'($unsigned(rs1[15:0])) * 32'($signed(imm6)))))} : {rd = 32'($signed($unsigned(rd) + 32'(32'($unsigned(rs1[31:16])) * 32'($signed(imm6))) + 32'(32'($unsigned(rs1[15:0])) * 32'($signed(imm6)))))}",
+                            "note": "rs1 is treated as unsigned, while imm6 is treated as signed.",
+                            "example": "cv.sdotusp.sci.{h,b,mx} rd, rs1, imm6",
+                            "readregflags": "3'b101"
+                        },
+                        "0b101010x": {
+                            "mnemonic": "cv.sdotsp.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate",
+                                "data_type": "string",
+                                "iteration": "integer"
+                            },
+                            "description": "Signed Dot Product with Accumulate and Immediate Scalar",
+                            "operation": "(data_type == \"h\") ? {rd = 32'($signed(rd) + 32'(32'($signed(rs1[31:16])) * 32'($signed(imm6))) + 32'(32'($signed(rs1[15:0])) * 32'($signed(imm6))))} : (data_type == \"b\") ? {rd = 32'($signed(rd) + 32'(32'($signed(rs1[31:24])) * 32'($signed(imm6))) + 32'(32'($signed(rs1[23:16])) * 32'($signed(imm6))) + 32'(32'($signed(rs1[15:8])) * 32'($signed(imm6))) + 32'(32'($signed(rs1[7:0])) * 32'($signed(imm6))))} : (iteration == 0) ? {rd = 32'($signed(rd) + 32'(32'($signed(rs1[31:16])) * 32'($signed(imm6))) + 32'(32'($signed(rs1[15:0])) * 32'($signed(imm6))))} : {rd = 32'($signed(rd) + 32'(32'($signed(rs1[31:16])) * 32'($signed(imm6))) + 32'(32'($signed(rs1[15:0])) * 32'($signed(imm6))))}",
+                            "note": "Immediate is sign-extended.",
+                            "example": "cv.sdotsp.sci.{h,b,mx} rd, rs1, imm6",
+                            "readregflags": "3'b101"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

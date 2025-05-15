@@ -1,0 +1,683 @@
+{
+    "instructions": {
+        "0b1111011": {
+            "funct3": {
+                "0b000": {
+                    "funct7": {
+                        "0b0000000": {
+                            "mnemonic": "cv.add",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Add",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'($signed(rs1[31:16]) + $signed(rs2[31:16])), rd[15:0] = 16'($signed(rs1[15:0]) + $signed(rs2[15:0]))} : {rd[31:24] = 8'($signed(rs1[31:24]) + $signed(rs2[31:24])), rd[23:16] = 8'($signed(rs1[23:16]) + $signed(rs2[23:16])), rd[15:8] = 8'($signed(rs1[15:8]) + $signed(rs2[15:8])), rd[7:0] = 8'($signed(rs1[7:0]) + $signed(rs2[7:0]))}",
+                            "example": "cv.add.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0000100": {
+                            "mnemonic": "cv.sub",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Subtract",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'($signed(rs1[31:16]) - $signed(rs2[31:16])), rd[15:0] = $signed(rs1[15:0]) - $signed(rs2[15:0])} : {rd[31:24] = 8'($signed(rs1[31:24]) - $signed(rs2[31:24])), rd[23:16] = 8'($signed(rs1[23:16]) - $signed(rs2[23:16])), rd[15:8] = 8'($signed(rs1[15:8]) - $signed(rs2[15:8])), rd[7:0] = 8'($signed(rs1[7:0]) - $signed(rs2[7:0]))}",
+                            "example": "cv.sub.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0001000": {
+                            "mnemonic": "cv.avg",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Average",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'($signed(rs1[31:16]) + $signed(rs2[31:16])) >>> 1, rd[15:0] = ($signed(rs1[15:0]) + $signed(rs2[15:0])) >>> 1} : {rd[31:24] = 8'($signed(rs1[31:24]) + $signed(rs2[31:24])) >>> 1, rd[23:16] = 8'($signed(rs1[23:16]) + $signed(rs2[23:16])) >>> 1, rd[15:8] = 8'($signed(rs1[15:8]) + $signed(rs2[15:8])) >>> 1, rd[7:0] = 8'($signed(rs1[7:0]) + $signed(rs2[7:0])) >>> 1}",
+                            "example": "cv.avg.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0001100": {
+                            "mnemonic": "cv.avgu",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Unsigned Average",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'($unsigned(rs1[31:16]) + $unsigned(rs2[31:16])) >> 1, rd[15:0] = ($unsigned(rs1[15:0]) + $unsigned(rs2[15:0])) >> 1} : {rd[31:24] = 8'($unsigned(rs1[31:24]) + $unsigned(rs2[31:24])) >> 1, rd[23:16] = 8'($unsigned(rs1[23:16]) + $unsigned(rs2[23:16])) >> 1, rd[15:8] = 8'($unsigned(rs1[15:8]) + $unsigned(rs2[15:8])) >> 1, rd[7:0] = 8'($unsigned(rs1[7:0]) + $unsigned(rs2[7:0])) >> 1}",
+                            "note": "Immediate is zero-extended, shift is logical.",
+                            "example": "cv.avgu.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0010000": {
+                            "mnemonic": "cv.min",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Minimum",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'($signed(rs1[31:16]) < $signed(rs2[31:16])) ? rs1[31:16] : rs2[31:16], rd[15:0] = ($signed(rs1[15:0]) < $signed(rs2[15:0])) ? rs1[15:0] : rs2[15:0]} : {rd[31:24] = 8'($signed(rs1[31:24]) < $signed(rs2[31:24])) ? rs1[31:24] : rs2[31:24], rd[23:16] = 8'($signed(rs1[23:16]) < $signed(rs2[23:16])) ? rs1[23:16] : rs2[23:16], rd[15:8] = 8'($signed(rs1[15:8]) < $signed(rs2[15:8])) ? rs1[15:8] : rs2[15:8], rd[7:0] = 8'($signed(rs1[7:0]) < $signed(rs2[7:0])) ? rs1[7:0] : rs2[7:0]}",
+                            "example": "cv.min.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0010100": {
+                            "mnemonic": "cv.minu",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Unsigned Minimum",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'($unsigned(rs1[31:16]) < $unsigned(rs2[31:16])) ? rs1[31:16] : rs2[31:16], rd[15:0] = ($unsigned(rs1[15:0]) < $unsigned(rs2[15:0])) ? rs1[15:0] : rs2[15:0]} : {rd[31:24] = 8'($unsigned(rs1[31:24]) < $unsigned(rs2[31:24])) ? rs1[31:24] : rs2[31:24], rd[23:16] = 8'($unsigned(rs1[23:16]) < $unsigned(rs2[23:16])) ? rs1[23:16] : rs2[23:16], rd[15:8] = 8'($unsigned(rs1[15:8]) < $unsigned(rs2[15:8])) ? rs1[15:8] : rs2[15:8], rd[7:0] = 8'($unsigned(rs1[7:0]) < $unsigned(rs2[7:0])) ? rs1[7:0] : rs2[7:0]}",
+                            "note": "Immediate is zero-extended, comparison is unsigned.",
+                            "example": "cv.minu.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0011000": {
+                            "mnemonic": "cv.max",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Maximum",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'($signed(rs1[31:16]) > $signed(rs2[31:16])) ? rs1[31:16] : rs2[31:16], rd[15:0] = ($signed(rs1[15:0]) > $signed(rs2[15:0])) ? rs1[15:0] : rs2[15:0]} : {rd[31:24] = 8'($signed(rs1[31:24]) > $signed(rs2[31:24])) ? rs1[31:24] : rs2[31:24], rd[23:16] = 8'($signed(rs1[23:16]) > $signed(rs2[23:16])) ? rs1[23:16] : rs2[23:16], rd[15:8] = 8'($signed(rs1[15:8]) > $signed(rs2[15:8])) ? rs1[15:8] : rs2[15:8], rd[7:0] = 8'($signed(rs1[7:0]) > $signed(rs2[7:0])) ? rs1[7:0] : rs2[7:0]}",
+                            "example": "cv.max.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0011100": {
+                            "mnemonic": "cv.maxu",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Unsigned Maximum",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'($unsigned(rs1[31:16]) > $unsigned(rs2[31:16])) ? rs1[31:16] : rs2[31:16], rd[15:0] = ($unsigned(rs1[15:0]) > $unsigned(rs2[15:0])) ? rs1[15:0] : rs2[15:0]} : {rd[31:24] = 8'($unsigned(rs1[31:24]) > $unsigned(rs2[31:24])) ? rs1[31:24] : rs2[31:24], rd[23:16] = 8'($unsigned(rs1[23:16]) > $unsigned(rs2[23:16])) ? rs1[23:16] : rs2[23:16], rd[15:8] = 8'($unsigned(rs1[15:8]) > $unsigned(rs2[15:8])) ? rs1[15:8] : rs2[15:8], rd[7:0] = 8'($unsigned(rs1[7:0]) > $unsigned(rs2[7:0])) ? rs1[7:0] : rs2[7:0]}",
+                            "note": "Immediate is zero-extended, comparison is unsigned.",
+                            "example": "cv.maxu.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0100000": {
+                            "mnemonic": "cv.srl",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Shift Right Logical",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'(rs1[31:16]) >> rs2[19:16], rd[15:0] = rs1[15:0] >> rs2[3:0]} : {rd[31:24] = 8'(rs1[31:24]) >> rs2[26:24], rd[23:16] = 8'(rs1[23:16]) >> rs2[18:16], rd[15:8] = 8'(rs1[15:8]) >> rs2[10:8], rd[7:0] = 8'(rs1[7:0]) >> rs2[2:0]}",
+                            "example": "cv.srl.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0100100": {
+                            "mnemonic": "cv.sra",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Shift Right Arithmetic",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'($signed(rs1[31:16])) >>> rs2[19:16], rd[15:0] = $signed(rs1[15:0]) >>> rs2[3:0]} : {rd[31:24] = 8'($signed(rs1[31:24])) >>> rs2[26:24], rd[23:16] = 8'($signed(rs1[23:16])) >>> rs2[18:16], rd[15:8] = 8'($signed(rs1[15:8])) >>> rs2[10:8], rd[7:0] = 8'($signed(rs1[7:0])) >>> rs2[2:0]}",
+                            "example": "cv.sra.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0101000": {
+                            "mnemonic": "cv.sll",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Shift Left Logical",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'(rs1[31:16]) << rs2[19:16], rd[15:0] = rs1[15:0] << rs2[3:0]} : {rd[31:24] = 8'(rs1[31:24]) << rs2[26:24], rd[23:16] = 8'(rs1[23:16]) << rs2[18:16], rd[15:8] = 8'(rs1[15:8]) << rs2[10:8], rd[7:0] = 8'(rs1[7:0]) << rs2[2:0]}",
+                            "example": "cv.sll.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0101100": {
+                            "mnemonic": "cv.or",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Bitwise OR",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'(rs1[31:16] | rs2[31:16]), rd[15:0] = rs1[15:0] | rs2[15:0]} : {rd[31:24] = 8'(rs1[31:24] | rs2[31:24]), rd[23:16] = 8'(rs1[23:16] | rs2[23:16]), rd[15:8] = 8'(rs1[15:8] | rs2[15:8]), rd[7:0] = 8'(rs1[7:0] | rs2[7:0])}",
+                            "example": "cv.or.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0110000": {
+                            "mnemonic": "cv.xor",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Bitwise XOR",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'(rs1[31:16] ^ rs2[31:16]), rd[15:0] = rs1[15:0] ^ rs2[15:0]} : {rd[31:24] = 8'(rs1[31:24] ^ rs2[31:24]), rd[23:16] = 8'(rs1[23:16] ^ rs2[23:16]), rd[15:8] = 8'(rs1[15:8] ^ rs2[15:8]), rd[7:0] = 8'(rs1[7:0] ^ rs2[7:0])}",
+                            "example": "cv.xor.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0110100": {
+                            "mnemonic": "cv.and",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Bitwise AND",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'(rs1[31:16] & rs2[31:16]), rd[15:0] = rs1[15:0] & rs2[15:0]} : {rd[31:24] = 8'(rs1[31:24] & rs2[31:24]), rd[23:16] = 8'(rs1[23:16] & rs2[23:16]), rd[15:8] = 8'(rs1[15:8] & rs2[15:8]), rd[7:0] = 8'(rs1[7:0] & rs2[7:0])}",
+                            "example": "cv.and.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0111000": {
+                            "mnemonic": "cv.abs",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "data_type": "string"
+                            },
+                            "description": "Absolute Value",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($signed(rs1[31:16]) < 0) ? 16'(-$signed(rs1[31:16])) : 16'($signed(rs1[31:16])), rd[15:0] = ($signed(rs1[15:0]) < 0) ? 16'(-$signed(rs1[15:0])) :  16'($signed(rs1[15:0]))} : {rd[31:24] = ($signed(rs1[31:24]) < 0) ? 8'(-$signed(rs1[31:24])) : 8'($signed(rs1[31:24])), rd[23:16] = ($signed(rs1[23:16]) < 0) ? 8'(-$signed(rs1[23:16])) : 8'($signed(rs1[23:16])), rd[15:8] = ($signed(rs1[15:8]) < 0) ? 8'(-$signed(rs1[15:8])) : 8'($signed(rs1[15:8])), rd[7:0] = ($signed(rs1[7:0]) < 0) ? 8'(-$signed(rs1[7:0])) : 8'($signed(rs1[7:0]))}",
+                            "example": "cv.abs.{h,b} rd, rs1",
+                            "readregflags": "3'b001"
+                        }
+                    }
+                },
+                "0b100": {
+                    "funct7": {
+                        "0b0000000": {
+                            "mnemonic": "cv.add.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Scalar Add",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'($signed(rs1[31:16]) + $signed(rs2[15:0])), rd[15:0] = 16'($signed(rs1[15:0]) + $signed(rs2[15:0]))} : {rd[31:24] = 8'($signed(rs1[31:24]) + $signed(rs2[7:0])), rd[23:16] = 8'($signed(rs1[23:16]) + $signed(rs2[7:0])), rd[15:8] = 8'($signed(rs1[15:8]) + $signed(rs2[7:0])), rd[7:0] = 8'($signed(rs1[7:0]) + $signed(rs2[7:0]))}",
+                            "example": "cv.add.sc.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0000100": {
+                            "mnemonic": "cv.sub.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Scalar Subtract",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'($signed(rs1[31:16]) - $signed(rs2[15:0])), rd[15:0] = 16'($signed(rs1[15:0]) - $signed(rs2[15:0]))} : {rd[31:24] = 8'($signed(rs1[31:24]) - $signed(rs2[7:0])), rd[23:16] = 8'($signed(rs1[23:16]) - $signed(rs2[7:0])), rd[15:8] = 8'($signed(rs1[15:8]) - $signed(rs2[7:0])), rd[7:0] = 8'($signed(rs1[7:0]) - $signed(rs2[7:0]))}",
+                            "example": "cv.sub.sc.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0001000": {
+                            "mnemonic": "cv.avg.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Scalar Average",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'($signed(rs1[31:16]) + $signed(rs2[15:0])) >>> 1, rd[15:0] = 16'($signed(rs1[15:0]) + $signed(rs2[15:0])) >>> 1} : {rd[31:24] = 8'($signed(rs1[31:24]) + $signed(rs2[7:0])) >>> 1, rd[23:16] = 8'($signed(rs1[23:16]) + $signed(rs2[7:0])) >>> 1, rd[15:8] = 8'($signed(rs1[15:8]) + $signed(rs2[7:0])) >>> 1, rd[7:0] = 8'($signed(rs1[7:0]) + $signed(rs2[7:0])) >>> 1}",
+                            "example": "cv.avg.sc.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0001100": {
+                            "mnemonic": "cv.avgu.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Unsigned Scalar Average",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'($unsigned(rs1[31:16]) + $unsigned(rs2[15:0])) >> 1, rd[15:0] = 16'($unsigned(rs1[15:0]) + $unsigned(rs2[15:0])) >> 1} : {rd[31:24] = 8'($unsigned(rs1[31:24]) + $unsigned(rs2[7:0])) >> 1, rd[23:16] = 8'($unsigned(rs1[23:16]) + $unsigned(rs2[7:0])) >> 1, rd[15:8] = 8'($unsigned(rs1[15:8]) + $unsigned(rs2[7:0])) >> 1, rd[7:0] = 8'($unsigned(rs1[7:0]) + $unsigned(rs2[7:0])) >> 1}",
+                            "note": "Immediate is zero-extended, shift is logical.",
+                            "example": "cv.avgu.sc.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0010000": {
+                            "mnemonic": "cv.min.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Scalar Minimum",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($signed(rs1[31:16]) < $signed(rs2[15:0])) ? 16'($signed(rs1[31:16])) : 16'($signed(rs2[15:0])), rd[15:0] = ($signed(rs1[15:0]) < $signed(rs2[15:0])) ? 16'($signed(rs1[15:0])) : 16'($signed(rs2[15:0]))} : {rd[31:24] = ($signed(rs1[31:24]) < $signed(rs2[7:0])) ? 8'($signed(rs1[31:24])) : 8'($signed(rs2[7:0])), rd[23:16] = ($signed(rs1[23:16]) < $signed(rs2[7:0])) ? 8'($signed(rs1[23:16])) : 8'($signed(rs2[7:0])), rd[15:8] = ($signed(rs1[15:8]) < $signed(rs2[7:0])) ? 8'($signed(rs1[15:8])) : 8'($signed(rs2[7:0])), rd[7:0] = ($signed(rs1[7:0]) < $signed(rs2[7:0])) ? 8'($signed(rs1[7:0])) : 8'($signed(rs2[7:0]))}",
+                            "example": "cv.min.sc.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+
+                        "0b0010100": {
+                            "mnemonic": "cv.minu.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Unsigned Scalar Minimum",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($unsigned(rs1[31:16]) < $unsigned(rs2[15:0])) ? 16'($unsigned(rs1[31:16])) : 16'($unsigned(rs2[15:0])), rd[15:0] = ($unsigned(rs1[15:0]) < $unsigned(rs2[15:0])) ? 16'($unsigned(rs1[15:0])) : 16'($unsigned(rs2[15:0]))} : {rd[31:24] = ($unsigned(rs1[31:24]) < $unsigned(rs2[7:0])) ? 8'($unsigned(rs1[31:24])) : 8'($unsigned(rs2[7:0])), rd[23:16] = ($unsigned(rs1[23:16]) < $unsigned(rs2[7:0])) ? 8'($unsigned(rs1[23:16])) : 8'($unsigned(rs2[7:0])), rd[15:8] = ($unsigned(rs1[15:8]) < $unsigned(rs2[7:0])) ? 8'($unsigned(rs1[15:8])) : 8'($unsigned(rs2[7:0])), rd[7:0] = ($unsigned(rs1[7:0]) < $unsigned(rs2[7:0])) ? 8'($unsigned(rs1[7:0])) : 8'($unsigned(rs2[7:0]))}",
+                            "note": "Immediate is zero-extended, comparison is unsigned.",
+                            "example": "cv.minu.sc.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0011000": {
+                            "mnemonic": "cv.max.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Scalar Maximum",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($signed(rs1[31:16]) > $signed(rs2[15:0])) ? 16'($signed(rs1[31:16])) : 16'($signed(rs2[15:0])), rd[15:0] = ($signed(rs1[15:0]) > $signed(rs2[15:0])) ? 16'($signed(rs1[15:0])) : 16'($signed(rs2[15:0]))} : {rd[31:24] = ($signed(rs1[31:24]) > $signed(rs2[7:0])) ? 8'($signed(rs1[31:24])) : 8'($signed(rs2[7:0])), rd[23:16] = ($signed(rs1[23:16]) > $signed(rs2[7:0])) ? 8'($signed(rs1[23:16])) : 8'($signed(rs2[7:0])), rd[15:8] = ($signed(rs1[15:8]) > $signed(rs2[7:0])) ? 8'($signed(rs1[15:8])) : 8'($signed(rs2[7:0])), rd[7:0] = ($signed(rs1[7:0]) > $signed(rs2[7:0])) ? 8'($signed(rs1[7:0])) : 8'($signed(rs2[7:0]))}",
+                            "example": "cv.max.sc.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0011100": {
+                            "mnemonic": "cv.maxu.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Unsigned Scalar Maximum",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($unsigned(rs1[31:16]) > $unsigned(rs2[15:0])) ? 16'($unsigned(rs1[31:16])) : 16'($unsigned(rs2[15:0])), rd[15:0] = ($unsigned(rs1[15:0]) > $unsigned(rs2[15:0])) ? 16'($unsigned(rs1[15:0])) : 16'($unsigned(rs2[15:0]))} : {rd[31:24] = ($unsigned(rs1[31:24]) > $unsigned(rs2[7:0])) ?  8'($unsigned(rs1[31:24])) :  8'($unsigned(rs2[7:0])), rd[23:16] = ($unsigned(rs1[23:16]) > $unsigned(rs2[7:0])) ?  8'($unsigned(rs1[23:16])) :  8'($unsigned(rs2[7:0])), rd[15:8] = ($unsigned(rs1[15:8]) > $unsigned(rs2[7:0])) ?  8'($unsigned(rs1[15:8])) :  8'($unsigned(rs2[7:0])), rd[7:0] = ($unsigned(rs1[7:0]) > $unsigned(rs2[7:0])) ?  8'($unsigned(rs1[7:0])) :  8'($unsigned(rs2[7:0]))}",
+                            "note": "Immediate is zero-extended, comparison is unsigned.",
+                            "example": "cv.maxu.sc.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0100000": {
+                            "mnemonic": "cv.srl.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Shift Right Logical Scalar",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'(rs1[31:16]) >> rs2[3:0], rd[15:0] =  16'(rs1[15:0]) >> rs2[3:0]} : {rd[31:24] = 8'(rs1[31:24]) >> rs2[2:0], rd[23:16] = 8'(rs1[23:16]) >> rs2[2:0], rd[15:8] = 8'(rs1[15:8]) >> rs2[2:0], rd[7:0] = 8'(rs1[7:0]) >> rs2[2:0]}",
+                            "example": "cv.srl.sc.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0100100": {
+                            "mnemonic": "cv.sra.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Shift Right Arithmetic Scalar",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'($signed(rs1[31:16])) >>> rs2[3:0], rd[15:0] = 16'($signed(rs1[15:0])) >>> rs2[3:0]} : {rd[31:24] = 8'($signed(rs1[31:24])) >>> rs2[2:0], rd[23:16] = 8'($signed(rs1[23:16])) >>> rs2[2:0], rd[15:8] = 8'($signed(rs1[15:8])) >>> rs2[2:0], rd[7:0] = 8'($signed(rs1[7:0])) >>> rs2[2:0]}",
+                            "example": "cv.sra.sc.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0101000": {
+                            "mnemonic": "cv.sll.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Shift Left Logical Scalar",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'(rs1[31:16]) << rs2[3:0], rd[15:0] = 16'(rs1[15:0]) << rs2[3:0]} : {rd[31:24] = 8'(rs1[31:24]) << rs2[2:0], rd[23:16] = 8'(rs1[23:16]) << rs2[2:0], rd[15:8] = 8'(rs1[15:8]) << rs2[2:0], rd[7:0] = 8'(rs1[7:0]) << rs2[2:0]}",
+                            "example": "cv.sll.sc.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0101100": {
+                            "mnemonic": "cv.or.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Bitwise OR Scalar",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'(rs1[31:16] | rs2[15:0]), rd[15:0] = 16'(rs1[15:0] | rs2[15:0])} : {rd[31:24] = 8'(rs1[31:24] | rs2[7:0]), rd[23:16] = 8'(rs1[23:16] | rs2[7:0]), rd[15:8] = 8'(rs1[15:8] | rs2[7:0]), rd[7:0] = 8'(rs1[7:0] | rs2[7:0])}",
+                            "example": "cv.or.sc.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0110000": {
+                            "mnemonic": "cv.xor.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Bitwise XOR Scalar",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'(rs1[31:16] ^ rs2[15:0]), rd[15:0] = 16'(rs1[15:0] ^ rs2[15:0])} : {rd[31:24] = 8'(rs1[31:24] ^ rs2[7:0]), rd[23:16] = 8'(rs1[23:16] ^ rs2[7:0]), rd[15:8] = 8'(rs1[15:8] ^ rs2[7:0]), rd[7:0] = 8'(rs1[7:0] ^ rs2[7:0])}",
+                            "example": "cv.xor.sc.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        },
+                        "0b0110100": {
+                            "mnemonic": "cv.and.sc",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "rs2": "source2",
+                                "data_type": "string"
+                            },
+                            "description": "Bitwise AND Scalar",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'(rs1[31:16] & rs2[15:0]), rd[15:0] = 16'(rs1[15:0] & rs2[15:0])} : {rd[31:24] = 8'(rs1[31:24] & rs2[7:0]), rd[23:16] = 8'(rs1[23:16] & rs2[7:0]), rd[15:8] = 8'(rs1[15:8] & rs2[7:0]), rd[7:0] = 8'(rs1[7:0] & rs2[7:0])}",
+                            "example": "cv.and.sc.{h,b} rd, rs1, rs2",
+                            "readregflags": "3'b011"
+                        }
+                    }
+                },
+                "0b110": {
+                    "funct7": {
+                        "0b000000x": {
+                            "mnemonic": "cv.add.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate",
+                                "data_type": "string"
+                            },
+                            "description": "Immediate Scalar Add",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'($signed(rs1[31:16]) + $signed(imm6)), rd[15:0] = 16'($signed(rs1[15:0]) + $signed(imm6))} : {rd[31:24] = 8'($signed(rs1[31:24]) + $signed(imm6)), rd[23:16] = 8'($signed(rs1[23:16]) + $signed(imm6)), rd[15:8] = 8'($signed(rs1[15:8]) + $signed(imm6)), rd[7:0] = 8'($signed(rs1[7:0]) + $signed(imm6))}",
+                            "example": "cv.add.sci.{h,b} rd, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b000010x": {
+                            "mnemonic": "cv.sub.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate",
+                                "data_type": "string"
+                            },
+                            "description": "Immediate Scalar Subtract",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'($signed(rs1[31:16]) - $signed(imm6)), rd[15:0] = 16'($signed(rs1[15:0]) - $signed(imm6))} : {rd[31:24] = 8'($signed(rs1[31:24]) - $signed(imm6)), rd[23:16] = 8'($signed(rs1[23:16]) - $signed(imm6)), rd[15:8] = 8'($signed(rs1[15:8]) - $signed(imm6)), rd[7:0] = 8'($signed(rs1[7:0]) - $signed(imm6))}",
+                            "example": "cv.sub.sci.{h,b} rd, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b000100x": {
+                            "mnemonic": "cv.avg.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate",
+                                "data_type": "string"
+                            },
+                            "description": "Immediate Scalar Average",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'($signed(rs1[31:16]) + $signed(imm6)) >>> 1 , rd[15:0] = 16'($signed(rs1[15:0]) + $signed(imm6)) >>> 1} : {rd[31:24] = 8'($signed(rs1[31:24]) + $signed(imm6)) >>> 1, rd[23:16] = 8'($signed(rs1[23:16]) + $signed(imm6)) >>> 1, rd[15:8] = 8'($signed(rs1[15:8]) + $signed(imm6)) >>> 1, rd[7:0] = 8'($signed(rs1[7:0]) + $signed(imm6)) >>> 1}",
+                            "example": "cv.avg.sci.{h,b} rd, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b000110x": {
+                            "mnemonic": "cv.avgu.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate",
+                                "data_type": "string"
+                            },
+                            "description": "Immediate Unsigned Scalar Average",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'($unsigned(rs1[31:16]) + $unsigned(imm6)) >> 1, rd[15:0] = 16'($unsigned(rs1[15:0]) + $unsigned(imm6)) >> 1} : {rd[31:24] = 8'($unsigned(rs1[31:24]) + $unsigned(imm6)) >> 1, rd[23:16] = 8'($unsigned(rs1[23:16]) + $unsigned(imm6)) >> 1, rd[15:8] = 8'($unsigned(rs1[15:8]) + $unsigned(imm6)) >> 1, rd[7:0] = 8'($unsigned(rs1[7:0]) + $unsigned(imm6)) >> 1}",
+                            "note": "Immediate is zero-extended, shift is logical.",
+                            "example": "cv.avgu.sci.{h,b} rd, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b001000x": {
+                            "mnemonic": "cv.min.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate",
+                                "data_type": "string"
+                            },
+                            "description": "Immediate Scalar Minimum",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($signed(rs1[31:16]) < $signed(imm6)) ? rs1[31:16] : 16'($signed(imm6)), rd[15:0] = ($signed(rs1[15:0]) < $signed(imm6)) ? rs1[15:0] : 16'($signed(imm6))} : {rd[31:24] = ($signed(rs1[31:24]) < $signed(imm6)) ? rs1[31:24] : 8'($signed(imm6)), rd[23:16] = ($signed(rs1[23:16]) < $signed(imm6)) ? rs1[23:16] : 8'($signed(imm6)), rd[15:8] = ($signed(rs1[15:8]) < $signed(imm6)) ? rs1[15:8] : 8'($signed(imm6)), rd[7:0] = ($signed(rs1[7:0]) < $signed(imm6)) ? rs1[7:0] : 8'($signed(imm6))}",
+                            "example": "cv.min.sci.{h,b} rd, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b001010x": {
+                            "mnemonic": "cv.minu.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate",
+                                "data_type": "string"
+                            },
+                            "description": "Immediate Unsigned Scalar Minimum",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($unsigned(rs1[31:16]) < $unsigned(imm6)) ? rs1[31:16] : 16'($unsigned(imm6)), rd[15:0] = ($unsigned(rs1[15:0]) < $unsigned(imm6)) ? rs1[15:0] : 16'($unsigned(imm6))} : {rd[31:24] = ($unsigned(rs1[31:24]) < $unsigned(imm6)) ? rs1[31:24] : 8'($unsigned(imm6)), rd[23:16] = ($unsigned(rs1[23:16]) < $unsigned(imm6)) ? rs1[23:16] : 8'($unsigned(imm6)), rd[15:8] = ($unsigned(rs1[15:8]) < $unsigned(imm6)) ? rs1[15:8] : 8'($unsigned(imm6)), rd[7:0] = ($unsigned(rs1[7:0]) < $unsigned(imm6)) ? rs1[7:0] : 8'($unsigned(imm6))}",
+                            "note": "Immediate is zero-extended, comparison is unsigned.",
+                            "example": "cv.minu.sci.{h,b} rd, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b001100x": {
+                            "mnemonic": "cv.max.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate",
+                                "data_type": "string"
+                            },
+                            "description": "Immediate Scalar Maximum",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($signed(rs1[31:16]) > $signed(imm6)) ? rs1[31:16] : 16'($signed(imm6)), rd[15:0] = ($signed(rs1[15:0]) > $signed(imm6)) ? rs1[15:0] : 16'($signed(imm6))} : {rd[31:24] = ($signed(rs1[31:24]) > $signed(imm6)) ? rs1[31:24] : 8'($signed(imm6)), rd[23:16] = ($signed(rs1[23:16]) > $signed(imm6)) ? rs1[23:16] : 8'($signed(imm6)), rd[15:8] = ($signed(rs1[15:8]) > $signed(imm6)) ? rs1[15:8] : 8'($signed(imm6)), rd[7:0] = ($signed(rs1[7:0]) > $signed(imm6)) ? rs1[7:0] : 8'($signed(imm6))}",
+                            "example": "cv.max.sci.{h,b} rd, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b001110x": {
+                            "mnemonic": "cv.maxu.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate",
+                                "data_type": "string"
+                            },
+                            "description": "Immediate Unsigned Scalar Maximum",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = ($unsigned(rs1[31:16]) > $unsigned(imm6)) ? rs1[31:16] : 16'($unsigned(imm6)), rd[15:0] = ($unsigned(rs1[15:0]) > $unsigned(imm6)) ? rs1[15:0] : 16'($unsigned(imm6))} : {rd[31:24] = ($unsigned(rs1[31:24]) > $unsigned(imm6)) ? rs1[31:24] : 8'($unsigned(imm6)), rd[23:16] = ($unsigned(rs1[23:16]) > $unsigned(imm6)) ? rs1[23:16] : 8'($unsigned(imm6)), rd[15:8] = ($unsigned(rs1[15:8]) > $unsigned(imm6)) ? rs1[15:8] : 8'($unsigned(imm6)), rd[7:0] = ($unsigned(rs1[7:0]) > $unsigned(imm6)) ? rs1[7:0] : 8'($unsigned(imm6))}",
+                            "note": "Immediate is zero-extended, comparison is unsigned.",
+                            "example": "cv.maxu.sci.{h,b} rd, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b010000x": {
+                            "mnemonic": "cv.srl.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate",
+                                "data_type": "string"
+                            },
+                            "description": "Immediate Shift Right Logical",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'(rs1[31:16]) >> imm6[3:0], rd[15:0] = 16'(rs1[15:0]) >> imm6[3:0]} : {rd[31:24] = 8'(rs1[31:24]) >> imm6[2:0], rd[23:16] = 8'(rs1[23:16]) >> imm6[2:0], rd[15:8] = 8'(rs1[15:8]) >> imm6[2:0], rd[7:0] = 8'(rs1[7:0]) >> imm6[2:0]}",
+                            "note": "Immediate is zero-extended.",
+                            "example": "cv.srl.sci.{h,b} rd, rs1, imm6",
+                            "readregflags": "3'b001"
+                        }, 
+                        "0b010010x": {
+                            "mnemonic": "cv.sra.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate",
+                                "data_type": "string"
+                            },
+                            "description": "Immediate Shift Right Arithmetic",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'($signed(rs1[31:16])) >>> imm6[3:0], rd[15:0] = 16'($signed(rs1[15:0])) >>> imm6[3:0]} : {rd[31:24] = 8'($signed(rs1[31:24])) >>> imm6[2:0], rd[23:16] = 8'($signed(rs1[23:16])) >>> imm6[2:0], rd[15:8] = 8'($signed(rs1[15:8])) >>> imm6[2:0], rd[7:0] = 8'($signed(rs1[7:0])) >>> imm6[2:0]}",
+                            "note": "Immediate is zero-extended.",
+                            "example": "cv.sra.sci.{h,b} rd, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },                   
+                        "0b010100x": {
+                            "mnemonic": "cv.sll.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate",
+                                "data_type": "string"
+                            },
+                            "description": "Immediate Shift Left Logical",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'(rs1[31:16]) << imm6[3:0], rd[15:0] = 16'(rs1[15:0]) << imm6[3:0]} : {rd[31:24] = 8'(rs1[31:24]) << imm6[2:0], rd[23:16] = 8'(rs1[23:16]) << imm6[2:0], rd[15:8] = 8'(rs1[15:8]) << imm6[2:0], rd[7:0] = 8'(rs1[7:0]) << imm6[2:0]}",
+                            "note": "Immediate is zero-extended.",
+                            "example": "cv.sll.sci.{h,b} rd, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },                      
+                        "0b010110x": {
+                            "mnemonic": "cv.or.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate",
+                                "data_type": "string"
+                            },
+                            "description": "Immediate Bitwise OR",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'(rs1[31:16]) | 16'($signed(imm6)), rd[15:0] = 16'(rs1[15:0]) | 16'($signed(imm6))} : {rd[31:24] = 8'(rs1[31:24]) | 8'($signed(imm6)), rd[23:16] = 8'(rs1[23:16]) | 8'($signed(imm6)), rd[15:8] = 8'(rs1[15:8]) | 8'($signed(imm6)), rd[7:0] = 8'(rs1[7:0]) | 8'($signed(imm6))}",
+                            "note": "Immediate is zero-extended.",
+                            "example": "cv.or.sci.{h,b} rd, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },                       
+                        "0b011000x": {
+                            "mnemonic": "cv.xor.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate",
+                                "data_type": "string"
+                            },
+                            "description": "Immediate Bitwise XOR",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'(rs1[31:16] ^ 16'($signed(imm6))), rd[15:0] =  16'(rs1[15:0] ^ 16'($signed(imm6)))} : {rd[31:24] = 8'(rs1[31:24] ^ 8'($signed(imm6))), rd[23:16] = 8'(rs1[23:16] ^ 8'($signed(imm6))), rd[15:8] = 8'(rs1[15:8] ^ 8'($signed(imm6))), rd[7:0] = 8'(rs1[7:0] ^ 8'($signed(imm6)))}",
+                            "note": "Immediate is zero-extended.",
+                            "example": "cv.xor.sci.{h,b} rd, rs1, imm6",
+                            "readregflags": "3'b001"
+                        },
+                        "0b011010x": {
+                            "mnemonic": "cv.and.sci",
+                            "type": "R",
+                            "format": "R-type",
+                            "operands": {
+                                "rd": "destination",
+                                "rs1": "source1",
+                                "imm6": "immediate",
+                                "data_type": "string"
+                            },
+                            "description": "Immediate Bitwise AND",
+                            "operation": "(data_type == \"h\") ? {rd[31:16] = 16'(rs1[31:16] & 16'($signed(imm6))), rd[15:0] = 16'(rs1[15:0] & 16'($signed(imm6)))} : {rd[31:24] = 8'(rs1[31:24] & 8'($signed(imm6))), rd[23:16] = 8'(rs1[23:16] & 8'($signed(imm6))), rd[15:8] = 8'(rs1[15:8] & 8'($signed(imm6))), rd[7:0] = 8'(rs1[7:0] & 8'($signed(imm6)))}",
+                            "note": "Immediate is zero-extended.",
+                            "example": "cv.and.sci.{h,b} rd, rs1, imm6",
+                            "readregflags": "3'b001"
+                        }                       
+                    }
+                }
+            }
+        }
+    }
+}
+                    
+                
+                
