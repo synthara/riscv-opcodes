@@ -155,7 +155,6 @@ json_files = [
 
 # Read JSON files and collect instructions
 dict_maurizio_instructions = read_json_files(json_files)
-# print(dict_maurizio_instructions)
 
 var_field_nuove_istruzioni = {}
 for opcode in dict_maurizio_instructions:
@@ -168,9 +167,6 @@ for opcode in dict_maurizio_instructions:
             operands = instr["operands"]
             fields = list(operands.keys())
             var_field_nuove_istruzioni[mnemonic] = fields  # Inserisci nel dizionario
-
-print(var_field_nuove_istruzioni)
-print(len(var_field_nuove_istruzioni))
 
 
 #Global variables to make an indentation when needed
@@ -352,8 +348,8 @@ if os.path.exists(input_file):
 for instruction, data in instr_dict.items():                
     for i, (key, value) in enumerate(data.items()):
         if key == "variable_fields":
-            only_variable_fields[instruction] = value
-
+            only_variable_fields[instruction] = value    
+                   
 #Extracting the implementation for each instruction from the impl_dict.json
 for instruction, impls in impl_dict.items():
     for i, (key, value) in enumerate(impls.items()):
@@ -407,7 +403,7 @@ for i, (key, val) in enumerate(opcode_dict.items()):
     casez_dict[f"condition{i}"] = f"{key}"
     casez_dict[f"assign{i}"]    = f'`uvm_info("{key}", \"Instruction {key} detected successfully\", UVM_LOW)\n'
     for j, (instr, fields) in enumerate(only_variable_fields.items()):
-        if(key.lower() == instr):
+        if(key.lower() == instr.lower()):
             #fmt_name = instruction_formats[instr]
             for var_field, (start, end) in arg_lut.items():
                 for single_field in fields:
@@ -422,8 +418,8 @@ for i, (key, val) in enumerate(opcode_dict.items()):
             #     casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}immsb = {{bimm12hi[6], bimm12lo[0], bimm12hi[5:0], bimm12lo[4:1], 1'b0}};\n"
             # if(fmt_name == "UJ"):
             #     casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}immuj = {{{{11{{jimm20[19]}}}},jimm20[19], jimm20[7:0], jimm20[8], jimm20[18:9], 1'b0}};\n"
-            if instr in implementations_dict.keys():
-                casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}{implementations_dict[instr]}\n"
+            if instr.lower() in implementations_dict.keys():
+                casez_dict[f"assign{i}"] += f"{INDENT_THREE}{INDENT_ONE}{implementations_dict[instr.lower()]}\n"
 
 #Reordering the casez_dict based on the priority list
 casez_dict = reorder_casez_dict(casez_dict, priority_list)
