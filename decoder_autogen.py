@@ -566,6 +566,7 @@ class {class_name} extends {main_class};
     bit [31:0] addr;
     bit [31:0] reg_rs1_prev;
     bit [31:0] reg_rs2_prev;
+    bit [31:0] rs2_masked;
 
 
     uvma_rvfi_instr_seq_item_c#(32, 32) rvfi_instr_seq_item;
