@@ -1,10 +1,10 @@
 # rv_isa_add_sub
 
-cv.addNr    rd rs1 rs2 31..25=0x40 14..12=3 6..2=0x15 1..0=3
-cv.adduNr   rd rs1 rs2 31..25=0x41 14..12=3 6..2=0x15 1..0=3
-cv.addRNr   rd rs1 rs2 31..25=0x42 14..12=3 6..2=0x15 1..0=3
-cv.adduRNr  rd rs1 rs2 31..25=0x43 14..12=3 6..2=0x15 1..0=3
-cv.subNr    rd rs1 rs2 31..25=0x44 14..12=3 6..2=0x15 1..0=3
-cv.subuNr   rd rs1 rs2 31..25=0x45 14..12=3 6..2=0x15 1..0=3
-cv.subRNr   rd rs1 rs2 31..25=0x46 14..12=3 6..2=0x15 1..0=3
-cv.subuRNr  rd rs1 rs2 31..25=0x47 14..12=3 6..2=0x15 1..0=3
+cv.addNr    rd rs1 rs2 31..25=0x40 14..12=3 6..2=0x0A 1..0=3
+cv.adduNr   rd rs1 rs2 31..25=0x41 14..12=3 6..2=0x0A 1..0=3
+cv.addRNr   rd rs1 rs2 31..25=0x42 14..12=3 6..2=0x0A 1..0=3
+cv.adduRNr  rd rs1 rs2 31..25=0x43 14..12=3 6..2=0x0A 1..0=3
+cv.subNr    rd rs1 rs2 31..25=0x44 14..12=3 6..2=0x0A 1..0=3
+cv.subuNr   rd rs1 rs2 31..25=0x45 14..12=3 6..2=0x0A 1..0=3
+cv.subRNr   rd rs1 rs2 31..25=0x46 14..12=3 6..2=0x0A 1..0=3
+cv.subuRNr  rd rs1 rs2 31..25=0x47 14..12=3 6..2=0x0A 1..0=3

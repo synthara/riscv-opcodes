@@ -1,10 +1,10 @@
 # rv_add_sub_ls3
 
-cv.addN     rd rs1 rs2 ls3 31..25=0b00xxxxx 14..12=2 6..2=0x2D 1..0=3
-cv.adduN    rd rs1 rs2 ls3 31..25=0b01xxxxx 14..12=2 6..2=0x2D 1..0=3
-cv.addRN    rd rs1 rs2 ls3 31..25=0b10xxxxx 14..12=2 6..2=0x2D 1..0=3
-cv.adduRN   rd rs1 rs2 ls3 31..25=0b11xxxxx 14..12=2 6..2=0x2D 1..0=3
-cv.subN     rd rs1 rs2 ls3 31..25=0b00xxxxx 14..12=3 6..2=0x2D 1..0=3
-cv.subuN    rd rs1 rs2 ls3 31..25=0b01xxxxx 14..12=3 6..2=0x2D 1..0=3
-cv.subRN    rd rs1 rs2 ls3 31..25=0b10xxxxx 14..12=3 6..2=0x2D 1..0=3
-cv.subuRN   rd rs1 rs2 ls3 31..25=0b11xxxxx 14..12=3 6..2=0x2D 1..0=3
+cv.addN    rd rs1 rs2 ls3 31..30=0b00 14..12=0b010 6..0=0x5B  
+cv.adduN   rd rs1 rs2 ls3 31..30=0b01 14..12=0b010 6..0=0x5B  
+cv.addRN   rd rs1 rs2 ls3 31..30=0b10 14..12=0b010 6..0=0x5B  
+cv.adduRN  rd rs1 rs2 ls3 31..30=0b11 14..12=0b010 6..0=0x5B  
+cv.subN    rd rs1 rs2 ls3 31..30=0b00 14..12=0b011 6..0=0x5B  
+cv.subuN   rd rs1 rs2 ls3 31..30=0b01 14..12=0b011 6..0=0x5B  
+cv.subRN   rd rs1 rs2 ls3 31..30=0b10 14..12=0b011 6..0=0x5B  
+cv.subuRN  rd rs1 rs2 ls3 31..30=0b11 14..12=0b011 6..0=0x5B  
