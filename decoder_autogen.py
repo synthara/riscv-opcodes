@@ -495,14 +495,16 @@ else:
     while_code = ""    # Void: I'm not writing anything inside the run_phase
     step_code = """
     function uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) step (int i, uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t);
+        uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t_reference_model_prov;
         instruction = {mem[pc+3][7:0], mem[pc+2][7:0], mem[pc+1][7:0], mem[pc][7:0]};
-        pc = decode_opcode(instruction, pc);
+        t_reference_model_prov = decode_opcode(instruction);
         `uvm_info(get_type_name(), "Dummy step function called", UVM_DEBUG)
+        return t_reference_model_prov;
     endfunction 
 
     function void write_rvfi_instr(uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t);
         uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t_reference_model = step(1, t);
-        m_analysis_port.write(t);
+        m_analysis_port.write(t_reference_model);
         `uvm_info(get_type_name(), "Dummy write_rvfi_instr function called", UVM_DEBUG)
     endfunction : write_rvfi_instr
 """
@@ -510,7 +512,7 @@ else:
 #This block is used to fill the rvfi_instr_seq_item with the values extracted from the instruction
 rvfi_block = f"""
 {INDENT_TWO}rvfi_instr_seq_item.order     = order++;
-{INDENT_TWO}rvfi_instr_seq_item.insn      = instruction;
+{INDENT_TWO}rvfi_instr_seq_item.insn      = instr;
 {INDENT_TWO}rvfi_instr_seq_item.rs1_addr  = rs1;
 {INDENT_TWO}if(rs1 != rd) begin
 {INDENT_THREE}rvfi_instr_seq_item.rs1_rdata = reg_file[rs1];
@@ -567,6 +569,8 @@ class {class_name} extends {main_class};
     bit [31:0] reg_rs1_prev;
     bit [31:0] reg_rs2_prev;
     bit [31:0] rs2_masked;
+    bit [31:0] imm6_ext;
+    string csr_val;
 
 
     uvma_rvfi_instr_seq_item_c#(32, 32) rvfi_instr_seq_item;
@@ -613,7 +617,7 @@ class {class_name} extends {main_class};
     {step_code}
     {run_phase_code}
 
-    function bit [{instr_width}:0] decode_opcode(bit[{instr_width}:0] instr, bit[{instr_width}:0] pc);
+    function uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) decode_opcode(bit[{instr_width}:0] instr);
 
         rvfi_instr_seq_item = uvma_rvfi_instr_seq_item_c#(32,32)::type_id::create("rvfi_instr_seq_item", this);
 
@@ -635,7 +639,7 @@ class {class_name} extends {main_class};
 
         {rvfi_block}
 
-        return pc;
+        return rvfi_instr_seq_item;
 
     endfunction : decode_opcode
 
@@ -664,7 +668,7 @@ file_content = template_content.format(casez_string=casez_string,**values, field
 
 
 #Writing the formatted content to the sysverilog class
-directory = "/home/pab/workspace/core-v-verif/lib/uvm_components/uvmc_rvfi_reference_model"
+directory = "../lib/uvm_components/uvmc_rvfi_reference_model"
 
 output_file = os.path.join(directory, config["name"] + ".sv")
 

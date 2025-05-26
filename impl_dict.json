@@ -33,85 +33,85 @@
       "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\timmsb = {bimm12hi[6], bimm12lo[0], bimm12hi[5:0], bimm12lo[4:1], 1'b0};\n\t\t\t\timmsb_ext = {{19{immsb[12]}}, immsb};\n\t\t\t\tif (reg_file[rs1] != reg_file[rs2]) begin\n\t\t\t\t\tpc = pc + immsb_ext;\n\t\t\t\t\tincr = 0;\n\t\t\t\tend"
   },
   "c_add": {
-    "impl": "reg_rs1_prev = reg_file[rd_rs1_n0];\n\t\t\t\treg_rs2_prev = reg_file[c_rs2_n0];\n\t\t\t\treg_file[rd_rs1_n0] = reg_file[rd_rs1_n0] + reg_file[c_rs2_n0];\n\t\t\t\trd = rd_rs1_n0;\n\t\t\t\trs1 = rd_rs1_n0;\n\t\t\t\trs2 = c_rs2_n0;\n\t\t\t\tincr = 2;"
+    "impl": "reg_rs1_prev = reg_file[rd_rs1_n0];\n\t\t\t\treg_rs2_prev = reg_file[c_rs2_n0];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\treg_file[rd_rs1_n0] = reg_file[rd_rs1_n0] + reg_file[c_rs2_n0];\n\t\t\t\trd = rd_rs1_n0;\n\t\t\t\trs1 = rd_rs1_n0;\n\t\t\t\trs2 = c_rs2_n0;\n\t\t\t\tincr = 2;"
   },
   "c_addi": {
-      "impl": "reg_rs1_prev = reg_file[rd_rs1_n0];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tc_imm_ext = {{26{c_nzimm6hi}}, c_nzimm6hi, c_nzimm6lo};\n\t\t\t\treg_file[rd_rs1_n0] = reg_file[rd_rs1_n0] + c_imm_ext;\n\t\t\t\trd = rd_rs1_n0;\n\t\t\t\trs1 = rd_rs1_n0;\n\t\t\t\tincr = 2;"
+      "impl": "reg_rs1_prev = reg_file[rd_rs1_n0];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\tc_imm_ext = {{26{c_nzimm6hi}}, c_nzimm6hi, c_nzimm6lo};\n\t\t\t\treg_file[rd_rs1_n0] = reg_file[rd_rs1_n0] + c_imm_ext;\n\t\t\t\trd = rd_rs1_n0;\n\t\t\t\trs1 = rd_rs1_n0;\n\t\t\t\tincr = 2;"
   },
   "c_addi16sp": {
-      "impl": "rs1 = 2;\n\t\t\t\treg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tc_imm_ext = {{22{c_nzimm10hi}}, c_nzimm10hi, c_nzimm10lo[2:1], c_nzimm10lo[3], c_nzimm10lo[0], c_nzimm10lo[4], 4'b0000};\n\t\t\t\treg_file[2] = reg_file[2] + c_imm_ext;\n\t\t\t\trd = 2;\n\t\t\t\tincr = 2;"
+      "impl": "rs1 = 2;\n\t\t\t\treg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\tc_imm_ext = {{22{c_nzimm10hi}}, c_nzimm10hi, c_nzimm10lo[2:1], c_nzimm10lo[3], c_nzimm10lo[0], c_nzimm10lo[4], 4'b0000};\n\t\t\t\treg_file[2] = reg_file[2] + c_imm_ext;\n\t\t\t\trd = 2;\n\t\t\t\tincr = 2;"
   },
   "c_addi4spn": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tc_imm_ext = {22'b0, c_nzuimm10[5:2], c_nzuimm10[7:6], c_nzuimm10[0], c_nzuimm10[1], 2'b00};\n\t\t\t\treg_file[rd_p+8] = reg_file[2] + c_imm_ext;\n\t\t\t\trs1 = 2;\n\t\t\t\trd = rd_p + 8;\n\t\t\t\tincr = 2;"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\tc_imm_ext = {22'b0, c_nzuimm10[5:2], c_nzuimm10[7:6], c_nzuimm10[0], c_nzuimm10[1], 2'b00};\n\t\t\t\treg_file[rd_p+8] = reg_file[2] + c_imm_ext;\n\t\t\t\trs1 = 2;\n\t\t\t\trd = rd_p + 8;\n\t\t\t\tincr = 2;"
   },
   "c_and": {
-      "impl": "reg_rs1_prev = reg_file[rd_rs1_p+8];\n\t\t\t\treg_rs2_prev = reg_file[rs2_p+8];\n\t\t\t\treg_file[rd_rs1_p+8] = reg_file[rd_rs1_p+8] & reg_file[rs2_p+8];\n\t\t\t\trs1 = rd_rs1_p + 8;\n\t\t\t\trs2 = rs2_p + 8;\n\t\t\t\trd = rd_rs1_p + 8;\n\t\t\t\tincr = 2;"
+      "impl": "reg_rs1_prev = reg_file[rd_rs1_p+8];\n\t\t\t\treg_rs2_prev = reg_file[rs2_p+8];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\treg_file[rd_rs1_p+8] = reg_file[rd_rs1_p+8] & reg_file[rs2_p+8];\n\t\t\t\trs1 = rd_rs1_p + 8;\n\t\t\t\trs2 = rs2_p + 8;\n\t\t\t\trd = rd_rs1_p + 8;\n\t\t\t\tincr = 2;"
   },
   "c_andi": {
-      "impl": "reg_rs1_prev = reg_file[rd_rs1_p+8];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tc_imm_ext = {{26{c_imm6hi}}, c_imm6hi, c_imm6lo};\n\t\t\t\treg_file[rd_rs1_p+8] = reg_file[rd_rs1_p+8] & c_imm_ext;\n\t\t\t\trs1 = rd_rs1_p + 8;\n\t\t\t\trd = rd_rs1_p + 8;\n\t\t\t\tincr = 2;"
+      "impl": "reg_rs1_prev = reg_file[rd_rs1_p+8];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\tc_imm_ext = {{26{c_imm6hi}}, c_imm6hi, c_imm6lo};\n\t\t\t\treg_file[rd_rs1_p+8] = reg_file[rd_rs1_p+8] & c_imm_ext;\n\t\t\t\trs1 = rd_rs1_p + 8;\n\t\t\t\trd = rd_rs1_p + 8;\n\t\t\t\tincr = 2;"
   },
   "c_beqz": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tc_imm_ext = {{23{c_bimm9hi[2]}}, c_bimm9hi[2], c_bimm9lo[4:3], c_bimm9lo[0], c_bimm9hi[1:0], c_bimm9lo[2:1], 1'b0};\n\t\t\t\trs1 = rs1_p + 8;\n\t\t\t\tif (reg_file[rs1_p+8] == 0) begin\n\t\t\t\t\tpc = pc + c_imm_ext;\n\t\t\t\t\tincr = 0;\n\t\t\t\tend else begin\n\t\t\t\t\tincr = 2;\n\t\t\t\tend"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\tc_imm_ext = {{23{c_bimm9hi[2]}}, c_bimm9hi[2], c_bimm9lo[4:3], c_bimm9lo[0], c_bimm9hi[1:0], c_bimm9lo[2:1], 1'b0};\n\t\t\t\trs1 = rs1_p + 8;\n\t\t\t\tif (reg_file[rs1_p+8] == 0) begin\n\t\t\t\t\tpc = pc + c_imm_ext;\n\t\t\t\t\tincr = 0;\n\t\t\t\tend else begin\n\t\t\t\t\tincr = 2;\n\t\t\t\tend"
   },
   "c_bnez": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tc_imm_ext = {{23{c_bimm9hi[2]}}, c_bimm9hi[2], c_bimm9lo[4:3], c_bimm9lo[0], c_bimm9hi[1:0], c_bimm9lo[2:1], 1'b0};\n\t\t\t\trs1 = rs1_p + 8;\n\t\t\t\tif (reg_file[rs1_p+8] != 0) begin\n\t\t\t\t\tpc = pc + c_imm_ext;\n\t\t\t\t\tincr = 0;\n\t\t\t\tend else begin\n\t\t\t\t\tincr = 2;\n\t\t\t\tend"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\tc_imm_ext = {{23{c_bimm9hi[2]}}, c_bimm9hi[2], c_bimm9lo[4:3], c_bimm9lo[0], c_bimm9hi[1:0], c_bimm9lo[2:1], 1'b0};\n\t\t\t\trs1 = rs1_p + 8;\n\t\t\t\tif (reg_file[rs1_p+8] != 0) begin\n\t\t\t\t\tpc = pc + c_imm_ext;\n\t\t\t\t\tincr = 0;\n\t\t\t\tend else begin\n\t\t\t\t\tincr = 2;\n\t\t\t\tend"
   },
   "c_ebreak": {
-      "impl": "// c_ebreak\n\t\t\t\tincr = 2;"
+      "impl": "// c_ebreak\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\tincr = 2;"
   },
   "c_j": {
-    "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tc_imm_ext = {{20{c_imm12[10]}}, c_imm12[10], c_imm12[6], c_imm12[8:7], c_imm12[4], c_imm12[5], c_imm12[0], c_imm12[9], c_imm12[3:1], 1'b0};\n\t\t\t\tpc = pc + c_imm_ext;\n\t\t\t\tincr = 0;"
+    "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\tc_imm_ext = {{20{c_imm12[10]}}, c_imm12[10], c_imm12[6], c_imm12[8:7], c_imm12[4], c_imm12[5], c_imm12[0], c_imm12[9], c_imm12[3:1], 1'b0};\n\t\t\t\tpc = pc + c_imm_ext;\n\t\t\t\tincr = 0;"
   },
   "c_jal": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tc_imm_ext = {{20{c_imm12[10]}}, c_imm12[10], c_imm12[6], c_imm12[8:7], c_imm12[4], c_imm12[5], c_imm12[0], c_imm12[9], c_imm12[3:1], 1'b0};\n\t\t\t\treg_file[1] = pc + 2;\n\t\t\t\tpc = pc + c_imm_ext;\n\t\t\t\trd = 1;\n\t\t\t\tincr = 0;"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\tc_imm_ext = {{20{c_imm12[10]}}, c_imm12[10], c_imm12[6], c_imm12[8:7], c_imm12[4], c_imm12[5], c_imm12[0], c_imm12[9], c_imm12[3:1], 1'b0};\n\t\t\t\treg_file[1] = pc + 2;\n\t\t\t\tpc = pc + c_imm_ext;\n\t\t\t\trd = 1;\n\t\t\t\tincr = 0;"
   },
   "c_jalr": {
-      "impl": "reg_rs1_prev = reg_file[c_rs1_n0];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tpc = (reg_file[c_rs1_n0]) & ~1;\n\t\t\t\treg_file[1] = pc_before + 2;\n\t\t\t\trs1 = c_rs1_n0;\n\t\t\t\trd = 1;\n\t\t\t\tincr = 0;"
+      "impl": "reg_rs1_prev = reg_file[c_rs1_n0];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\tpc = (reg_file[c_rs1_n0]) & ~1;\n\t\t\t\treg_file[1] = pc_before + 2;\n\t\t\t\trs1 = c_rs1_n0;\n\t\t\t\trd = 1;\n\t\t\t\tincr = 0;"
   },
   "c_jr": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tpc = (reg_file[rs1_n0]) & ~1;\n\t\t\t\trs1 = rs1_n0;\n\t\t\t\tincr = 0;"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\tpc = (reg_file[rs1_n0]) & ~1;\n\t\t\t\trs1 = rs1_n0;\n\t\t\t\tincr = 0;"
   },
   "c_li": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tc_imm_ext = {{26{c_imm6hi}}, c_imm6hi, c_imm6lo};\n\t\t\t\treg_file[rd_n0] = c_imm_ext;\n\t\t\t\trd = rd_n0;\n\t\t\t\tincr = 2;"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\tc_imm_ext = {{26{c_imm6hi}}, c_imm6hi, c_imm6lo};\n\t\t\t\treg_file[rd_n0] = c_imm_ext;\n\t\t\t\trd = rd_n0;\n\t\t\t\tincr = 2;"
   },
   "c_lui": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tc_imm_ext = {{14{c_nzimm18hi}}, c_nzimm18hi, c_nzimm18lo, 12'b0};\n\t\t\t\treg_file[rd_n2] = c_imm_ext;\n\t\t\t\trd = rd_n2;\n\t\t\t\tincr = 2;"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\tc_imm_ext = {{14{c_nzimm18hi}}, c_nzimm18hi, c_nzimm18lo, 12'b0};\n\t\t\t\treg_file[rd_n2] = c_imm_ext;\n\t\t\t\trd = rd_n2;\n\t\t\t\tincr = 2;"
   },
   "c_lw": {
-      "impl": "reg_rs1_prev = reg_file[rs1_p+8];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\taddr = reg_file[rs1_p+8] + {c_uimm7lo[0], c_uimm7hi, c_uimm7lo[1], 2'b00};\n\t\t\t\treg_file[rd_p+8] = {mem[addr + 3][7:0], mem[addr + 2][7:0], mem[addr + 1][7:0], mem[addr][7:0]};\n\t\t\t\trd = rd_p + 8;\n\t\t\t\trs1 = rs1_p + 8;\n\t\t\t\tincr = 2;"
+      "impl": "reg_rs1_prev = reg_file[rs1_p+8];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\taddr = reg_file[rs1_p+8] + {c_uimm7lo[0], c_uimm7hi, c_uimm7lo[1], 2'b00};\n\t\t\t\treg_file[rd_p+8] = {mem[addr + 3][7:0], mem[addr + 2][7:0], mem[addr + 1][7:0], mem[addr][7:0]};\n\t\t\t\trd = rd_p + 8;\n\t\t\t\trs1 = rs1_p + 8;\n\t\t\t\tincr = 2;"
   },
   "c_lwsp": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\taddr = reg_file[2] + {c_uimm8splo[1:0], c_uimm8sphi, c_uimm8splo[4:2], 2'b00};\n\t\t\t\treg_file[rd_n0] = {mem[addr + 3][7:0], mem[addr + 2][7:0], mem[addr + 1][7:0], mem[addr][7:0]};\n\t\t\t\trs1 = 2;\n\t\t\t\trd = rd_n0;\n\t\t\t\tincr = 2;"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\taddr = reg_file[2] + {c_uimm8splo[1:0], c_uimm8sphi, c_uimm8splo[4:2], 2'b00};\n\t\t\t\treg_file[rd_n0] = {mem[addr + 3][7:0], mem[addr + 2][7:0], mem[addr + 1][7:0], mem[addr][7:0]};\n\t\t\t\trs1 = 2;\n\t\t\t\trd = rd_n0;\n\t\t\t\tincr = 2;"
   },
   "c_mv": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[c_rs2_n0];\n\t\t\t\treg_file[rd_n0] = reg_file[c_rs2_n0];\n\t\t\t\trd = rd_n0;\n\t\t\t\trs2 = c_rs2_n0;\n\t\t\t\tincr = 2;"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[c_rs2_n0];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\treg_file[rd_n0] = reg_file[c_rs2_n0];\n\t\t\t\trd = rd_n0;\n\t\t\t\trs2 = c_rs2_n0;\n\t\t\t\tincr = 2;"
   },
   "c_nop": {
-      "impl": "// c_nop\n\t\t\t\tincr = 2;"
+      "impl": "// c_nop\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\tincr = 2;"
   },
   "c_or": {
-      "impl": "reg_rs1_prev = reg_file[rd_rs1_p+8];\n\t\t\t\treg_rs2_prev = reg_file[rs2_p+8];\n\t\t\t\treg_file[rd_rs1_p+8] = reg_file[rd_rs1_p+8] | reg_file[rs2_p+8];\n\t\t\t\trs1 = rd_rs1_p + 8;\n\t\t\t\trs2 = rs2_p + 8;\n\t\t\t\trd = rd_rs1_p + 8;\n\t\t\t\tincr = 2;"
+      "impl": "reg_rs1_prev = reg_file[rd_rs1_p+8];\n\t\t\t\treg_rs2_prev = reg_file[rs2_p+8];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\treg_file[rd_rs1_p+8] = reg_file[rd_rs1_p+8] | reg_file[rs2_p+8];\n\t\t\t\trs1 = rd_rs1_p + 8;\n\t\t\t\trs2 = rs2_p + 8;\n\t\t\t\trd = rd_rs1_p + 8;\n\t\t\t\tincr = 2;"
   },
   "c_slli": {
-    "impl": "reg_rs1_prev = reg_file[rd_rs1_n0];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tc_imm_ext = {27'b0, c_nzuimm6lo};\n\t\t\t\treg_file[rd_rs1_n0] = reg_file[rd_rs1_n0] << c_imm_ext;\n\t\t\t\trs1 = rd_rs1_n0;\n\t\t\t\trd = rd_rs1_n0;\n\t\t\t\tincr = 2;"
+    "impl": "reg_rs1_prev = reg_file[rd_rs1_n0];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\treg_file[rd_rs1_n0] = reg_file[rd_rs1_n0] << c_nzuimm6lo;\n\t\t\t\trs1 = rd_rs1_n0;\n\t\t\t\trd = rd_rs1_n0;\n\t\t\t\tincr = 2;"
   },
   "c_srai": {
-      "impl": "reg_rs1_prev = reg_file[rd_rs1_p+8];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tc_imm_ext = {27'b0, c_nzuimm5};\n\t\t\t\treg_file[rd_rs1_p+8] = reg_file[rd_rs1_p+8] >>> c_imm_ext;\n\t\t\t\trs1 = rd_rs1_p + 8;\n\t\t\t\trd = rd_rs1_p + 8;\n\t\t\t\tincr = 2;"
+      "impl": "reg_rs1_prev = reg_file[rd_rs1_p+8];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\treg_file[rd_rs1_p+8] = $signed(reg_file[rd_rs1_p+8]) >>> c_nzuimm5;\n\t\t\t\trs1 = rd_rs1_p + 8;\n\t\t\t\trd = rd_rs1_p + 8;\n\t\t\t\tincr = 2;"
   },
   "c_srli": {
-      "impl": "reg_rs1_prev = reg_file[rd_rs1_p+8];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tc_imm_ext = {27'b0, c_nzuimm5};\n\t\t\t\treg_file[rd_rs1_p+8] = reg_file[rd_rs1_p+8] >> c_imm_ext;\n\t\t\t\trs1 = rd_rs1_p + 8;\n\t\t\t\trd = rd_rs1_p + 8;\n\t\t\t\tincr = 2;" 
+      "impl": "reg_rs1_prev = reg_file[rd_rs1_p+8];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\treg_file[rd_rs1_p+8] = reg_file[rd_rs1_p+8] >> c_nzuimm5;\n\t\t\t\trs1 = rd_rs1_p + 8;\n\t\t\t\trd = rd_rs1_p + 8;\n\t\t\t\tincr = 2;" 
   },
   "c_sub": {
-      "impl": "reg_rs1_prev = reg_file[rd_rs1+8];\n\t\t\t\treg_rs2_prev = reg_file[rs2_p+8];\n\t\t\t\treg_file[rd_rs1_p+8] = reg_file[rd_rs1_p+8] - reg_file[rs2_p+8];\n\t\t\t\trs1 = rd_rs1_p + 8;\n\t\t\t\trs2 = rs2_p + 8;\n\t\t\t\trd = rd_rs1_p + 8;\n\t\t\t\tincr = 2;"
+      "impl": "reg_rs1_prev = reg_file[rd_rs1+8];\n\t\t\t\treg_rs2_prev = reg_file[rs2_p+8];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\treg_file[rd_rs1_p+8] = reg_file[rd_rs1_p+8] - reg_file[rs2_p+8];\n\t\t\t\trs1 = rd_rs1_p + 8;\n\t\t\t\trs2 = rs2_p + 8;\n\t\t\t\trd = rd_rs1_p + 8;\n\t\t\t\tincr = 2;"
   },
   "c_sw": {
-      "impl": "reg_rs1_prev = reg_file[rs1_p+8];\n\t\t\t\treg_rs2_prev = reg_file[rs2_p+8];\n\t\t\t\taddr = reg_file[rs1_p+8] + {c_uimm7lo[0], c_uimm7hi, c_uimm7lo[1], 2'b00};\n\t\t\t\tmem[addr] = reg_file[rs2_p+8][7:0];\n\t\t\t\tmem[addr + 1] = reg_file[rs2_p+8][15:8];\n\t\t\t\tmem[addr + 2] = reg_file[rs2_p+8][23:16];\n\t\t\t\tmem[addr + 3] = reg_file[rs2_p+8][31:24];\n\t\t\t\tincr = 2;"
+      "impl": "reg_rs1_prev = reg_file[rs1_p+8];\n\t\t\t\treg_rs2_prev = reg_file[rs2_p+8];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\taddr = reg_file[rs1_p+8] + {c_uimm7lo[0], c_uimm7hi, c_uimm7lo[1], 2'b00};\n\t\t\t\tmem[addr] = reg_file[rs2_p+8][7:0];\n\t\t\t\tmem[addr + 1] = reg_file[rs2_p+8][15:8];\n\t\t\t\tmem[addr + 2] = reg_file[rs2_p+8][23:16];\n\t\t\t\tmem[addr + 3] = reg_file[rs2_p+8][31:24];\n\t\t\t\tincr = 2;"
   },
   "c_swsp": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[c_rs2];\n\t\t\t\taddr = reg_file[2] + {c_uimm8sp_s[1:0], c_uimm8sp_s[5:2], 2'b00};\n\t\t\t\tmem[addr] = reg_file[c_rs2][7:0];\n\t\t\t\tmem[addr + 1] = reg_file[c_rs2][15:8];\n\t\t\t\tmem[addr + 2] = reg_file[c_rs2][23:16];\n\t\t\t\tmem[addr + 3] = reg_file[c_rs2][31:24];\n\t\t\t\trs1 = 2;\n\t\t\t\trs2 = c_rs2;\n\t\t\t\tincr = 2;"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[c_rs2];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\taddr = reg_file[2] + {c_uimm8sp_s[1:0], c_uimm8sp_s[5:2], 2'b00};\n\t\t\t\tmem[addr] = reg_file[c_rs2][7:0];\n\t\t\t\tmem[addr + 1] = reg_file[c_rs2][15:8];\n\t\t\t\tmem[addr + 2] = reg_file[c_rs2][23:16];\n\t\t\t\tmem[addr + 3] = reg_file[c_rs2][31:24];\n\t\t\t\trs1 = 2;\n\t\t\t\trs2 = c_rs2;\n\t\t\t\tincr = 2;"
   },
   "c_xor": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd_rs1_p] = reg_file[rd_rs1_p] ^ reg_file[rs2_p];\n\t\t\t\tincr = 2;"
+      "impl": "reg_rs1_prev = reg_file[rd_rs1_p+8];\n\t\t\t\treg_rs2_prev = reg_file[rs2_p+8];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\treg_file[rd_rs1_p+8] = reg_file[rd_rs1_p+8] ^ reg_file[rs2_p+8];\n\t\t\t\trs1 = rd_rs1_p+8;\n\t\t\t\trs2 = rs2_p+8;\n\t\t\t\trd = rd_rs1_p+8;\n\t\t\t\tincr = 2;"
   },
   "csrrw": {
       "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = csr_reg_file[csr];\n\t\t\t\tcsr_reg_file[csr] = reg_file[rs1];"
@@ -131,6 +131,8 @@
   "csrrci": {
       "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = csr_reg_file[csr];\n\t\t\t\tcsr_reg_file[csr] = csr_reg_file[csr] & ~zimm5;"
   },
+
+
 
 
 
@@ -160,6 +162,9 @@
   },
 
 
+
+
+
   "cv_addn": {
       "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = ($signed(reg_file[rs1]) + $signed(reg_file[rs2])) >>> ls3;"
   },
@@ -187,11 +192,14 @@
 
 
 
+
+
+
   "cv_clip": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_rs1_prev = reg_file[rs1];\n\t\t\t\tif (ls2 != 0) begin\n\t\t\t\t\tif ($signed(reg_file[rs1]) <= -$signed(1 <<< (ls2 - 1))) begin\n\t\t\t\t\t\treg_file[rd] = -$signed(1 <<< (ls2 - 1));\n\t\t\t\t\tend else if ($signed(reg_file[rs1]) >= $signed((1 <<< (ls2 - 1)) - 1)) begin\n\t\t\t\t\t\treg_file[rd] = $signed((1 <<< (ls2 - 1)) - 1);\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd] = reg_file[rs1];\n\t\t\t\t\tend\n\t\t\t\tend else begin\n\t\t\t\t\tif ($signed(reg_file[rs1]) <= -1) begin\n\t\t\t\t\t\treg_file[rd] = -1;\n\t\t\t\t\tend else if ($signed(reg_file[rs1]) >= 0) begin\n\t\t\t\t\t\treg_file[rd] = 0;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd] = reg_file[rs1];\n\t\t\t\t\tend\n\t\t\t\tend"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (ls2 != 0) begin\n\t\t\t\t\tif ($signed(reg_file[rs1]) <= -$signed(1 <<< (ls2 - 1))) begin\n\t\t\t\t\t\treg_file[rd] = -$signed(1 <<< (ls2 - 1));\n\t\t\t\t\tend else if ($signed(reg_file[rs1]) >= $signed((1 <<< (ls2 - 1)) - 1)) begin\n\t\t\t\t\t\treg_file[rd] = $signed((1 <<< (ls2 - 1)) - 1);\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd] = reg_file[rs1];\n\t\t\t\t\tend\n\t\t\t\tend else begin\n\t\t\t\t\tif ($signed(reg_file[rs1]) <= -1) begin\n\t\t\t\t\t\treg_file[rd] = -1;\n\t\t\t\t\tend else if ($signed(reg_file[rs1]) >= 0) begin\n\t\t\t\t\t\treg_file[rd] = 0;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd] = reg_file[rs1];\n\t\t\t\t\tend\n\t\t\t\tend"
   },
   "cv_clipu": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_rs1_prev = reg_file[rs1];\n\t\t\t\tif (ls2 != 0) begin\n\t\t\t\t\tif (reg_file[rs1] <= 0) begin\n\t\t\t\t\t\treg_file[rd] = 0;\n\t\t\t\t\tend else if (reg_file[rs1] >= (1 <<< (ls2 - 1)) - 1) begin\n\t\t\t\t\t\treg_file[rd] = (1 <<< (ls2 - 1)) - 1;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd] = reg_file[rs1];\n\t\t\t\t\tend\n\t\t\t\tend else begin\n\t\t\t\t\treg_file[rd] = 0;\n\t\t\t\tend"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (ls2 != 0) begin\n\t\t\t\t\tif (reg_file[rs1] <= 0) begin\n\t\t\t\t\t\treg_file[rd] = 0;\n\t\t\t\t\tend else if (reg_file[rs1] >= (1 <<< (ls2 - 1)) - 1) begin\n\t\t\t\t\t\treg_file[rd] = (1 <<< (ls2 - 1)) - 1;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd] = reg_file[rs1];\n\t\t\t\t\tend\n\t\t\t\tend else begin\n\t\t\t\t\treg_file[rd] = 0;\n\t\t\t\tend"
   },
   "cv_clipr": {
       "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\trs2_masked = reg_file[rs2] & 32'h7FFFFFFF;\n\t\t\t\tif ($signed(reg_file[rs1]) <= -$signed(rs2_masked + 1)) begin\n\t\t\t\t\treg_file[rd] = -$signed(rs2_masked + 1);\n\t\t\t\tend else if ($signed(reg_file[rs1]) >= $signed(rs2_masked)) begin\n\t\t\t\t\treg_file[rd] = $signed(rs2_masked);\n\t\t\t\tend else begin\n\t\t\t\t\treg_file[rd] = reg_file[rs1];\n\t\t\t\tend"
@@ -202,11 +210,121 @@
 
 
 
+
+
+
+
+  "cv_cmpeq": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (csr_val == \"h\") begin\n\t\t\t\t\t`uvm_info(\"CV_CMPEQ_H\", \"Instruction CV_CMPEQ_H detected successfully\", UVM_LOW);\n\t\t\t\t\tif ($signed(reg_file[rs1][31:16]) == $signed(reg_file[rs2][31:16])) begin\n\t\t\t\t\t\treg_file[rd][31:16] = 16'hFFFF;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd][31:16] = 16'h0000;\n\t\t\t\t\tend\n\t\t\t\t\tif ($signed(reg_file[rs1][15:0]) == $signed(reg_file[rs2][15:0])) begin\n\t\t\t\t\t\treg_file[rd][15:0] = 16'hFFFF;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd][15:0] = 16'h0000;\n\t\t\t\t\tend\n\t\t\t\tend else if (csr_val == \"b\") begin\n\t\t\t\t\t`uvm_info(\"CV_CMPEQ_B\", \"Instruction CV_CMPEQ_B detected successfully\", UVM_LOW);\n\t\t\t\t\tif ($signed(reg_file[rs1][31:24]) == $signed(reg_file[rs2][31:24])) begin\n\t\t\t\t\t\treg_file[rd][31:24] = 8'hFF;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd][31:24] = 8'h00;\n\t\t\t\t\tend\n\t\t\t\t\tif ($signed(reg_file[rs1][23:16]) == $signed(reg_file[rs2][23:16])) begin\n\t\t\t\t\t\treg_file[rd][23:16] = 8'hFF;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd][23:16] = 8'h00;\n\t\t\t\t\tend\n\t\t\t\t\tif ($signed(reg_file[rs1][15:8]) == $signed(reg_file[rs2][15:8])) begin\n\t\t\t\t\t\treg_file[rd][15:8] = 8'hFF;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd][15:8] = 8'h00;\n\t\t\t\t\tend\n\t\t\t\t\tif ($signed(reg_file[rs1][7:0]) == $signed(reg_file[rs2][7:0])) begin\n\t\t\t\t\t\treg_file[rd][7:0] = 8'hFF;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd][7:0] = 8'h00;\n\t\t\t\t\tend\n\t\t\t\tend"
+  },
+  "cv_cmpeq_sc": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (csr_val == \"h\") begin\n\t\t\t\t\t`uvm_info(\"CV_CMPEQ_SC_H\", \"Instruction CV_CMPEQ_SC_H detected successfully\", UVM_LOW);\n\t\t\t\t\tif ($signed(reg_file[rs1][31:16]) == $signed(reg_file[rs2][15:0])) begin\n\t\t\t\t\t\treg_file[rd][31:16] = 16'hFFFF;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd][31:16] = 16'h0000;\n\t\t\t\t\tend\n\t\t\t\t\tif ($signed(reg_file[rs1][15:0]) == $signed(reg_file[rs2][15:0])) begin\n\t\t\t\t\t\treg_file[rd][15:0] = 16'hFFFF;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd][15:0] = 16'h0000;\n\t\t\t\t\tend\n\t\t\t\tend else if (csr_val == \"b\") begin\n\t\t\t\t\t`uvm_info(\"CV_CMPEQ_SC_B\", \"Instruction CV_CMPEQ_SC_B detected successfully\", UVM_LOW);\n\t\t\t\t\tif ($signed(reg_file[rs1][31:24]) == $signed(reg_file[rs2][7:0])) begin\n\t\t\t\t\t\treg_file[rd][31:24] = 8'hFF;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd][31:24] = 8'h00;\n\t\t\t\t\tend\n\t\t\t\t\tif ($signed(reg_file[rs1][23:16]) == $signed(reg_file[rs2][7:0])) begin\n\t\t\t\t\t\treg_file[rd][23:16] = 8'hFF;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd][23:16] = 8'h00;\n\t\t\t\t\tend\n\t\t\t\t\tif ($signed(reg_file[rs1][15:8]) == $signed(reg_file[rs2][7:0])) begin\n\t\t\t\t\t\treg_file[rd][15:8] = 8'hFF;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd][15:8] = 8'h00;\n\t\t\t\t\tend\n\t\t\t\t\tif ($signed(reg_file[rs1][7:0]) == $signed(reg_file[rs2][7:0])) begin\n\t\t\t\t\t\treg_file[rd][7:0] = 8'hFF;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd][7:0] = 8'h00;\n\t\t\t\t\tend\n\t\t\t\tend"
+  },
+  "cv_cmpeq_sci": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\timm6_ext = {{27{imm6[4]}}, imm6[3:0], imm6[5]};\n\t\t\t\tif (csr_val == \"h\") begin\n\t\t\t\t\t`uvm_info(\"CV_CMPEQ_SCI_H\", \"Instruction CV_CMPEQ_SCI_H detected successfully\", UVM_LOW);\n\t\t\t\t\tif ($signed(reg_file[rs1][31:16]) == $signed(imm6_ext[15:0])) begin\n\t\t\t\t\t\treg_file[rd][31:16] = 16'hFFFF;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd][31:16] = 16'h0000;\n\t\t\t\t\tend\n\t\t\t\t\tif ($signed(reg_file[rs1][15:0]) == $signed(imm6_ext[15:0])) begin\n\t\t\t\t\t\treg_file[rd][15:0] = 16'hFFFF;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd][15:0] = 16'h0000;\n\t\t\t\t\tend\n\t\t\t\tend else if (csr_val == \"b\") begin\n\t\t\t\t\t`uvm_info(\"CV_CMPEQ_SCI_B\", \"Instruction CV_CMPEQ_SCI_B detected successfully\", UVM_LOW);\n\t\t\t\t\tif ($signed(reg_file[rs1][31:24]) == $signed(imm6_ext[7:0])) begin\n\t\t\t\t\t\treg_file[rd][31:24] = 8'hFF;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd][31:24] = 8'h00;\n\t\t\t\t\tend\n\t\t\t\t\tif ($signed(reg_file[rs1][23:16]) == $signed(imm6_ext[7:0])) begin\n\t\t\t\t\t\treg_file[rd][23:16] = 8'hFF;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd][23:16] = 8'h00;\n\t\t\t\t\tend\n\t\t\t\t\tif ($signed(reg_file[rs1][15:8]) == $signed(imm6_ext[7:0])) begin\n\t\t\t\t\t\treg_file[rd][15:8] = 8'hFF;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd][15:8] = 8'h00;\n\t\t\t\t\tend\n\t\t\t\t\tif ($signed(reg_file[rs1][7:0]) == $signed(imm6_ext[7:0])) begin\n\t\t\t\t\t\treg_file[rd][7:0] = 8'hFF;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd][7:0] = 8'h00;\n\t\t\t\t\tend\n\t\t\t\tend"
+  },
+
+  "cv_cmpne": {
+      "impl": "//TODO: implement cv.cmpne;\n"
+  },
+  "cv_cmpne_sc": {
+      "impl": "//TODO: implement cv.cmpne.sc;\n"
+  },
+  "cv_cmpne_sci": {
+      "impl": "//TODO: implement cv.cmpne.sci;\n"
+  },
+
+  "cv_cmpgt": {
+      "impl": "//TODO: implement cv.cmpgt;\n"
+  },
+  "cv_cmpgt_sc": {
+      "impl": "//TODO: implement cv.cmpgt.sc;\n"
+  },
+  "cv_cmpgt_sci": {
+      "impl": "//TODO: implement cv.cmpgt.sci;\n"
+  },
+
+  "cv_cmpge": {
+      "impl": "//TODO: implement cv.cmpge;\n"
+  },
+  "cv_cmpge_sc": {
+      "impl": "//TODO: implement cv.cmpge.sc;\n"
+  },
+  "cv_cmpge_sci": {
+      "impl": "//TODO: implement cv.cmpge.sci;\n"
+  },
+
+  "cv_cmplt": {
+      "impl": "//TODO: implement cv.cmplt;\n"
+  },
+  "cv_cmplt_sc": {
+      "impl": "//TODO: implement cv.cmplt.sc;\n"
+  },
+  "cv_cmplt_sci": {
+      "impl": "//TODO: implement cv.cmplt.sci;\n"
+  },
+
+  "cv_cmple": {
+      "impl": "//TODO: implement cv.cmple;\n"
+  },
+  "cv_cmple_sc": {
+      "impl": "//TODO: implement cv.cmple.sc;\n"
+  },
+  "cv_cmple_sci": {
+      "impl": "//TODO: implement cv.cmple.sci;\n"
+  },
+
+  "cv_cmpgtu": {
+      "impl": "//TODO: implement cv.cmpgtu;\n"
+  },
+  "cv_cmpgtu_sc": {
+      "impl": "//TODO: implement cv.cmpgtu.sc;\n"
+  },
+  "cv_cmpgtu_sci": {
+      "impl": "//TODO: implement cv.cmpgtu.sci;\n"
+  },
+
+  "cv_cmpgeu": {
+      "impl": "//TODO: implement cv.cmpgeu;\n"
+  },
+  "cv_cmpgeu_sc": {
+      "impl": "//TODO: implement cv.cmpgeu.sc;\n"
+  },
+  "cv_cmpgeu_sci": {
+      "impl": "//TODO: implement cv.cmpgeu.sci;\n"
+  },
+
+  "cv_cmpltu": {
+      "impl": "//TODO: implement cv.cmpltu;\n"
+  },
+  "cv_cmpltu_sc": {
+      "impl": "//TODO: implement cv.cmpltu.sc;\n"
+  },
+  "cv_cmpltu_sci": {
+      "impl": "//TODO: implement cv.cmpltu.sci;\n"
+  },
+
+  "cv_cmpleu": {
+      "impl": "//TODO: implement cv.cmpleu;\n"
+  },
+  "cv_cmpleu_sc": {
+      "impl": "//TODO: implement cv.cmpleu.sc;\n"
+  },
+  "cv_cmpleu_sci": {
+      "impl": "//TODO: implement cv.cmpleu.sci;\n"
+  },
+
+
+
+
+
+
+
   "div": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = $signed(reg_file[rs1]) / $signed(reg_file[rs2]);"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (reg_file[rs2] == 0) begin\n\t\t\t\t\treg_file[rd] = 32'hFFFFFFFF;\n\t\t\t\tend else if ((reg_file[rs1] == 32'h80000000) && (reg_file[rs2] == -1)) begin\n\t\t\t\t\treg_file[rd] = 32'h80000000;\n\t\t\t\tend else begin\n\t\t\t\t\treg_file[rd] = $signed(reg_file[rs1]) / $signed(reg_file[rs2]);\n\t\t\t\tend"
   },
   "divu": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = reg_file[rs1] / reg_file[rs2];"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (reg_file[rs2] == 0) begin\n\t\t\t\t\treg_file[rd] = 32'hFFFFFFFF;\n\t\t\t\tend else begin\n\t\t\t\t\treg_file[rd] = reg_file[rs1] / reg_file[rs2];\n\t\t\t\tend"
   },
   "ebreak": {
       "impl": "// ebreak"
@@ -248,7 +366,7 @@
       "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_mul = $signed(reg_file[rs1]) * $signed(reg_file[rs2]);\n\t\t\t\treg_file[rd] = reg_mul[63:32];"
   },
   "mulhsu": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_mul = $signed(reg_file[rs1]) * reg_file[rs2];\n\t\t\t\treg_file[rd] = reg_mul[63:32];"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_mul = $signed({{32{reg_file[rs1][31]}}, reg_file[rs1]}) * {32'b0, reg_file[rs2]};\n\t\t\t\treg_file[rd] = reg_mul[63:32];"
   },
   "mulhu": {
       "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_mul = reg_file[rs1] * reg_file[rs2];\n\t\t\t\treg_file[rd] = reg_mul[63:32];"
@@ -260,10 +378,10 @@
       "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\timm12_ext = {{20{imm12[11]}}, imm12};\n\t\t\t\treg_file[rd] = reg_file[rs1] | imm12_ext;"
   },
   "rem": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = $signed(reg_file[rs1]) % $signed(reg_file[rs2]);"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (reg_file[rs2] == 0) begin\n\t\t\t\t\treg_file[rd] = reg_file[rs1];\n\t\t\t\tend else if ((reg_file[rs1] == 32'h80000000) && (reg_file[rs2] == -1)) begin\n\t\t\t\t\treg_file[rd] = 0;\n\t\t\t\tend else begin\n\t\t\t\t\treg_file[rd] = $signed(reg_file[rs1]) % $signed(reg_file[rs2]);\n\t\t\t\tend"
   },
   "remu": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = reg_file[rs1] % reg_file[rs2];"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (reg_file[rs2] == 0) begin\n\t\t\t\t\treg_file[rd] = reg_file[rs1];\n\t\t\t\tend else begin\n\t\t\t\t\treg_file[rd] = reg_file[rs1] % reg_file[rs2];\n\t\t\t\tend"
   },
   "sb": {
       "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\timms = {imm12hi, imm12lo};\n\t\t\t\timms_ext = {{20{imms[11]}}, imms};\n\t\t\t\tmem[reg_file[rs1] + imms_ext][7:0] = reg_file[rs2][7:0];"
@@ -272,7 +390,7 @@
       "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\timms = {imm12hi, imm12lo};\n\t\t\t\timms_ext = {{20{imms[11]}}, imms};\n\t\t\t\tmem[reg_file[rs1] + imms_ext][15:0] = reg_file[rs2][7:0];\n\t\t\t\tmem[reg_file[rs1] + imms_ext + 1] = reg_file[rs2][15:8];"
   },
   "sll": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = reg_file[rs1] << reg_file[rs2];"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = reg_file[rs1] << reg_file[rs2][4:0];"
   },
   "slli": {
       "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = reg_file[rs1] << shamtw;"
@@ -290,13 +408,13 @@
       "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (reg_file[rs1] < reg_file[rs2])\n\t\t\t\t\treg_file[rd] = 1;\n\t\t\t\telse\n\t\t\t\t\treg_file[rd] = 0;"
   },
   "sra": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = reg_file[rs1] >>> reg_file[rs2];"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = $signed(reg_file[rs1]) >>> reg_file[rs2][4:0];"
   },
   "srai": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = reg_file[rs1] >>> shamtw;"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = $signed(reg_file[rs1]) >>> shamtw;"
   },
   "srl": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = reg_file[rs1] >> reg_file[rs2];"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = reg_file[rs1] >> reg_file[rs2][4:0];"
   },
   "srli": {
       "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = reg_file[rs1] >> shamtw;"
@@ -312,5 +430,11 @@
   },
   "xori": {
       "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\timm12_ext = {{20{imm12[11]}}, imm12};\n\t\t\t\treg_file[rd] = reg_file[rs1] ^ imm12_ext;"
-  }
+  },
+  "mret": {
+      "impl": "// mret: return from machine mode exception\n\t\t\t\tpc = csr_reg_file[12'h341]; // mepc CSR\n\t\t\t\tincr = 0;"
+  },
+  "wfi": {
+      "impl": "// wfi: wait for interrupt (treated as no-op in this model)\n\t\t\t\tincr = 0;"
+}
 }
