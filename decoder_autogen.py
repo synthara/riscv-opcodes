@@ -595,6 +595,7 @@ class {class_name} extends {main_class};
         csr_reg_file[12'h301] = 32'h40101104; // misa (RV32IMCU)
         csr_reg_file[12'hF12] = 32'h00000023; // marchid
         csr_reg_file[12'hF13] = 32'h00000000; // mimpid
+        csr_reg_file[12'h300] = 32'h00001800; // mstatus
 
     endfunction : new
 

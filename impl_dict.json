@@ -114,22 +114,22 @@
       "impl": "reg_rs1_prev = reg_file[rd_rs1_p+8];\n\t\t\t\treg_rs2_prev = reg_file[rs2_p+8];\n\t\t\t\tinstr = instr & 32'h0000FFFF;\n\t\t\t\treg_file[rd_rs1_p+8] = reg_file[rd_rs1_p+8] ^ reg_file[rs2_p+8];\n\t\t\t\trs1 = rd_rs1_p+8;\n\t\t\t\trs2 = rs2_p+8;\n\t\t\t\trd = rd_rs1_p+8;\n\t\t\t\tincr = 2;"
   },
   "csrrw": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = csr_reg_file[csr];\n\t\t\t\tcsr_reg_file[csr] = reg_file[rs1];"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (rd != 0) begin\n\t\t\t\t\treg_file[rd] = csr_reg_file[csr];\n\t\t\t\tend\n\t\t\t\tcsr_reg_file[csr] = reg_rs1_prev;"
   },
   "csrrs": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = csr_reg_file[csr];\n\t\t\t\tcsr_reg_file[csr] = csr_reg_file[csr] | reg_file[rs1];"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = csr_reg_file[csr];\n\t\t\t\tif (rs1 != 0) begin\n\t\t\t\t\tcsr_reg_file[csr] = csr_reg_file[csr] | reg_rs1_prev;\n\t\t\t\tend"
   },
   "csrrc": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = csr_reg_file[csr];\n\t\t\t\tcsr_reg_file[csr] = csr_reg_file[csr] & ~reg_file[rs1];"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = csr_reg_file[csr];\n\t\t\t\tif (rs1 != 0) begin\n\t\t\t\t\tcsr_reg_file[csr] = csr_reg_file[csr] & ~reg_rs1_prev;\n\t\t\t\tend"
   },
   "csrrwi": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = csr_reg_file[csr];\n\t\t\t\tcsr_reg_file[csr] = zimm5;"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (rd != 0) begin\n\t\t\t\t\treg_file[rd] = csr_reg_file[csr];\n\t\t\t\tend\n\t\t\t\tcsr_reg_file[csr] = zimm5;"
   },
   "csrrsi": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = csr_reg_file[csr];\n\t\t\t\tcsr_reg_file[csr] = csr_reg_file[csr] | zimm5;"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = csr_reg_file[csr];\n\t\t\t\tif (zimm5 != 0) begin\n\t\t\t\t\tcsr_reg_file[csr] = csr_reg_file[csr] | zimm5;\n\t\t\t\tend"
   },
   "csrrci": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = csr_reg_file[csr];\n\t\t\t\tcsr_reg_file[csr] = csr_reg_file[csr] & ~zimm5;"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = csr_reg_file[csr];\n\t\t\t\tif (zimm5 != 0) begin\n\t\t\t\t\tcsr_reg_file[csr] = csr_reg_file[csr] & ~zimm5;\n\t\t\t\tend"
   },
 
 
