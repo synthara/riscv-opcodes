@@ -143,10 +143,10 @@
       "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = ($unsigned(reg_file[rd]) + $unsigned(reg_file[rs1])) >> reg_file[rs2][4:0];"
   },
   "cv_addrnr": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (reg_file[rs2] != 0) begin\n\t\t\t\t\treg_file[rd] = ($signed(reg_file[rd]) + $signed(reg_file[rs1]) + $signed(2**(reg_file[rs2][4:0]-1))) >>> reg_file[rs2][4:0];\n\t\t\t\tend else begin\n\t\t\t\t\treg_file[rd] = ($signed(reg_file[rd]) + $signed(reg_file[rs1])) >>> reg_file[rs2][4:0];\n\t\t\t\tend"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (reg_file[rs2] != 0) begin\n\t\t\t\t\treg_file[rd] = ($signed(reg_file[rd]) + $signed(reg_file[rs1]) + $signed(1 << (reg_file[rs2][4:0]-1))) >>> reg_file[rs2][4:0];\n\t\t\t\tend else begin\n\t\t\t\t\treg_file[rd] = ($signed(reg_file[rd]) + $signed(reg_file[rs1])) >>> reg_file[rs2][4:0];\n\t\t\t\tend"
   },
   "cv_addurnr": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (reg_file[rs2] != 0) begin\n\t\t\t\t\treg_file[rd] = ($unsigned(reg_file[rd]) + $unsigned(reg_file[rs1]) + $unsigned(2**(reg_file[rs2][4:0]-1))) >> reg_file[rs2][4:0];\n\t\t\t\tend else begin\n\t\t\t\t\treg_file[rd] = ($unsigned(reg_file[rd]) + $unsigned(reg_file[rs1])) >> reg_file[rs2][4:0];\n\t\t\t\tend"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (reg_file[rs2] != 0) begin\n\t\t\t\t\treg_file[rd] = ($unsigned(reg_file[rd]) + $unsigned(reg_file[rs1]) + $unsigned(1 << (reg_file[rs2][4:0]-1))) >> reg_file[rs2][4:0];\n\t\t\t\tend else begin\n\t\t\t\t\treg_file[rd] = ($unsigned(reg_file[rd]) + $unsigned(reg_file[rs1])) >> reg_file[rs2][4:0];\n\t\t\t\tend"
   },
   "cv_subnr": {
       "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = ($signed(reg_file[rd]) - $signed(reg_file[rs1])) >>> reg_file[rs2][4:0];"
@@ -155,10 +155,10 @@
       "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = ($unsigned(reg_file[rd]) - $unsigned(reg_file[rs1])) >> reg_file[rs2][4:0];"
   },
   "cv_subrnr": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (reg_file[rs2] != 0) begin\n\t\t\t\t\treg_file[rd] = ($signed(reg_file[rd]) - $signed(reg_file[rs1]) + $signed(2**(reg_file[rs2][4:0]-1))) >>> reg_file[rs2][4:0];\n\t\t\t\tend else begin\n\t\t\t\t\treg_file[rd] = ($signed(reg_file[rd]) - $signed(reg_file[rs1])) >>> reg_file[rs2][4:0];\n\t\t\t\tend"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (reg_file[rs2] != 0) begin\n\t\t\t\t\treg_file[rd] = ($signed(reg_file[rd]) - $signed(reg_file[rs1]) + $signed(1 << (reg_file[rs2][4:0]-1))) >>> reg_file[rs2][4:0];\n\t\t\t\tend else begin\n\t\t\t\t\treg_file[rd] = ($signed(reg_file[rd]) - $signed(reg_file[rs1])) >>> reg_file[rs2][4:0];\n\t\t\t\tend"
   },
   "cv_suburnr": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (reg_file[rs2] != 0) begin\n\t\t\t\t\treg_file[rd] = ($unsigned(reg_file[rd]) - $unsigned(reg_file[rs1]) + $unsigned(2**(reg_file[rs2][4:0]-1))) >> reg_file[rs2][4:0];\n\t\t\t\tend else begin\n\t\t\t\t\treg_file[rd] = ($unsigned(reg_file[rd]) - $unsigned(reg_file[rs1])) >> reg_file[rs2][4:0];\n\t\t\t\tend"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (reg_file[rs2] != 0) begin\n\t\t\t\t\treg_file[rd] = ($unsigned(reg_file[rd]) - $unsigned(reg_file[rs1]) + $unsigned(1 << (reg_file[rs2][4:0]-1))) >> reg_file[rs2][4:0];\n\t\t\t\tend else begin\n\t\t\t\t\treg_file[rd] = ($unsigned(reg_file[rd]) - $unsigned(reg_file[rs1])) >> reg_file[rs2][4:0];\n\t\t\t\tend"
   },
 
 
