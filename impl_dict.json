@@ -199,13 +199,13 @@
       "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (ls2 != 0) begin\n\t\t\t\t\tif ($signed(reg_file[rs1]) <= -$signed(1 <<< (ls2 - 1))) begin\n\t\t\t\t\t\treg_file[rd] = -$signed(1 <<< (ls2 - 1));\n\t\t\t\t\tend else if ($signed(reg_file[rs1]) >= $signed((1 <<< (ls2 - 1)) - 1)) begin\n\t\t\t\t\t\treg_file[rd] = $signed((1 <<< (ls2 - 1)) - 1);\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd] = reg_file[rs1];\n\t\t\t\t\tend\n\t\t\t\tend else begin\n\t\t\t\t\tif ($signed(reg_file[rs1]) <= -1) begin\n\t\t\t\t\t\treg_file[rd] = -1;\n\t\t\t\t\tend else if ($signed(reg_file[rs1]) >= 0) begin\n\t\t\t\t\t\treg_file[rd] = 0;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd] = reg_file[rs1];\n\t\t\t\t\tend\n\t\t\t\tend"
   },
   "cv_clipu": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (ls2 != 0) begin\n\t\t\t\t\tif (reg_file[rs1] <= 0) begin\n\t\t\t\t\t\treg_file[rd] = 0;\n\t\t\t\t\tend else if (reg_file[rs1] >= (1 <<< (ls2 - 1)) - 1) begin\n\t\t\t\t\t\treg_file[rd] = (1 <<< (ls2 - 1)) - 1;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd] = reg_file[rs1];\n\t\t\t\t\tend\n\t\t\t\tend else begin\n\t\t\t\t\treg_file[rd] = 0;\n\t\t\t\tend"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tif (ls2 != 0) begin\n\t\t\t\t\tif ($signed(reg_file[rs1]) <= 0) begin\n\t\t\t\t\t\treg_file[rd] = 0;\n\t\t\t\t\tend else if (reg_file[rs1] >= (1 <<< (ls2 - 1)) - 1) begin\n\t\t\t\t\t\treg_file[rd] = (1 <<< (ls2 - 1)) - 1;\n\t\t\t\t\tend else begin\n\t\t\t\t\t\treg_file[rd] = reg_file[rs1];\n\t\t\t\t\tend\n\t\t\t\tend else begin\n\t\t\t\t\treg_file[rd] = 0;\n\t\t\t\tend"
   },
   "cv_clipr": {
       "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\trs2_masked = reg_file[rs2] & 32'h7FFFFFFF;\n\t\t\t\tif ($signed(reg_file[rs1]) <= -$signed(rs2_masked + 1)) begin\n\t\t\t\t\treg_file[rd] = -$signed(rs2_masked + 1);\n\t\t\t\tend else if ($signed(reg_file[rs1]) >= $signed(rs2_masked)) begin\n\t\t\t\t\treg_file[rd] = $signed(rs2_masked);\n\t\t\t\tend else begin\n\t\t\t\t\treg_file[rd] = reg_file[rs1];\n\t\t\t\tend"
   },
   "cv_clipur": {
-      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\trs2_masked = reg_file[rs2] & 32'h7FFFFFFF;\n\t\t\t\tif (reg_file[rs1] <= 0) begin\n\t\t\t\t\treg_file[rd] = 0;\n\t\t\t\tend else if (reg_file[rs1] >= rs2_masked) begin\n\t\t\t\t\treg_file[rd] = rs2_masked;\n\t\t\t\tend else begin\n\t\t\t\t\treg_file[rd] = reg_file[rs1];\n\t\t\t\tend"
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\trs2_masked = reg_file[rs2] & 32'h7FFFFFFF;\n\t\t\t\tif ($signed(reg_file[rs1]) <= 0) begin\n\t\t\t\t\treg_file[rd] = 0;\n\t\t\t\tend else if (reg_file[rs1] >= rs2_masked) begin\n\t\t\t\t\treg_file[rd] = rs2_masked;\n\t\t\t\tend else begin\n\t\t\t\t\treg_file[rd] = reg_file[rs1];\n\t\t\t\tend"
   },
 
 
