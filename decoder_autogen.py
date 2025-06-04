@@ -570,7 +570,7 @@ class {class_name} extends {main_class};
     bit [31:0] reg_rs2_prev;
     bit [31:0] rs2_masked;
     bit [31:0] imm6_ext;
-    string csr_val;
+    bit [31:0] reg_result;
 
 
     uvma_rvfi_instr_seq_item_c#(32, 32) rvfi_instr_seq_item;
