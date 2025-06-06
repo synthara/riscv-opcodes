@@ -1,13 +1,13 @@
 # rv_generic_ALU
 
-cv.abs.w     rd rs1 31..25=0x28 14..12=3 6..2=0x15 1..0=3
-cv.sle     rd rs1 rs2 31..25=0x29 14..12=3 6..2=0x15 1..0=3
-cv.sleu    rd rs1 rs2 31..25=0x2A 14..12=3 6..2=0x15 1..0=3
-cv.min.w     rd rs1 rs2 31..25=0x2B 14..12=3 6..2=0x15 1..0=3
-cv.minu.w    rd rs1 rs2 31..25=0x2C 14..12=3 6..2=0x15 1..0=3
-cv.max.w     rd rs1 rs2 31..25=0x2D 14..12=3 6..2=0x15 1..0=3
-cv.maxu.w    rd rs1 rs2 31..25=0x2E 14..12=3 6..2=0x15 1..0=3
-cv.exths   rd rs1 31..25=0x30 14..12=3 6..2=0x15 1..0=3
-cv.exthz   rd rs1 31..25=0x31 14..12=3 6..2=0x15 1..0=3
-cv.extbs   rd rs1 31..25=0x32 14..12=3 6..2=0x15 1..0=3
-cv.extbz   rd rs1 31..25=0x33 14..12=3 6..2=0x15 1..0=3
+cv.abs.w     rd rs1 31..25=0x28 24..20=0x00 14..12=3 6..0=0x2B
+cv.sle     rd rs1 rs2 31..25=0x29 14..12=3 6..0=0x2B
+cv.sleu    rd rs1 rs2 31..25=0x2A 14..12=3 6..0=0x2B
+cv.min.w     rd rs1 rs2 31..25=0x2B 14..12=3 6..0=0x2B
+cv.minu.w    rd rs1 rs2 31..25=0x2C 14..12=3 6..0=0x2B
+cv.max.w     rd rs1 rs2 31..25=0x2D 14..12=3 6..0=0x2B
+cv.maxu.w    rd rs1 rs2 31..25=0x2E 14..12=3 6..0=0x2B
+cv.exths   rd rs1 31..25=0x30 24..20=0x00 14..12=3 6..0=0x2B
+cv.exthz   rd rs1 31..25=0x31 24..20=0x00 14..12=3 6..0=0x2B
+cv.extbs   rd rs1 31..25=0x32 24..20=0x00 14..12=3 6..0=0x2B
+cv.extbz   rd rs1 31..25=0x33 24..20=0x00 14..12=3 6..0=0x2B
