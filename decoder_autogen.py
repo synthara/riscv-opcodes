@@ -572,7 +572,7 @@ class {class_name} extends {main_class};
     bit [31:0] imm6_ext;
     bit [31:0] reg_result;
     bit iteration_mx = 0;
-    bit [15:0] reg_mac_prov;
+    bit [15:0] reg_mac_mul_prov;
 
 
     uvma_rvfi_instr_seq_item_c#(32, 32) rvfi_instr_seq_item;

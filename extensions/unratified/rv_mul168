@@ -1,11 +1,11 @@
 # rv_generic_ALU_mul_unsigned
-cv.muluN         rd rs1 rs2 ls3     31..25=0x00 14..12=0x5 6..2=0x2D 1..0=3
-cv.mulhhuN       rd rs1 rs2 ls3     31..25=0x20 14..12=0x5 6..2=0x2D 1..0=3
-cv.muluRN        rd rs1 rs2 ls3     31..25=0x40 14..12=0x5 6..2=0x2D 1..0=3
-cv.mulhhuRN      rd rs1 rs2 ls3     31..25=0x60 14..12=0x5 6..2=0x2D 1..0=3
+cv.muluN         rd rs1 rs2 ls3     31..30=0x0 14..12=0x5 6..0=0x5B
+cv.mulhhuN       rd rs1 rs2 ls3     31..30=0x1 14..12=0x5 6..0=0x5B
+cv.muluRN        rd rs1 rs2 ls3     31..30=0x2 14..12=0x5 6..0=0x5B
+cv.mulhhuRN      rd rs1 rs2 ls3     31..30=0x3 14..12=0x5 6..0=0x5B
 
 # rv_generic_ALU_mul_signed
-cv.mulsN         rd rs1 rs2 ls3     31..25=0x00 14..12=0x4 6..2=0x2D 1..0=3
-cv.mulhhsN       rd rs1 rs2 ls3     31..25=0x20 14..12=0x4 6..2=0x2D 1..0=3
-cv.mulsRN        rd rs1 rs2 ls3     31..25=0x40 14..12=0x4 6..2=0x2D 1..0=3
-cv.mulhhsRN      rd rs1 rs2 ls3     31..25=0x60 14..12=0x4 6..2=0x2D 1..0=3
+cv.mulsN         rd rs1 rs2 ls3     31..30=0x0 14..12=0x4 6..0=0x5B
+cv.mulhhsN       rd rs1 rs2 ls3     31..30=0x1 14..12=0x4 6..0=0x5B
+cv.mulsRN        rd rs1 rs2 ls3     31..30=0x2 14..12=0x4 6..0=0x5B
+cv.mulhhsRN      rd rs1 rs2 ls3     31..30=0x3 14..12=0x4 6..0=0x5B
