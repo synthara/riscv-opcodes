@@ -1,11 +1,11 @@
 # rv_generic_ALU_mac_unsigned
-cv.macuN        rd rs1 rs2 ls3     31..25=0x00 14..12=0x7 6..2=0x2D 1..0=3
-cv.machhuN      rd rs1 rs2 ls3     31..25=0x20 14..12=0x7 6..2=0x2D 1..0=3
-cv.macuRN       rd rs1 rs2 ls3     31..25=0x40 14..12=0x7 6..2=0x2D 1..0=3
-cv.machhuRN     rd rs1 rs2 ls3     31..25=0x60 14..12=0x7 6..2=0x2D 1..0=3
+cv.macuN        rd rs1 rs2 ls3     31..30=0x0 14..12=0x7 6..0=0x5B
+cv.machhuN      rd rs1 rs2 ls3     31..30=0x1 14..12=0x7 6..0=0x5B
+cv.macuRN       rd rs1 rs2 ls3     31..30=0x2 14..12=0x7 6..0=0x5B
+cv.machhuRN     rd rs1 rs2 ls3     31..30=0x3 14..12=0x7 6..0=0x5B
 
 # rv_generic_ALU_mac_signed
-cv.macsN        rd rs1 rs2 ls3     31..25=0x00 14..12=0x6 6..2=0x2D 1..0=3
-cv.machhsN      rd rs1 rs2 ls3     31..25=0x20 14..12=0x6 6..2=0x2D 1..0=3
-cv.macsRN       rd rs1 rs2 ls3     31..25=0x40 14..12=0x6 6..2=0x2D 1..0=3
-cv.machhsRN     rd rs1 rs2 ls3     31..25=0x60 14..12=0x6 6..2=0x2D 1..0=3
+cv.macsN        rd rs1 rs2 ls3     31..30=0x0 14..12=0x6 6..0=0x5B
+cv.machhsN      rd rs1 rs2 ls3     31..30=0x1 14..12=0x6 6..0=0x5B
+cv.macsRN       rd rs1 rs2 ls3     31..30=0x2 14..12=0x6 6..0=0x5B
+cv.machhsRN     rd rs1 rs2 ls3     31..30=0x3 14..12=0x6 6..0=0x5B
