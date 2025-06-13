@@ -802,6 +802,6 @@
       "impl": "// mret: return from machine mode exception\n\t\t\t\tpc = csr_reg_file[12'h341]; // mepc CSR\n\t\t\t\tincr = 0;"
   },
   "wfi": {
-      "impl": "// wfi: wait for interrupt (treated as no-op in this model)\n\t\t\t\tincr = 0;"
-}
+      "impl": "// wfi: wait for interrupt (treated as no-op in this model, it also sets the end of the simulation)\n\t\t\t\tincr = 0;\n\t\t\t\trvfi_instr_seq_item.halt = 1;"
+  }
 }
