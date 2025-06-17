@@ -514,17 +514,9 @@ rvfi_block = f"""
 {INDENT_TWO}rvfi_instr_seq_item.order     = order++;
 {INDENT_TWO}rvfi_instr_seq_item.insn      = instr;
 {INDENT_TWO}rvfi_instr_seq_item.rs1_addr  = rs1;
-{INDENT_TWO}if(rs1 != rd) begin
-{INDENT_THREE}rvfi_instr_seq_item.rs1_rdata = reg_file[rs1];
-{INDENT_TWO}end else begin
-{INDENT_THREE}rvfi_instr_seq_item.rs1_rdata = reg_rs1_prev;
-{INDENT_TWO}end
+{INDENT_TWO}rvfi_instr_seq_item.rs1_rdata = reg_rs1_prev;
 {INDENT_TWO}rvfi_instr_seq_item.rs2_addr  = rs2;
-{INDENT_TWO}if(rs2 != rd) begin
-{INDENT_THREE}rvfi_instr_seq_item.rs2_rdata = reg_file[rs2];
-{INDENT_TWO}end else begin
-{INDENT_THREE}rvfi_instr_seq_item.rs2_rdata = reg_rs2_prev;
-{INDENT_TWO}end
+{INDENT_TWO}rvfi_instr_seq_item.rs2_rdata = reg_rs2_prev;
 {INDENT_TWO}rvfi_instr_seq_item.rd1_addr  = rd;
 {INDENT_TWO}rvfi_instr_seq_item.rd1_wdata = reg_file[rd];
 {INDENT_TWO}rvfi_instr_seq_item.pc_rdata  = pc_before;

@@ -685,6 +685,89 @@
 
 
 
+  "cv_lb_ripi": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\timm12_ext = {{20{imm12[11]}}, imm12};\n\t\t\t\treg_file[rd] = {{24{mem[reg_file[rs1]][7]}}, mem[reg_file[rs1]][7:0]};\n\t\t\t\treg_file[rs1] += imm12_ext;"
+  },
+  "cv_lbu_ripi": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\timm12_ext = {{20{imm12[11]}}, imm12};\n\t\t\t\treg_file[rd] = {24'b0, mem[reg_file[rs1]][7:0]};\n\t\t\t\treg_file[rs1] += imm12_ext;"
+  },
+  "cv_lh_ripi": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\timm12_ext = {{20{imm12[11]}}, imm12};\n\t\t\t\treg_file[rd] = {{16{mem[reg_file[rs1] + 1][7]}}, mem[reg_file[rs1] + 1][7:0], mem[reg_file[rs1]][7:0]};\n\t\t\t\treg_file[rs1] += imm12_ext;"
+  },
+  "cv_lhu_ripi": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\timm12_ext = {{20{imm12[11]}}, imm12};\n\t\t\t\treg_file[rd] = {16'b0, mem[reg_file[rs1] + 1][7:0], mem[reg_file[rs1]][7:0]};\n\t\t\t\treg_file[rs1] += imm12_ext;"
+  },
+  "cv_lw_ripi": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\timm12_ext = {{20{imm12[11]}}, imm12};\n\t\t\t\treg_file[rd] = {mem[reg_file[rs1] + 3][7:0], mem[reg_file[rs1] + 2][7:0], mem[reg_file[rs1] + 1][7:0], mem[reg_file[rs1]][7:0]};\n\t\t\t\treg_file[rs1] += imm12_ext;"
+  },
+  "cv_lb_rrpi": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = {{24{mem[reg_file[rs1]][7]}}, mem[reg_file[rs1]][7:0]};\n\t\t\t\treg_file[rs1] += reg_file[rs2];"
+  },
+  "cv_lbu_rrpi": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = {24'b0, mem[reg_file[rs1]][7:0]};\n\t\t\t\treg_file[rs1] += reg_file[rs2];"
+  },
+  "cv_lh_rrpi": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = {{16{mem[reg_file[rs1] + 1][7]}}, mem[reg_file[rs1] + 1][7:0], mem[reg_file[rs1]][7:0]};\n\t\t\t\treg_file[rs1] += reg_file[rs2];"
+  },
+  "cv_lhu_rrpi": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = {16'b0, mem[reg_file[rs1] + 1][7:0], mem[reg_file[rs1]][7:0]};\n\t\t\t\treg_file[rs1] += reg_file[rs2];"
+  },
+  "cv_lw_rrpi": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = {mem[reg_file[rs1] + 3][7:0], mem[reg_file[rs1] + 2][7:0], mem[reg_file[rs1] + 1][7:0], mem[reg_file[rs1]][7:0]};\n\t\t\t\treg_file[rs1] += reg_file[rs2];"
+  },
+  "cv_lb_rr": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = {{24{mem[reg_file[rs1] + reg_file[rs2]][7]}}, mem[reg_file[rs1] + reg_file[rs2]][7:0]};"
+  },
+  "cv_lbu_rr": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = {24'b0, mem[reg_file[rs1] + reg_file[rs2]][7:0]};"
+  },
+  "cv_lh_rr": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = {{16{mem[reg_file[rs1] + reg_file[rs2] + 1][7]}}, mem[reg_file[rs1] + reg_file[rs2] + 1][7:0], mem[reg_file[rs1] + reg_file[rs2]][7:0]};"
+  },
+  "cv_lhu_rr": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = {16'b0, mem[reg_file[rs1] + reg_file[rs2] + 1][7:0], mem[reg_file[rs1] + reg_file[rs2]][7:0]};"
+  },
+  "cv_lw_rr": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\treg_file[rd] = {mem[reg_file[rs1] + reg_file[rs2] + 3][7:0], mem[reg_file[rs1] + reg_file[rs2] + 2][7:0], mem[reg_file[rs1] + reg_file[rs2] + 1][7:0], mem[reg_file[rs1] + reg_file[rs2]][7:0]};"
+  },
+  "cv_sb_ripi": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\timm12_ext = {{20{imm12hi[6]}}, imm12hi, imm12lo};\n\t\t\t\tmem[reg_file[rs1]] = reg_file[rs2][7:0];\n\t\t\t\treg_file[rs1] += imm12_ext;"
+  },
+  "cv_sh_ripi": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\timm12_ext = {{20{imm12hi[6]}}, imm12hi, imm12lo};\n\t\t\t\tmem[reg_file[rs1]] = reg_file[rs2][7:0];\n\t\t\t\tmem[reg_file[rs1] + 1] = reg_file[rs2][15:8];\n\t\t\t\treg_file[rs1] += imm12_ext;"
+  },
+  "cv_sw_ripi": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\timm12_ext = {{20{imm12hi[6]}}, imm12hi, imm12lo};\n\t\t\t\tmem[reg_file[rs1]] = reg_file[rs2][7:0];\n\t\t\t\tmem[reg_file[rs1] + 1] = reg_file[rs2][15:8];\n\t\t\t\tmem[reg_file[rs1] + 2] = reg_file[rs2][23:16];\n\t\t\t\tmem[reg_file[rs1] + 3] = reg_file[rs2][31:24];\n\t\t\t\treg_file[rs1] += imm12_ext;"
+  },
+  "cv_sb_rrpi": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tmem[reg_file[rs1]] = reg_file[rs2][7:0];\n\t\t\t\treg_file[rs1] += reg_file[rd];\n\t\t\t\trd = 0;"
+  },
+  "cv_sh_rrpi": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tmem[reg_file[rs1]] = reg_file[rs2][7:0];\n\t\t\t\tmem[reg_file[rs1] + 1] = reg_file[rs2][15:8];\n\t\t\t\treg_file[rs1] += reg_file[rd];\n\t\t\t\trd = 0;"
+  },
+  "cv_sw_rrpi": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tmem[reg_file[rs1]] = reg_file[rs2][7:0];\n\t\t\t\tmem[reg_file[rs1] + 1] = reg_file[rs2][15:8];\n\t\t\t\tmem[reg_file[rs1] + 2] = reg_file[rs2][23:16];\n\t\t\t\tmem[reg_file[rs1] + 3] = reg_file[rs2][31:24];\n\t\t\t\treg_file[rs1] += reg_file[rd];\n\t\t\t\trd = 0;"
+  },
+  "cv_sb_rr": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tmem[reg_file[rs1] + reg_file[rd]] = reg_file[rs2][7:0];\n\t\t\t\trd = 0;"
+  },
+  "cv_sh_rr": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tmem[reg_file[rs1] + reg_file[rd]] = reg_file[rs2][7:0];\n\t\t\t\tmem[reg_file[rs1] + reg_file[rd] + 1] = reg_file[rs2][15:8];\n\t\t\t\trd = 0;"
+  },
+  "cv_sw_rr": {
+      "impl": "reg_rs1_prev = reg_file[rs1];\n\t\t\t\treg_rs2_prev = reg_file[rs2];\n\t\t\t\tmem[reg_file[rs1] + reg_file[rd]] = reg_file[rs2][7:0];\n\t\t\t\tmem[reg_file[rs1] + reg_file[rd] + 1] = reg_file[rs2][15:8];\n\t\t\t\tmem[reg_file[rs1] + reg_file[rd] + 2] = reg_file[rs2][23:16];\n\t\t\t\tmem[reg_file[rs1] + reg_file[rd] + 3] = reg_file[rs2][31:24];\n\t\t\t\trd = 0;"
+  },
+
+
+
+
+
+
+
+
+
+
+
 
 
   "div": {
