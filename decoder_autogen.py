@@ -612,7 +612,7 @@ class {class_name} extends {main_class};
     {step_code}
     {run_phase_code}
 
-    function uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) decode_opcode(bit[{instr_width}:0] instr);
+    function uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) decode_opcode(bit[{instr_width}-1:0] instr);
 
         rvfi_instr_seq_item = uvma_rvfi_instr_seq_item_c#(32,32)::type_id::create("rvfi_instr_seq_item", this);
 

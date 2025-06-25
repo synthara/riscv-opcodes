@@ -1,8 +1,0 @@
-{
-    "name": "uvmc_rvfi_decoder_model",
-    "parent": "null",
-    "main_class": "uvmc_rvfi_reference_model#(32, 32)",
-    "instr_width": "31",
-    "path_name": "file_path"
-}
-  
