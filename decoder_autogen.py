@@ -124,7 +124,7 @@ def read_json_files(json_files):
 #                                                   MAIN                                                         #
 #                                                                                                                #
 ##################################################################################################################
-config_json = 'config.json' 
+config_json = '../util/config.json' 
 instr_dict_json = 'instr_dict.json'
 impl_dict_json = 'impl_dict.json'
 input_file = 'inst.sverilog'
@@ -401,7 +401,7 @@ for instruction, impls in impl_dict.items():
 # Filling the casez_dict which will contain all the datas to be put in the case
 for i, (key, val) in enumerate(opcode_dict.items()):
     casez_dict[f"condition{i}"] = f"{key}"
-    casez_dict[f"assign{i}"]    = f'`uvm_info("{key}", \"Instruction {key} detected successfully\", UVM_LOW)\n'
+    casez_dict[f"assign{i}"]    = f'`uvm_info("{key}", \"Instruction {key} detected successfully\", UVM_MEDIUM)\n'
     for j, (instr, fields) in enumerate(only_variable_fields.items()):
         if(key.lower() == instr.lower()):
             #fmt_name = instruction_formats[instr]
@@ -459,13 +459,13 @@ if mode == "clock":
     function uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) step (int i, uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t);
         //instruction = {mem[pc+3][7:0], mem[pc+2][7:0], mem[pc+1][7:0], mem[pc][7:0]};
         //pc = decode_opcode(instruction, pc);
-        //`uvm_info(get_type_name(), "Dummy step function called", UVM_DEBUG)
+        //`uvm_info(get_type_name(), "Dummy step function called", UVM_MEDIUM)
     endfunction 
 
     function void write_rvfi_instr(uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t);
         //uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t_reference_model = step(1, t);
         //m_analysis_port.write(t);
-        //`uvm_info(get_type_name(), "Dummy write_rvfi_instr function called", UVM_DEBUG)
+        //`uvm_info(get_type_name(), "Dummy write_rvfi_instr function called", UVM_MEDIUM)
     endfunction : write_rvfi_instr
 """
 elif mode == "while":
@@ -481,13 +481,13 @@ elif mode == "while":
     function uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) step (int i, uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t);
         //instruction = {mem[pc+3][7:0], mem[pc+2][7:0], mem[pc+1][7:0], mem[pc][7:0]};
         //pc = decode_opcode(instruction, pc);
-        //`uvm_info(get_type_name(), "Dummy step function called", UVM_DEBUG)
+        //`uvm_info(get_type_name(), "Dummy step function called", UVM_MEDIUM)
     endfunction 
 
     function void write_rvfi_instr(uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t);
         //uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t_reference_model = step(1, t);
         //m_analysis_port.write(t);
-        //`uvm_info(get_type_name(), "Dummy write_rvfi_instr function called", UVM_DEBUG)
+        //`uvm_info(get_type_name(), "Dummy write_rvfi_instr function called", UVM_MEDIUM)
     endfunction : write_rvfi_instr
 """
 else:
@@ -498,14 +498,14 @@ else:
         uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t_reference_model_prov;
         instruction = {mem[pc+3][7:0], mem[pc+2][7:0], mem[pc+1][7:0], mem[pc][7:0]};
         t_reference_model_prov = decode_opcode(instruction);
-        `uvm_info(get_type_name(), "Dummy step function called", UVM_DEBUG)
+        `uvm_info(get_type_name(), "Dummy step function called", UVM_MEDIUM)
         return t_reference_model_prov;
     endfunction 
 
     function void write_rvfi_instr(uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t);
         uvma_rvfi_instr_seq_item_c#(ILEN,XLEN) t_reference_model = step(1, t);
         m_analysis_port.write(t_reference_model);
-        `uvm_info(get_type_name(), "Dummy write_rvfi_instr function called", UVM_DEBUG)
+        `uvm_info(get_type_name(), "Dummy write_rvfi_instr function called", UVM_MEDIUM)
     endfunction : write_rvfi_instr
 """
 
@@ -565,6 +565,9 @@ class {class_name} extends {main_class};
     bit [31:0] reg_result;
     bit iteration_mx = 0;
     bit [15:0] reg_mac_mul_prov;
+    bit [31:0] lpstart[1:0];
+    bit [31:0] lpend[1:0];
+    bit [31:0] lpcount[1:0];
 
 
     uvma_rvfi_instr_seq_item_c#(32, 32) rvfi_instr_seq_item;
@@ -602,9 +605,9 @@ class {class_name} extends {main_class};
 
         if (st.boot_addr_valid) begin
             pc = st.boot_addr;
-            `uvm_info("Boot_addr: %h", st.boot_addr, UVM_LOW)
+            `uvm_info("Boot_addr: %h", st.boot_addr, UVM_MEDIUM)
         end else begin
-            `uvm_fatal("Boot_addr not valid, using default value", UVM_LOW)
+            `uvm_fatal("Boot_addr not valid, using default value", UVM_MEDIUM)
         end
         {constructor_code}
     endfunction : build_phase
